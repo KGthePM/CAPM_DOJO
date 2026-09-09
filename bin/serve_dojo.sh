@@ -5,6 +5,6 @@
 set -euo pipefail
 PORT="${1:-8090}"
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/web"
-IP="$(hostname -I | awk '{print $1}')"
+IP="$(ipconfig getifaddr en0 2>/dev/null || ipconfig getifaddr en1 2>/dev/null || hostname -I 2>/dev/null | awk '{print $1}' || echo "localhost")"
 echo "CAPM Dojo serving on http://${IP}:${PORT}  (Ctrl+C to stop)"
 exec python3 -m http.server "$PORT" --bind 0.0.0.0 --directory "$DIR"

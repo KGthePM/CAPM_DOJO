@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Inject real lesson + quiz content into the dojo web app."""
-import json, re, sys
+import json, os, re, sys
 
-DOJO = "/home/kg/capm-dojo"
+DOJO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 def md_to_html(text):
     """Convert lecture markdown to a list of HTML blocks."""

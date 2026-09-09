@@ -22,8 +22,8 @@ bin/serve_dojo.sh [port]            # serve web/ on 0.0.0.0:8090 for phone/lapto
 **is** the verification step. Always rebuild after touching `lessons/` or `quiz_bank/`, then confirm
 the counts match what you added.
 
-Note the hardcoded `DOJO = "/home/kg/capm-dojo"` in `build_inject.py`; the script ignores its own
-location.
+`DOJO` in `build_inject.py` is derived from the script's own file location, so the build works
+correctly regardless of where the repo is cloned (e.g. across Kyle's desktop and laptop).
 
 ## Build pipeline (the one piece of real machinery)
 
