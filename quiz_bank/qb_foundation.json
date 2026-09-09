@@ -1,0 +1,170 @@
+[
+  {
+    "id": "FND-001",
+    "domain": "Foundations",
+    "difficulty": "easy",
+    "stem": "Which statement best describes why the 7th Edition of the PMBOK Guide shifted from a process-based to a principles-based standard?",
+    "options": [
+      "Process-based standards proved entirely ineffective and were discarded as bad practice.",
+      "Project management evolved across predictive, adaptive, and hybrid approaches faster than a prescriptive process catalog could reflect the full value delivery landscape.",
+      "PMI wanted to eliminate tailoring so all projects follow identical processes.",
+      "Principles allow PMI to mandate specific tools and artifacts for every project."
+    ],
+    "answer": 1,
+    "explanation": "Tests the principles-based shift (LEC-01). The PMBOK 7th Ed. explains that process-based standards are prescriptive by nature and could not keep pace with the full value delivery spectrum from predictive to adaptive; principles are non-prescriptive guidance for behavior."
+  },
+  {
+    "id": "FND-002",
+    "domain": "Foundations",
+    "difficulty": "easy",
+    "stem": "Within a system for value delivery, what is the correct causal chain from project outputs?",
+    "options": [
+      "Value → benefits → outcomes → deliverables",
+      "Deliverables → outcomes → benefits → value",
+      "Deliverables → benefits → outcomes → outputs",
+      "Outcomes → deliverables → value → benefits"
+    ],
+    "answer": 1,
+    "explanation": "Tests value delivery concepts (LEC-01). Per the system for value delivery, components create deliverables that produce outcomes; outcomes create benefits (gains realized by the organization); benefits create value (something of worth, importance, or usefulness)."
+  },
+  {
+    "id": "FND-003",
+    "domain": "Principles",
+    "difficulty": "medium",
+    "stem": "A project manager discovers a personal financial interest in a vendor being considered for selection. Which principle is most directly invoked by the action she should take?",
+    "options": [
+      "Focus on Value",
+      "Be a Diligent, Respectful, and Caring Steward",
+      "Embrace Adaptability and Resiliency",
+      "Navigate Complexity"
+    ],
+    "answer": 1,
+    "explanation": "Tests Principle 1, Stewardship (LEC-01). Trustworthiness under stewardship requires proactively identifying conflicts between personal interests and those of the organization — stewards protect projects from such breaches of trust."
+  },
+  {
+    "id": "FND-004",
+    "domain": "Principles",
+    "difficulty": "medium",
+    "stem": "Which pair of terms is correctly matched with its definition under the 'Embrace Adaptability and Resiliency' principle?",
+    "options": [
+      "Adaptability: absorbing impacts; Resiliency: responding to changing conditions.",
+      "Adaptability: responding to changing conditions; Resiliency: absorbing impacts and recovering quickly from setbacks.",
+      "Adaptability: reducing risk exposure; Resiliency: maximizing opportunities.",
+      "Adaptability: tailoring processes; Resiliency: complying with governance."
+    ],
+    "answer": 1,
+    "explanation": "Tests Principle 11 (LEC-01). Adaptability is the ability to respond to changing conditions; resiliency combines absorbing impacts with recovering quickly from a setback or failure. The exam deliberately swaps these definitions in distractors."
+  },
+  {
+    "id": "FND-005",
+    "domain": "Principles",
+    "difficulty": "medium",
+    "stem": "A team discovers that a change to one component of its project causes unanticipated delays in three other components. Treating the project as a system of interacting, interdependent parts reflects which principle?",
+    "options": [
+      "Build Quality into Processes and Deliverables",
+      "Recognize, Evaluate, and Respond to System Interactions",
+      "Create a Collaborative Project Team Environment",
+      "Enable Change to Achieve the Envisioned Future State"
+    ],
+    "answer": 1,
+    "explanation": "Tests Principle 5 (LEC-01). A system is a set of interacting, interdependent components functioning as a unified whole; projects sit within larger systems (a system of systems), and teams take a holistic inside-out and outside-in view to anticipate ripple effects."
+  },
+  {
+    "id": "FND-006",
+    "domain": "Principles",
+    "difficulty": "hard",
+    "stem": "An organization's PMO mandates a standard methodology. A project manager adapts several processes to fit her project's unique environment while staying within organizational policy. Which principle supports her action?",
+    "options": [
+      "Tailor Based on Context",
+      "Demonstrate Leadership Behaviors",
+      "Focus on Value",
+      "Optimize Risk Responses"
+    ],
+    "answer": 0,
+    "explanation": "Tests Principle 7, Tailoring (LEC-01). Tailoring is the deliberate adaptation of the approach, governance, and processes to suit the project context — but organizational policies and procedures prescribe the authorized boundaries within which tailoring may occur."
+  },
+  {
+    "id": "FND-007",
+    "domain": "Principles",
+    "difficulty": "medium",
+    "stem": "Under the principle 'Optimize Risk Responses,' how should a project team treat an identified possibility that a new automation tool could cut delivery time by 30%?",
+    "options": [
+      "Ignore it because risk is exclusively negative.",
+      "Record it only if it becomes an issue.",
+      "Manage it as a positive risk (opportunity) to be maximized, alongside reducing exposure to threats.",
+      "Escalate it to the sponsor as a scope threat."
+    ],
+    "answer": 2,
+    "explanation": "Tests Principle 10 (LEC-01). A risk is an uncertain event or condition that can affect objectives positively or negatively; teams continuously seek to maximize opportunities and decrease exposure to threats."
+  },
+  {
+    "id": "FND-008",
+    "domain": "Performance Domains",
+    "difficulty": "easy",
+    "stem": "Which statement about the eight project performance domains is accurate per the PMBOK 7th Edition?",
+    "options": [
+      "They are sequential phases executed one after another from initiation to closure.",
+      "They are groups of related activities that run concurrently, overlap, and interconnect as an integrated system.",
+      "They replace the 12 principles and prescribe mandatory processes for each project.",
+      "They apply only to predictive life cycles."
+    ],
+    "answer": 1,
+    "explanation": "Tests Performance Domain fundamentals (LEC-02). A performance domain is a group of related activities critical for effective delivery of outcomes; collectively they form an interactive, interdependent system that runs concurrently throughout the project regardless of delivery approach."
+  },
+  {
+    "id": "FND-009",
+    "domain": "Performance Domains",
+    "difficulty": "medium",
+    "stem": "Requirements are highly uncertain, technology is immature, and the customer wants to review working functionality every two weeks. Which development approach best fits?",
+    "options": [
+      "Predictive, with a fully baselined requirements document.",
+      "Adaptive, using short iterations with feedback at each cycle.",
+      "Predictive with a single end-of-project delivery.",
+      "No approach — the project should be cancelled until requirements stabilize."
+    ],
+    "answer": 1,
+    "explanation": "Tests the Development Approach and Life Cycle Performance Domain (LEC-02). High uncertainty, evolving requirements, and frequent customer feedback point to an adaptive approach; predictive suits stable, well-understood requirements."
+  },
+  {
+    "id": "FND-010",
+    "domain": "Performance Domains",
+    "difficulty": "medium",
+    "stem": "A team elaborates near-term work in fine detail while keeping work three phases away at a coarse level of definition. In the Planning Performance Domain, this practice is known as:",
+    "options": [
+      "Scope creep",
+      "Rolling-wave planning",
+      "Progressive abandonment",
+      "Baseline freezing"
+    ],
+    "answer": 1,
+    "explanation": "Tests the Planning Performance Domain (LEC-02). Rolling-wave planning progressively elaborates detail as information becomes available; planning in this domain is ongoing and evolving, not a one-time initiation event."
+  },
+  {
+    "id": "FND-011",
+    "domain": "Performance Domains",
+    "difficulty": "hard",
+    "stem": "A project's CPI is 0.85 and its SPI is 1.10. A dashboard of such earned value metrics is used to prompt corrective action. Which domain does this measurement activity belong to, and what do the figures indicate?",
+    "options": [
+      "Delivery Performance Domain — the project is ahead of schedule and under budget.",
+      "Measurement Performance Domain — the project is ahead of schedule (SPI > 1) but over cost efficiency expectations (CPI < 1).",
+      "Project Work Performance Domain — cost and schedule variance are irrelevant to measurement.",
+      "Uncertainty Performance Domain — the indices measure volatility."
+    ],
+    "answer": 1,
+    "explanation": "Tests the Measurement Performance Domain (LEC-02). Earned value indices like SPI and CPI belong to measurement: values greater than 1 are favorable, so SPI 1.10 means ahead of schedule and CPI 0.85 means earning less value per dollar spent than planned. The indices exist to enable action, not decorate reports."
+  },
+  {
+    "id": "FND-012",
+    "domain": "Performance Domains",
+    "difficulty": "medium",
+    "stem": "Mid-project, the price of a key commodity swings unpredictably week to week, threatening cost and schedule. In the Uncertainty Performance Domain, this condition is best classified and addressed as:",
+    "options": [
+      "Ambiguity — resolved by gathering more information and establishing governing rules.",
+      "Volatility — addressed with alternatives analysis and cost or schedule reserve.",
+      "Complexity — addressed by decoupling system components.",
+      "Risk avoidance — cancel the project to eliminate exposure."
+    ],
+    "answer": 1,
+    "explanation": "Tests the Uncertainty Performance Domain (LEC-02). Volatility is rapid, unpredictable change in things like materials or skill availability, usually hitting cost and schedule; the named responses are alternatives analysis and use of reserves."
+  }
+]

@@ -1,0 +1,198 @@
+[
+  {
+    "id": "AG-01",
+    "domain": "Agile",
+    "difficulty": "easy",
+    "stem": "Which statement accurately describes the relationship expressed in the Agile Manifesto's four values?",
+    "options": [
+      "Processes, documentation, contracts, and plans should be abandoned on agile projects",
+      "The items on the right have value, but the items on the left are valued more",
+      "The items on the left replace the items on the right in all enterprise contexts",
+      "The values apply only to software teams using Extreme Programming"
+    ],
+    "answer": 1,
+    "explanation": "The Manifesto explicitly states that while there is value in the items on the right (processes, documentation, contracts, plans), the items on the left (individuals, working software, collaboration, responding to change) are valued more. It prioritizes; it does not reject."
+  },
+  {
+    "id": "AG-02",
+    "domain": "Agile",
+    "difficulty": "medium",
+    "stem": "A project to build a medical device is governed by strict regulatory specifications, has fixed requirements defined by law, and carries life-safety consequences if it fails. Which life cycle fits BEST?",
+    "options": [
+      "Scrum with two-week sprints to accelerate feedback",
+      "Kanban with strict work-in-progress limits",
+      "A predictive, plan-based approach with formal change control",
+      "SAFe with a portfolio-level lean funding model"
+    ],
+    "answer": 2,
+    "explanation": "Stable, exhaustively defined requirements, safety-critical consequences, and regulatory oversight are low-agility factors on any suitability filter — the classic profile for a predictive life cycle. The frameworks in the other options would fight the context rather than fit it."
+  },
+  {
+    "id": "AG-03",
+    "domain": "Agile",
+    "difficulty": "medium",
+    "stem": "On a Scrum team, who is accountable for ordering the product backlog to maximize the value of the work performed?",
+    "options": [
+      "The Scrum Master",
+      "The Developers, by majority vote",
+      "The Product Owner",
+      "The steering committee"
+    ],
+    "answer": 2,
+    "explanation": "The Product Owner is the single person accountable for the product backlog's content and ordering to maximize value. The Scrum Master facilitates process and removes impediments; the Developers decide how to build what is selected."
+  },
+  {
+    "id": "AG-04",
+    "domain": "Agile",
+    "difficulty": "medium",
+    "stem": "Mid-sprint, a developer tells the team she is blocked by a hardware dependency that only management can resolve. Per Scrum, what is the MOST appropriate response?",
+    "options": [
+      "Extend the sprint length until the impediment is resolved",
+      "Escalate the impediment to the Scrum Master, whose role is servant leadership and impediment removal",
+      "Silently reassign her work and raise it at the sprint review",
+      "Have the Product Owner reorder the backlog to avoid the dependency permanently"
+    ],
+    "answer": 1,
+    "explanation": "The Scrum Master's defined accountability is removing impediments blocking the team. The sprint timebox itself is fixed — it is not extended — and deferring a known blocker to review wastes the iteration."
+  },
+  {
+    "id": "AG-05",
+    "domain": "Agile",
+    "difficulty": "hard",
+    "stem": "A software team's board shows the 'In Test' column perpetually full while development and deployment columns sit nearly empty. Work is started continuously, but nothing finishes. Which framework's defining practice directly addresses this signal?",
+    "options": [
+      "Scrum's sprint timebox, which forbids starting new work mid-sprint",
+      "Kanban's work-in-progress limits, which enforce finishing before starting and expose bottlenecks",
+      "XP's pair programming, which doubles capacity on each work item",
+      "SAFe's PI Planning, which redistributes work across teams"
+    ],
+    "answer": 1,
+    "explanation": "Kanban's defining practice is limiting work in progress: capping items per workflow state surfaces exactly this kind of congestion (a perpetually full column) and forces the team to finish work and resolve the bottleneck before pulling new items. The scenario describes flow congestion, not a planning-cadence problem."
+  },
+  {
+    "id": "AG-06",
+    "domain": "Agile",
+    "difficulty": "easy",
+    "stem": "Which set of practices — the planning game, pair programming, test-driven development, continuous integration, and sustainable pace — belongs to which approach?",
+    "options": [
+      "Kanban",
+      "Scaled Agile Framework",
+      "Extreme Programming (XP)",
+      "Scrum"
+    ],
+    "answer": 2,
+    "explanation": "These are XP's signature practices. XP targets engineering discipline and code quality: pairing, test-first development, continuous integration, simple design/refactoring, and explicitly rejecting chronic overtime via sustainable pace."
+  },
+  {
+    "id": "AG-07",
+    "domain": "Agile",
+    "difficulty": "medium",
+    "stem": "During which Scrum event do stakeholders inspect a working increment with the team and provide feedback that may reorder the product backlog?",
+    "options": [
+      "Daily Scrum",
+      "Sprint Retrospective",
+      "Sprint Review",
+      "Sprint Planning"
+    ],
+    "answer": 2,
+    "explanation": "The Sprint Review is where the team presents the completed increment to stakeholders, gathers feedback, and adapts the product backlog. The retrospective examines the team's process; the Daily Scrum is a 15-minute developer sync; Planning selects work for the next sprint."
+  },
+  {
+    "id": "AG-08",
+    "domain": "Agile",
+    "difficulty": "hard",
+    "stem": "An organization must deliver a large cyber-physical solution requiring coordination of 90 people across six agile teams on a shared cadence. Which framework and construct BEST fit?",
+    "options": [
+      "Scrum, by enlarging a single team to 90 people",
+      "SAFe, using an Agile Release Train facilitated by a Release Train Engineer",
+      "Kanban, by placing all six teams' cards on one board",
+      "XP, by pairing developers across all six teams"
+    ],
+    "answer": 1,
+    "explanation": "Scaling multiple agile teams (typically 50–125 people) onto a synchronized cadence is exactly SAFe's Agile Release Train at the program level, facilitated by the Release Train Engineer. Scrum is designed for small teams (roughly 10 or fewer); giant single teams violate its premises."
+  },
+  {
+    "id": "AG-09",
+    "domain": "Agile",
+    "difficulty": "medium",
+    "stem": "A predictive project's work packages are being translated into adaptive structures for iterative delivery. Which artifact becomes the single ordered list that replaces the scope baseline?",
+    "options": [
+      "The sprint backlog",
+      "The burndown chart",
+      "The product backlog",
+      "The cumulative flow diagram"
+    ],
+    "answer": 2,
+    "explanation": "In WBS-to-iteration translation, work packages become backlog items/stories (large ones split to fit an iteration), and the product backlog — a continuously refined, ordered list owned by the Product Owner — serves as the adaptive counterpart of the predictive scope baseline. The sprint backlog holds only one iteration's selection."
+  },
+  {
+    "id": "AG-10",
+    "domain": "Agile",
+    "difficulty": "medium",
+    "stem": "Mid-release, the customer adds significant new scope. The team wants a progress chart that makes scope changes visible alongside completed work. Which chart does this?",
+    "options": [
+      "A burndown chart",
+      "A burn-up chart",
+      "An earned value S-curve",
+      "A Gantt chart baseline"
+    ],
+    "answer": 1,
+    "explanation": "A burn-up chart plots completed work against total scope, so added scope visibly raises the total line. A burndown plots only remaining work against time, concealing whether a slowing burn reflects poor progress or growing scope."
+  },
+  {
+    "id": "AG-11",
+    "domain": "Agile",
+    "difficulty": "medium",
+    "stem": "An executive team wants quarterly milestone baselines and earned-value-style governance reporting for a steering committee, while the delivery team works in two-week iterations from a prioritized backlog. This arrangement is BEST described as:",
+    "options": [
+      "A failed agile transformation that should be corrected to full Scrum",
+      "A predictive project mislabeled as agile",
+      "A hybrid approach combining predictive governance with adaptive delivery",
+      "Kanban, because two frameworks are visualized together"
+    ],
+    "answer": 2,
+    "explanation": "Deliberately combining predictive elements (milestone baselines, governance reporting) with adaptive delivery (iterations, backlog) is a hybrid approach — a legitimate tailoring choice, not a failure state. Kanban is unrelated to the governance wrapper described."
+  },
+  {
+    "id": "AG-12",
+    "domain": "Agile",
+    "difficulty": "hard",
+    "stem": "A product owner must prioritize a backlog where all items are strategically relevant. Which technique orders work by dividing the cost of delay by job duration, so that short, urgent, high-value items rise to the top?",
+    "options": [
+      "MoSCoW categorization",
+      "Weighted Shortest Job First (WSJF)",
+      "The Kano model",
+      "Story mapping"
+    ],
+    "answer": 1,
+    "explanation": "WSJF — cost of delay divided by duration — is SAFe's sequencing technique: it maximizes economic value by pulling short, high-cost-of-delay items forward. MoSCoW categorizes by necessity; Kano classifies by customer satisfaction; story mapping organizes the backlog around user activities."
+  },
+  {
+    "id": "AG-13",
+    "domain": "Agile",
+    "difficulty": "medium",
+    "stem": "Which statement BEST captures how agile differs from predictive projects in fixing the variables of scope, time, and cost?",
+    "options": [
+      "Agile fixes scope and lets schedule and cost vary through change control",
+      "Agile fixes time and cost per iteration while scope flexes via the backlog",
+      "Agile fixes all three variables within each sprint",
+      "Agile leaves all three variable until the release plan is baselined"
+    ],
+    "answer": 1,
+    "explanation": "Predictive fixes scope and controls changes to schedule/cost against a baseline. Agile inverts it: the iteration is a locked timebox with fixed team cost, and scope is the flexible variable, absorbed and reprioritized in the backlog. This inversion is a favorite exam distinction."
+  },
+  {
+    "id": "AG-14",
+    "domain": "Agile",
+    "difficulty": "hard",
+    "stem": "A team completes an average of 34 story points per iteration with a standard deviation small enough to trust. The release backlog holds 340 points of refined, prioritized work. Roughly how many iterations should the release plan assume?",
+    "options": [
+      "About 8 iterations",
+      "About 10 iterations",
+      "About 12 iterations",
+      "It cannot be estimated until the release plan is baselined"
+    ],
+    "answer": 1,
+    "explanation": "340 points ÷ 34 points/iteration = 10 iterations. Velocity — the running average of points completed per iteration — is the adaptive forecasting input that replaces predictive duration estimating. Note that velocity is for the team's own planning, never for comparing teams."
+  }
+]

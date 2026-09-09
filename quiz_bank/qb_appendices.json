@@ -1,0 +1,142 @@
+[
+  {
+    "id": "QB-APP-01",
+    "domain": "Sponsor, PMO & Product",
+    "difficulty": "medium",
+    "stem": "A project team needs a decision that requires authority and position power beyond anything the project manager or team possesses. Per Appendix X2, whose role is this?",
+    "options": [
+      "The project manager, by escalating to their own executive sponsors within the team",
+      "The project sponsor, who provides decision leadership outside the PM's authority",
+      "The PMO, which standardizes governance processes and makes all executive decisions",
+      "The product owner, who owns the backlog and final say on priorities"
+    ],
+    "answer": 1,
+    "explanation": "X2.2: the sponsor provides decision leadership outside the authority and position power of the PM and team, including facilitating executive-level decisions and addressing issues beyond the team's authority."
+  },
+  {
+    "id": "QB-APP-02",
+    "domain": "Sponsor, PMO & Product",
+    "difficulty": "medium",
+    "stem": "Six months after a project closes, nobody has verified whether the intended business benefits materialized. Which X2 sponsor function was neglected?",
+    "options": [
+      "Communicating the vision, goals, and expectations to the team",
+      "Advocating for the project and the team within the organization",
+      "Monitoring project outcomes after closure to ensure intended business benefits are realized",
+      "Removing obstacles and addressing issues outside the team's authority"
+    ],
+    "answer": 2,
+    "explanation": "X2.2 lists among sponsor functions monitoring project outcomes after closure to ensure intended business benefits are realized — the sponsor's accountability outlives the project."
+  },
+  {
+    "id": "QB-APP-03",
+    "domain": "Sponsor, PMO & Product",
+    "difficulty": "medium",
+    "stem": "An engaged executive regularly asks the team probing questions, challenges their assumptions, and pushes them toward innovative solutions. Which X2.4 sponsor behavior is this?",
+    "options": [
+      "Check",
+      "Guide",
+      "Unblock",
+      "Partner"
+    ],
+    "answer": 0,
+    "explanation": "X2.4: the Check behavior engages the team to stimulate critical thinking by asking questions, challenging assumptions, and fostering innovation. Guide is providing a motivating vision; Unblock is removing impediments beyond the team's authority; Partner is coaching and mentoring."
+  },
+  {
+    "id": "QB-APP-04",
+    "domain": "Sponsor, PMO & Product",
+    "difficulty": "medium",
+    "stem": "A project has no active sponsor. Which set of consequences does Appendix X2.3 predict?",
+    "options": [
+      "Faster decisions but conflicting documentation standards",
+      "Longer decision time frames, conflicting priorities, resource gaps, and team members removed or switched out",
+      "Improved team autonomy with only minor schedule slip",
+      "Reduced costs due to eliminated executive overhead"
+    ],
+    "answer": 1,
+    "explanation": "X2.3: without sponsor engagement, performance suffers through longer decision time frames, conflicting priorities, gaps in securing resources, and team members being removed or reassigned — negatively impacting scope, quality, schedule, and budget."
+  },
+  {
+    "id": "QB-APP-05",
+    "domain": "Sponsor, PMO & Product",
+    "difficulty": "easy",
+    "stem": "How does Appendix X3 define a project management office (PMO)?",
+    "options": [
+      "A temporary team chartered to deliver a unique product",
+      "A management structure that standardizes project-related governance processes and facilitates sharing of resources, tools, methodologies, and techniques",
+      "An executive board that approves all project charters and budgets",
+      "A customer-facing unit that manages a product from concept to retirement"
+    ],
+    "answer": 1,
+    "explanation": "X3.1: the PMO is a management structure that standardizes project-related governance processes and facilitates the sharing of resources, tools, methodologies, and techniques."
+  },
+  {
+    "id": "QB-APP-06",
+    "domain": "Sponsor, PMO & Product",
+    "difficulty": "hard",
+    "stem": "An organization with a flat structure, customer-centered initiatives, and adaptive delivery wants a body that coaches teams, builds agile skills organization-wide, and mentors sponsors and product owners — with no oversight function. Which structure fits?",
+    "options": [
+      "Enterprise PMO (EPMO)",
+      "Departmental portfolio PMO",
+      "Agile Center of Excellence / Value Delivery Office (ACoE/VDO)",
+      "Shared services PMO"
+    ],
+    "answer": 2,
+    "explanation": "X3.2: the ACoE/VDO serves an enabling rather than management or oversight role — coaching teams, building agile capability, and mentoring sponsors and product owners, typically in flatter, adaptive organizations."
+  },
+  {
+    "id": "QB-APP-07",
+    "domain": "Sponsor, PMO & Product",
+    "difficulty": "hard",
+    "stem": "Per Appendix X3.4, how are PMOs evolving under pressure to demonstrate benefits realization and value creation?",
+    "options": [
+      "By maximizing each individual project's results through stricter oversight",
+      "By shifting from project watchdogs to orchestrating conversations among senior leaders, business heads, product owners, and teams",
+      "By adding more process steps to ensure compliance before every milestone",
+      "By taking over the sponsor role on all strategic initiatives"
+    ],
+    "answer": 1,
+    "explanation": "X3.4: PMOs are shifting from being project watchdogs to orchestrating conversations between senior leaders, business unit heads, product owners, and project teams — focusing on critical initiatives, smart and simple processes, talent, and a culture of change."
+  },
+  {
+    "id": "QB-APP-08",
+    "domain": "Sponsor, PMO & Product",
+    "difficulty": "medium",
+    "stem": "Which three global market shifts does Appendix X4.2 identify as disrupting traditional business models and transforming products and services?",
+    "options": [
+      "Globalization, regulation, and automation",
+      "Customer centricity, software-enhanced value, and ongoing provision and payment",
+      "Outsourcing, downsizing, and digitization",
+      "Market volatility, supply chain disruption, and labor shortages"
+    ],
+    "answer": 1,
+    "explanation": "X4.2 names exactly three trends: customer centricity (inverting the push model), software-enhanced value (software as differentiator in nearly every product), and ongoing provision and payment (continuous service and subscription models replacing single transactions)."
+  },
+  {
+    "id": "QB-APP-09",
+    "domain": "Sponsor, PMO & Product",
+    "difficulty": "medium",
+    "stem": "How does Appendix X4 characterize the relationship between products and project life cycles?",
+    "options": [
+      "Products and projects share identical temporary life cycles",
+      "Products extend beyond a project life cycle and operate more like long-running programs focused on maximizing benefits realization",
+      "Products end at delivery, while projects continue through retirement",
+      "Products exist only within a single project's boundaries"
+    ],
+    "answer": 1,
+    "explanation": "X4.1: products extend beyond a project life cycle, operating more like long-running programs that focus on maximizing benefits realization — evolving from concept through delivery, growth, maturity, and retirement."
+  },
+  {
+    "id": "QB-APP-10",
+    "domain": "Sponsor, PMO & Product",
+    "difficulty": "hard",
+    "stem": "An organization shifting to long-running, product-based delivery wants to preserve tacit knowledge and reduce handover risk. Which X4.4 strategy directly addresses this?",
+    "options": [
+      "Use incremental guidance and funding with annual budget cycles",
+      "Utilize program management structures for directional alignment",
+      "Establish stable teams that sustain and evolve the product after initial development",
+      "Require formal knowledge transfer documents at each phase gate"
+    ],
+    "answer": 2,
+    "explanation": "X4.4: establishing stable teams removes the need for knowledge transfer and reduces the risk of delayed enhancements from lost tacit knowledge; long-serving teams also build market awareness and customer empathy, and take fewer shortcuts — improving quality."
+  }
+]

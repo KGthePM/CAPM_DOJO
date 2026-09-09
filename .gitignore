@@ -1,0 +1,11 @@
+# Licensed PMI source extracts — never publish (see CLAUDE.md)
+session/pmbok_full.txt
+session/agile_full.txt
+session/process_groups_full.txt
+session/ba_full.txt
+session/eco_full.txt
+session/eco.pdf
+
+# OS/editor cruft
+.DS_Store
+*.swp

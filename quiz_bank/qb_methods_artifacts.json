@@ -1,0 +1,170 @@
+[
+  {
+    "id": "MA-001",
+    "domain": "Methods & Artifacts",
+    "difficulty": "easy",
+    "stem": "A project team records every unproven factor believed true without demonstration, plus each known limiting factor, in a single artifact updated throughout the project. Which artifact is this?",
+    "options": [
+      "Issue log",
+      "Assumption log",
+      "Change log",
+      "Risk register"
+    ],
+    "answer": 1,
+    "explanation": "The assumption log records all assumptions (factors considered true without proof) and constraints (limiting factors) throughout the project. The issue log tracks current conditions; the change log tracks submitted changes; the risk register tracks uncertain future events."
+  },
+  {
+    "id": "MA-002",
+    "domain": "Methods & Artifacts",
+    "difficulty": "medium",
+    "stem": "Mid-project, a key supplier abruptly fails to deliver, and the situation is already affecting the schedule. Per PMBOK classification, where does this belong?",
+    "options": [
+      "Risk register, because it affects project objectives",
+      "Issue log, because it is a current condition, not a future uncertain event",
+      "Change log, because the schedule will change",
+      "Lessons learned register, because it is a performance problem"
+    ],
+    "answer": 1,
+    "explanation": "A risk is a future uncertain event; an issue is a current condition or situation already impacting objectives. Once the supplier failure has occurred, it moves from risk register to issue log, assigned to a responsible party for resolution."
+  },
+  {
+    "id": "MA-003",
+    "domain": "Methods & Artifacts",
+    "difficulty": "easy",
+    "stem": "To estimate a new bridge project, the team multiplies a per-meter cost rate from hundreds of past bridge projects by the new bridge's length. Which estimating method is this?",
+    "options": [
+      "Analogous estimating",
+      "Parametric estimating",
+      "Relative estimating",
+      "Wideband Delphi"
+    ],
+    "answer": 1,
+    "explanation": "Parametric estimating uses an algorithm applied to historical data and project parameters (a rate times a quantity). Analogous estimating would instead borrow totals from one similar project without an algorithmic rate."
+  },
+  {
+    "id": "MA-004",
+    "domain": "Methods & Artifacts",
+    "difficulty": "medium",
+    "stem": "Subject matter experts individually produce estimates, the highest and lowest estimators explain their rationale, and everyone re-estimates over multiple rounds until consensus converges. Which method is this?",
+    "options": [
+      "Planning meeting",
+      "Single-point estimating",
+      "Wideband Delphi",
+      "Parametric estimating"
+    ],
+    "answer": 2,
+    "explanation": "Wideband Delphi is the variation of Delphi estimating in which experts estimate individually across multiple rounds with discussion after each round until convergence. Planning poker is a variation of Wideband Delphi."
+  },
+  {
+    "id": "MA-005",
+    "domain": "Methods & Artifacts",
+    "difficulty": "medium",
+    "stem": "A sponsor asks for a document that argues whether a proposed project is worth undertaking, including both financial and nonfinancial benefits. Which artifact satisfies this?",
+    "options": [
+      "Project charter",
+      "Benefits plan",
+      "Project brief",
+      "Business case"
+    ],
+    "answer": 3,
+    "explanation": "The business case is the value proposition for a proposed project, including financial and nonfinancial benefits, used to justify undertaking it. The charter authorizes the project after the decision; the brief merely overviews goals and deliverables."
+  },
+  {
+    "id": "MA-006",
+    "domain": "Methods & Artifacts",
+    "difficulty": "hard",
+    "stem": "During a release, stakeholders complain they cannot tell whether the rising work line is progress or scope creep. Which chart best resolves this by showing completed work separately from total scope?",
+    "options": [
+      "Burndown chart",
+      "Burnup chart",
+      "Cumulative flow diagram",
+      "Velocity chart"
+    ],
+    "answer": 1,
+    "explanation": "A burnup chart tracks work completed toward release and can display a separate total-scope line, so scope increases are visible as the total rises. A burndown shows only work remaining, smearing scope growth and progress together into one descending line."
+  },
+  {
+    "id": "MA-007",
+    "domain": "Methods & Artifacts",
+    "difficulty": "easy",
+    "stem": "Which chart grids project resources against work packages, with a popular form using responsible, accountable, consulted, and informed roles?",
+    "options": [
+      "Work breakdown structure",
+      "Organizational breakdown structure",
+      "Responsibility assignment matrix (RACI)",
+      "Stakeholder engagement assessment matrix"
+    ],
+    "answer": 2,
+    "explanation": "The responsibility assignment matrix (RAM) shows resources assigned to each work package; the RACI chart is its common form showing who is responsible, accountable, consulted, or informed. WBS and OBS decompose scope and organization; the stakeholder engagement assessment matrix compares current and desired engagement."
+  },
+  {
+    "id": "MA-008",
+    "domain": "Methods & Artifacts",
+    "difficulty": "medium",
+    "stem": "A team needs the approved yardstick that integrates scope, schedule, and cost so earned value comparisons can be made. Which artifact is this?",
+    "options": [
+      "Project management plan",
+      "Performance measurement baseline",
+      "Scope baseline",
+      "Milestone schedule"
+    ],
+    "answer": 1,
+    "explanation": "The performance measurement baseline integrates the scope, schedule, and cost baselines and is used for comparison to manage, measure, and control project execution. The scope baseline covers only approved scope, and the milestone schedule shows only dated milestones."
+  },
+  {
+    "id": "MA-009",
+    "domain": "Methods & Artifacts",
+    "difficulty": "medium",
+    "stem": "Scenario: procurement is defining a procurement for a product whose scope is expected to change frequently during design. Which contract category best fits?",
+    "options": [
+      "Firm fixed price (FFP)",
+      "Cost-reimbursable",
+      "Time and materials",
+      "Indefinite delivery indefinite quantity (IDIQ)"
+    ],
+    "answer": 1,
+    "explanation": "Cost-reimbursable contracts pay actual costs plus a fee and are often used when scope is not well defined or is subject to frequent change. Fixed-price suits well-defined scope; T&M suits staff augmentation at a fixed rate without a precise statement of work."
+  },
+  {
+    "id": "MA-010",
+    "domain": "Methods & Artifacts",
+    "difficulty": "easy",
+    "stem": "Which pair correctly distinguishes strategy artifacts from logs and registers?",
+    "options": [
+      "Strategy artifacts are updated continuously; logs are static",
+      "Strategy artifacts are created at project start and rarely change; logs and registers record continuously evolving aspects updated throughout",
+      "Both are updated throughout, but only strategy artifacts are visual",
+      "Logs authorize the project; strategy artifacts track changes"
+    ],
+    "answer": 1,
+    "explanation": "Strategy artifacts (business case, charter, roadmap, vision) address high-level strategic information at the start and do not normally change. Logs and registers (risk, issue, assumption, change, stakeholder) capture continuously evolving aspects and are updated throughout the project."
+  },
+  {
+    "id": "MA-011",
+    "domain": "Methods & Artifacts",
+    "difficulty": "hard",
+    "stem": "Scenario: at iteration's end the team demonstrates the increment to stakeholders, while in a separate workshop the team alone examines how to improve its own process. Which pair of meetings is this?",
+    "options": [
+      "Iteration review; retrospective",
+      "Retrospective; lessons learned meeting",
+      "Daily standup; iteration review",
+      "Iteration planning; project review"
+    ],
+    "answer": 0,
+    "explanation": "The iteration review (sprint review) demonstrates work accomplished during the iteration; the retrospective is the regularly occurring workshop in which the team explores its work and results to improve process and product, and is itself a form of lessons learned meeting."
+  },
+  {
+    "id": "MA-012",
+    "domain": "Methods & Artifacts",
+    "difficulty": "medium",
+    "stem": "Scenario: a risk analyst multiplies the probability a threat will occur by its monetary impact if it does, to compare alternatives that are not equivalent. Which method is this?",
+    "options": [
+      "Monte Carlo simulation",
+      "Sensitivity analysis",
+      "Expected monetary value analysis",
+      "Decision tree analysis"
+    ],
+    "answer": 2,
+    "explanation": "Expected monetary value (EMV) is probability times economic impact, used to quantify uncertainty or compare nonequivalent alternatives. Decision trees chain multiple options (possibly using EMVs on branches); Monte Carlo combines many uncertainties into a distribution; sensitivity analysis identifies which risks matter most."
+  }
+]

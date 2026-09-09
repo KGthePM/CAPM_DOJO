@@ -1,0 +1,198 @@
+[
+  {
+    "id": "P-Q01",
+    "domain": "Predictive, Plan-Based",
+    "difficulty": "easy",
+    "stem": "Which statement best distinguishes project management process groups from project phases?",
+    "options": [
+      "Process groups are sequential time periods, while phases are clusters of related processes",
+      "Process groups are clusters of processes performed across the project, while phases are timeline divisions that each run all five process groups",
+      "Process groups apply only to predictive projects, while phases apply to all life cycles",
+      "Process groups are organization-defined, while phases are defined only by the project manager"
+    ],
+    "answer": 1,
+    "explanation": "Process groups (Initiating, Planning, Executing, Monitoring & Controlling, Closing) are clusters of PM work that repeat within every phase; phases are timeline divisions each ending with a deliverable handoff and running their own mini life cycle of all five groups."
+  },
+  {
+    "id": "P-Q02",
+    "domain": "Predictive, Plan-Based",
+    "difficulty": "easy",
+    "stem": "Per the Process Groups: A Practice Guide, the 49 processes are distributed across the five process groups. Which pairing is correct?",
+    "options": [
+      "Planning contains the most processes; Closing contains the fewest",
+      "Executing contains the most processes; Initiating contains the fewest",
+      "Monitoring & Controlling contains the most processes; Initiating contains the fewest",
+      "Each process group contains roughly ten processes"
+    ],
+    "answer": 0,
+    "explanation": "Planning is the heavyweight with 24 of the 49 processes; Closing has exactly one (Close Project or Phase). Initiating has two, Executing ten, and Monitoring & Controlling twelve."
+  },
+  {
+    "id": "P-Q03",
+    "domain": "Predictive, Plan-Based",
+    "difficulty": "easy",
+    "stem": "Which artifact is produced during Initiating and formally authorizes both the project and the project manager?",
+    "options": [
+      "The project management plan",
+      "The scope baseline",
+      "The project charter",
+      "The stakeholder engagement plan"
+    ],
+    "answer": 2,
+    "explanation": "The project charter — developed in Initiating — formally authorizes the project's existence and appoints the project manager. The PM plan and baselines are Planning outputs; the stakeholder engagement plan is a subsidiary plan."
+  },
+  {
+    "id": "P-Q04",
+    "domain": "Predictive, Plan-Based",
+    "difficulty": "medium",
+    "stem": "A project manager works full-time managing projects, holds moderate-to-high authority over resources and decisions, and reports to a manager of project managers — but team members still hold permanent homes in their functional departments. This is best described as a:",
+    "options": [
+      "Functional organization",
+      "Weak matrix",
+      "Strong matrix",
+      "Projectized organization"
+    ],
+    "answer": 2,
+    "explanation": "A full-time PM with moderate-to-high authority plus a dedicated manager of PMs marks a strong matrix. In a projectized organization team members would report directly to the PM with no functional reporting line; in weak/balanced matrices the PM's authority is negligible or shared."
+  },
+  {
+    "id": "P-Q05",
+    "domain": "Predictive, Plan-Based",
+    "difficulty": "medium",
+    "stem": "In which organizational structure does the project manager hold high to almost total authority, with team members reporting directly to the project manager?",
+    "options": [
+      "Functional",
+      "Balanced matrix",
+      "Projectized",
+      "Hierarchical"
+    ],
+    "answer": 2,
+    "explanation": "Projectized organizations are structured around projects: PM authority is high to almost total, teams report to the PM, and administrative staff are dedicated — with the trade-offs of duplicated resources and an uncertain 'home' for staff at project end."
+  },
+  {
+    "id": "P-Q06",
+    "domain": "Predictive, Plan-Based",
+    "difficulty": "medium",
+    "stem": "A global project uses a virtual team spread across four time zones. Compared with a collocated team, the most significant trade-off the project manager must manage is:",
+    "options": [
+      "Higher facilities costs and longer commutes",
+      "Weaker informal communication channels, requiring more deliberate and planned communication",
+      "Reduced access to specialized talent and skills",
+      "Slower project decisions due to organizational silos"
+    ],
+    "answer": 1,
+    "explanation": "Virtual teams broaden talent access and cut facility costs, but lose the informal 'war room' communication of colocation — so the PM must compensate with planned, deliberate communication norms. Colocation provides spontaneous communication that virtual teams must engineer."
+  },
+  {
+    "id": "P-Q07",
+    "domain": "Predictive, Plan-Based",
+    "difficulty": "easy",
+    "stem": "A predictive, plan-based approach is the BEST fit under which set of conditions?",
+    "options": [
+      "Requirements are vague and will emerge through repeated delivery of increments",
+      "Requirements are well understood, technology is mature, and the cost of change rises steeply over time",
+      "The product is novel and the team expects to learn the requirements by building",
+      "Stakeholders demand a working deliverable every two weeks for feedback"
+    ],
+    "answer": 1,
+    "explanation": "Predictive fits stable, well-understood requirements, mature technology, and contractual/regulatory rigor where late change is expensive. Vague or emerging requirements and frequent delivery cadence point to adaptive or hybrid approaches."
+  },
+  {
+    "id": "P-Q08",
+    "domain": "Predictive, Plan-Based",
+    "difficulty": "easy",
+    "stem": "In a work breakdown structure, the lowest level of decomposition — the unit that is estimated, scheduled, assigned, and tracked — is called the:",
+    "options": [
+      "Control account",
+      "Deliverable",
+      "Milestone",
+      "Work package"
+    ],
+    "answer": 3,
+    "explanation": "The work package is the WBS's lowest element and the unit of estimation, scheduling, assignment, and tracking; work packages are further broken into schedule activities. Control accounts sit above work packages as management control points."
+  },
+  {
+    "id": "P-Q09",
+    "domain": "Predictive, Plan-Based",
+    "difficulty": "medium",
+    "stem": "The quality management plan distinguishes quality assurance from quality control. Which pairing is correct?",
+    "options": [
+      "Assurance audits processes; control inspects deliverables",
+      "Assurance inspects deliverables; control audits processes",
+      "Both audit processes at different project phases",
+      "Both inspect deliverables using different statistical tools"
+    ],
+    "answer": 0,
+    "explanation": "Quality assurance is process-focused (auditing whether the processes will produce quality), while quality control is deliverable-focused (inspection and testing of outputs against acceptance criteria). Both flow from the quality management plan, which emphasizes prevention over inspection."
+  },
+  {
+    "id": "P-Q10",
+    "domain": "Predictive, Plan-Based",
+    "difficulty": "medium",
+    "stem": "Mid-execution, a team member is asked by a stakeholder to add a field to a screen. Per predictive integration management, the project manager should FIRST:",
+    "options": [
+      "Have the developer make the change quickly to keep the stakeholder satisfied",
+      "Reject the request outright since the baselines are approved",
+      "Submit the request through integrated change control to evaluate impact on all baselines",
+      "Escalate the request to the sponsor for a decision"
+    ],
+    "answer": 2,
+    "explanation": "All changes flow through integrated change control, which assesses the impact on every baseline (scope, schedule, cost, quality, risk) before approval or rejection. Sidestepping it is the classic wrong answer; flat rejection and premature escalation both skip the required impact evaluation."
+  },
+  {
+    "id": "P-Q11",
+    "domain": "Predictive, Plan-Based",
+    "difficulty": "medium",
+    "stem": "A network has activities P (4 days) and Q (6 days) starting together at day 0, and activity R (3 days) that cannot start until BOTH P and Q are complete. What is the total project duration in days?",
+    "options": [
+      "9",
+      "10",
+      "13",
+      "7"
+    ],
+    "answer": 0,
+    "explanation": "R's early start is the later of its predecessors' finishes: max(4, 6) = 6. R finishes at 6 + 3 = 9 days. The trap answer 13 (4+6+3) wrongly treats P and Q as sequential; 7 stops R after only the earlier predecessor."
+  },
+  {
+    "id": "P-Q12",
+    "domain": "Predictive, Plan-Based",
+    "difficulty": "medium",
+    "stem": "In a network diagram, an activity has ES = 10, EF = 18, LS = 15, and LF = 23. What is its total float in days?",
+    "options": [
+      "0",
+      "5",
+      "8",
+      "13"
+    ],
+    "answer": 1,
+    "explanation": "Total float = LS − ES = 15 − 10 = 5 days (equivalently LF − EF = 23 − 18 = 5). The activity can slip five days without delaying the project. Zero float would mark it critical."
+  },
+  {
+    "id": "P-Q13",
+    "domain": "Predictive, Plan-Based",
+    "difficulty": "hard",
+    "stem": "A project has BAC = $100,000, PV = $50,000, EV = $40,000, and AC = $60,000 at the status date. What is the schedule variance, and what does it indicate?",
+    "options": [
+      "+$10,000 — ahead of schedule",
+      "-$10,000 — behind schedule",
+      "-$20,000 — over budget",
+      "+$20,000 — under budget"
+    ],
+    "answer": 1,
+    "explanation": "SV = EV − PV = 40,000 − 50,000 = −$10,000; negative schedule variance means less work earned than planned, i.e., behind schedule. −$20,000 is the COST variance (EV − AC), a deliberately placed distractor."
+  },
+  {
+    "id": "P-Q14",
+    "domain": "Predictive, Plan-Based",
+    "difficulty": "hard",
+    "stem": "Using BAC = $100,000, PV = $50,000, EV = $40,000, and AC = $60,000: assuming current cost performance will continue for the remainder of the project, what is the estimate at completion (EAC), and what is the resulting variance at completion (VAC)?",
+    "options": [
+      "EAC = $120,000; VAC = -$20,000",
+      "EAC = $150,000; VAC = -$50,000",
+      "EAC = $90,000; VAC = +$10,000",
+      "EAC = $160,000; VAC = -$60,000"
+    ],
+    "answer": 1,
+    "explanation": "CPI = EV/AC = 40,000/60,000 = 0.667, so EAC = BAC/CPI = $150,000 (carried exactly: 100,000 × 60,000/40,000). VAC = BAC − EAC = 100,000 − 150,000 = −$50,000, a projected overrun. The $120,000 option is the one-time-variance EAC = AC + (BAC − EV), the classic wording trap."
+  }
+]

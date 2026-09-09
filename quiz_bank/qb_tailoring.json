@@ -1,0 +1,142 @@
+[
+  {
+    "id": "T-Q01",
+    "domain": "Tailoring",
+    "difficulty": "easy",
+    "stem": "According to the PMBOK Guide 7th Edition, tailoring is best defined as:",
+    "options": [
+      "Applying the organization's standard methodology verbatim to ensure consistency across projects",
+      "The deliberate adaptation of the project management approach, governance, and processes to make them more suitable for the given environment and the work at hand",
+      "Reducing all project documentation to the minimum possible level regardless of project risk",
+      "Replacing the project management principles with processes that fit the project team's preferences"
+    ],
+    "answer": 1,
+    "explanation": "Tests the §3.1 definition of tailoring: deliberate adaptation of approach, governance, and processes to suit the environment and work. Applying a methodology verbatim is the opposite of tailoring."
+  },
+  {
+    "id": "T-Q02",
+    "domain": "Tailoring",
+    "difficulty": "easy",
+    "stem": "Which of the following is NOT one of the five project aspects the PMBOK Guide lists as tailorable?",
+    "options": [
+      "Processes",
+      "Engagement",
+      "Tools",
+      "Organizational strategy"
+    ],
+    "answer": 3,
+    "explanation": "Tests §3.3 What to Tailor: the tailorable aspects are life cycle and development approach selection, processes, engagement, tools, and methods and artifacts. Organizational strategy is set above the project, not tailored by it."
+  },
+  {
+    "id": "T-Q03",
+    "domain": "Tailoring",
+    "difficulty": "medium",
+    "stem": "A project to build a new data center uses a predictive approach for the physical construction while using an iterative approach to determine and establish computing capabilities. From the project level, this combination is an example of:",
+    "options": [
+      "A phased predictive life cycle with overlapping phases",
+      "An adaptive life cycle with a single delivery cadence",
+      "A hybrid approach combining development approaches simultaneously",
+      "A tailoring failure caused by inconsistent methodology"
+    ],
+    "answer": 2,
+    "explanation": "Tests §3.3.1: large projects may use a combination of development and delivery approaches simultaneously; viewed at project level this is a hybrid approach, even though each sub-team experiences only one approach."
+  },
+  {
+    "id": "T-Q04",
+    "domain": "Tailoring",
+    "difficulty": "medium",
+    "stem": "A small, colocated project team communicates constantly and informally. The project manager eliminates the creation of formal meeting minutes because they no longer add value proportional to their cost. Which process tailoring action does this represent?",
+    "options": [
+      "Removing",
+      "Blending",
+      "Aligning",
+      "Adding"
+    ],
+    "answer": 0,
+    "explanation": "Tests §3.3.2: the five process tailoring actions — added, modified, removed, blended, aligned. Eliminating an element that no longer earns its cost (minutes for a well-communicating colocated team) is removal."
+  },
+  {
+    "id": "T-Q05",
+    "domain": "Tailoring",
+    "difficulty": "medium",
+    "stem": "During tailoring, a project team uses a tool that evaluates criteria based on culture, project team, and project factors, producing a diagnostic visual that suggests whether the project leans predictive, hybrid, or adaptive. What is this tool, and what is its role?",
+    "options": [
+      "A suitability filter — an informational tool whose assessment is combined with other data and decision-making activities",
+      "A value delivery office audit — a governance gate that must approve the development approach",
+      "An earned value analysis — a measurement technique for forecasting schedule performance",
+      "A phase gate review — a formal approval checkpoint at the end of each life cycle phase"
+    ],
+    "answer": 0,
+    "explanation": "Tests §3.4.1: the suitability filter helps teams consider whether project characteristics favor predictive, hybrid, or adaptive; it is informational and informs rather than replaces the decision."
+  },
+  {
+    "id": "T-Q06",
+    "domain": "Tailoring",
+    "difficulty": "medium",
+    "stem": "A project team's proposed tailoring changes would alter how and when other departments outside the team are engaged. According to the tailoring process, who is most likely required to approve these changes?",
+    "options": [
+      "The project manager alone, since the project team owns its processes",
+      "The PMO or value delivery office, because the change impacts external groups",
+      "The customer, because all tailoring decisions require customer sign-off",
+      "No one — tailoring decisions within an organization never require approval"
+    ],
+    "answer": 1,
+    "explanation": "Tests §3.4.2: internal tailoring (team meetings, work locations) may be approved by the project manager, but tailoring impacting external groups requires PMO or VDO approval; organizations require alignment of tailoring with governance and policy."
+  },
+  {
+    "id": "T-Q07",
+    "domain": "Tailoring",
+    "difficulty": "hard",
+    "stem": "Which of the following correctly states the four steps of the tailoring process in order?",
+    "options": [
+      "Tailor for the project, tailor for the organization, select initial development approach, implement ongoing improvement",
+      "Implement ongoing improvement, select initial development approach, tailor for the organization, tailor for the project",
+      "Select initial development approach, tailor for the organization, tailor for the project, implement ongoing improvement",
+      "Select initial development approach, tailor for the project, tailor for the organization, close out tailoring"
+    ],
+    "answer": 2,
+    "explanation": "Tests §3.4: tailoring begins by selecting the development and delivery approach, then tailoring it for the organization, then for the project, followed by ongoing improvement."
+  },
+  {
+    "id": "T-Q08",
+    "domain": "Tailoring",
+    "difficulty": "medium",
+    "stem": "When tailoring for the organization, which two conditions most directly constrain the degree of tailoring available to a project team?",
+    "options": [
+      "Team member preferences and tool licensing costs",
+      "Large safety-critical projects and projects performed under contract",
+      "The number of project sponsors and the size of the project charter",
+      "Geographic distribution and the organization's brand guidelines"
+    ],
+    "answer": 1,
+    "explanation": "Tests §3.4.2: safety-critical projects may require additional oversight and approval to prevent errors, and contracts may specify a particular life cycle, delivery approach, or methodology, limiting tailoring."
+  },
+  {
+    "id": "T-Q09",
+    "domain": "Tailoring",
+    "difficulty": "easy",
+    "stem": "A team does not hold retrospectives. According to the diagnostics guidance in Section 3.6, which indicators can they use to determine whether further tailoring is required?",
+    "options": [
+      "Only a formal external audit conducted by the PMO",
+      "Issues, threats, quality assurance statistics, and stakeholder feedback",
+      "The project's earned value indices exclusively",
+      "Nothing — without retrospectives there is no valid way to evaluate tailoring"
+    ],
+    "answer": 1,
+    "explanation": "Tests §3.6 Diagnostics: retrospectives and lessons-learned reviews are the primary means, but teams without them can look to issues, threats, quality assurance statistics, and stakeholder feedback for signs that further tailoring is needed."
+  },
+  {
+    "id": "T-Q10",
+    "domain": "Tailoring",
+    "difficulty": "hard",
+    "stem": "A project suffers from long approval delays because decisions must travel up the management chain. Following the PMBOK Guide's common tailoring suggestions, the most appropriate response is to:",
+    "options": [
+      "Add more approval levels to ensure decisions are fully vetted before implementation",
+      "Remove all approval requirements so team members act without oversight",
+      "Reassign approval decisions to people closer to the work so they are empowered to decide rapidly and sustain momentum",
+      "Escalate the delays to the sponsor and request a schedule extension"
+    ],
+    "answer": 2,
+    "explanation": "Tests §3.6 Table 3-1 diagnostics: for long approval delays, the suggested tailoring is reassigning approval decisions closer to the work, empowering rapid decision making to sustain momentum — neither adding bureaucracy nor eliminating oversight."
+  }
+]

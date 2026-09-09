@@ -1,0 +1,198 @@
+[
+  {
+    "id": "BA-001",
+    "domain": "Business Analysis",
+    "difficulty": "easy",
+    "stem": "A stakeholder is accountable for the overall design, performance metrics, and continuous improvement of the procurement process, while another ensures staff follow the documented procedure day to day. Which pairing describes these two roles?",
+    "options": [
+      "Process owner; process manager",
+      "Product manager; product owner",
+      "Process manager; process owner",
+      "Product owner; business analyst"
+    ],
+    "answer": 0,
+    "explanation": "The process owner designs, measures, and improves the process strategically; the process manager handles day-to-day execution and monitoring. Choice C reverses the accountabilities."
+  },
+  {
+    "id": "BA-002",
+    "domain": "Business Analysis",
+    "difficulty": "medium",
+    "stem": "On a Scrum team, who is the single person accountable for maximizing product value and managing the product backlog?",
+    "options": [
+      "The product manager",
+      "The scrum master",
+      "The product owner",
+      "The business analyst"
+    ],
+    "answer": 2,
+    "explanation": "The product owner is one person (not a committee) accountable for value maximization and backlog management. The product manager owns broader strategy and lifecycle; the scrum master facilitates the process."
+  },
+  {
+    "id": "BA-003",
+    "domain": "Business Analysis",
+    "difficulty": "medium",
+    "stem": "An organization hires an outside consulting firm to elicit requirements because internal staff are too entrenched in existing workarounds to see inefficiencies objectively. Which benefit of an external business analyst does this scenario illustrate?",
+    "options": [
+      "Deep knowledge of organizational culture",
+      "Impartiality and fresh perspective",
+      "Continuous long-term availability",
+      "Authority over the project budget"
+    ],
+    "answer": 1,
+    "explanation": "External BAs bring neutrality and specialized expertise unclouded by the status quo; internal BAs counter with cultural knowledge and ongoing availability."
+  },
+  {
+    "id": "BA-004",
+    "domain": "Business Analysis",
+    "difficulty": "medium",
+    "stem": "A business analyst must inform two executive stakeholders that their competing requirements cannot both be funded, and the discussion requires immediate back-and-forth negotiation. Which communication channel is most appropriate?",
+    "options": [
+      "Email with a decision matrix attached",
+      "Posting an analysis on the project intranet portal",
+      "Interactive communication such as a face-to-face meeting",
+      "A weekly status report distribution"
+    ],
+    "answer": 2,
+    "explanation": "Complex, sensitive, ambiguous topics needing immediate feedback call for interactive channels. Email and reports are push; the portal is pull — none support live negotiation."
+  },
+  {
+    "id": "BA-005",
+    "domain": "Business Analysis",
+    "difficulty": "medium",
+    "stem": "The documented claims-handling procedure states approvals take one step, but adjusters actually perform undocumented rework in a personal spreadsheet for a third of all claims. Which elicitation technique is best suited to uncover this gap?",
+    "options": [
+      "Survey of all adjusters",
+      "Document analysis of the procedure",
+      "Observation of adjusters performing the work",
+      "Benchmarking against industry peers"
+    ],
+    "answer": 2,
+    "explanation": "Observation (job shadowing) reveals the real process, including undocumented workarounds. The procedure document describes the ideal state — analyzing it would hide the gap, and surveys tend to collect idealized self-reports."
+  },
+  {
+    "id": "BA-006",
+    "domain": "Business Analysis",
+    "difficulty": "easy",
+    "stem": "A project needs input from 2,000 geographically dispersed customers on feature preferences within one week and at minimal cost. Which elicitation technique fits best?",
+    "options": [
+      "One-on-one interviews",
+      "Facilitated workshops",
+      "Surveys and questionnaires",
+      "Job shadowing"
+    ],
+    "answer": 2,
+    "explanation": "Surveys reach large, distributed audiences quickly and cheaply, trading depth and live clarification. Interviews and workshops cannot scale to 2,000 people in a week; observation addresses process work, not preferences."
+  },
+  {
+    "id": "BA-007",
+    "domain": "Business Analysis",
+    "difficulty": "medium",
+    "stem": "During requirements elicitation, the marketing director and the compliance officer hold directly conflicting requirements for the checkout flow and the team needs rapid consensus. Which technique should the business analyst use?",
+    "options": [
+      "A facilitated workshop with both stakeholders",
+      "Separate questionnaires sent to each stakeholder",
+      "Document analysis of the compliance policy",
+      "Passive observation of the current checkout process"
+    ],
+    "answer": 0,
+    "explanation": "Workshops bring conflicting stakeholders together to surface and resolve disagreements live. Questionnaires and document analysis cannot reconcile competing interests, and observation studies the current state, not the dispute."
+  },
+  {
+    "id": "BA-008",
+    "domain": "Business Analysis",
+    "difficulty": "easy",
+    "stem": "\"The system shall support 5,000 concurrent users with sub-two-second response\" is best classified as which requirement type?",
+    "options": [
+      "Functional requirement",
+      "Nonfunctional requirement",
+      "Transition requirement",
+      "Business requirement"
+    ],
+    "answer": 1,
+    "explanation": "It describes a quality condition (performance) the product must meet for effectiveness — how well it behaves, not what it does — making it a nonfunctional solution requirement."
+  },
+  {
+    "id": "BA-009",
+    "domain": "Business Analysis",
+    "difficulty": "medium",
+    "stem": "A requirement specifies converting legacy customer records to the new platform and training staff before the new system goes live. Once the new system is operational, this requirement no longer applies. What type of requirement is this?",
+    "options": [
+      "Functional requirement",
+      "Stakeholder requirement",
+      "Transition requirement",
+      "Business requirement"
+    ],
+    "answer": 2,
+    "explanation": "Transition requirements are temporary capabilities — data conversion, training, interim interfaces — needed only to move from current to future state; they cease to exist after cutover."
+  },
+  {
+    "id": "BA-010",
+    "domain": "Business Analysis",
+    "difficulty": "medium",
+    "stem": "A predictive project's requirement changes mid-execution. The project manager needs to see every design element, build component, and test case the change affects. Which artifact provides this?",
+    "options": [
+      "Product roadmap",
+      "Requirements traceability matrix",
+      "Product backlog",
+      "Stakeholder register"
+    ],
+    "answer": 1,
+    "explanation": "The RTM links each requirement to its source, design, implementation, and verification, enabling impact analysis when a requirement changes. The backlog plays this role adaptively, but this is a predictive project."
+  },
+  {
+    "id": "BA-011",
+    "domain": "Business Analysis",
+    "difficulty": "medium",
+    "stem": "A business analyst is writing a requirement that describes a multi-step workflow involving a customer, a loan officer, and a credit system, including alternate paths when verification fails. Which requirements format fits best?",
+    "options": [
+      "A user story",
+      "A use case",
+      "A product roadmap theme",
+      "A nonfunctional specification"
+    ],
+    "answer": 1,
+    "explanation": "Use cases narrate actor-system interactions across main, alternate, and exception flows — suited to multi-actor processes. User stories capture a single, backlog-sized capability from one perspective."
+  },
+  {
+    "id": "BA-012",
+    "domain": "Business Analysis",
+    "difficulty": "medium",
+    "stem": "On a product roadmap, component A must exist before component B can function, and component C is independent, high-value, and low-effort. When allocating components to releases, which reasoning is correct?",
+    "options": [
+      "Release C early for quick value, sequence B after A, regardless of A's value ranking",
+      "Release B first because it depends on A and dependencies should ship first",
+      "Hold all components until the roadmap is baselined and change-controlled",
+      "Assign components to releases in the order stakeholders requested them"
+    ],
+    "answer": 0,
+    "explanation": "Release planning sequences by value, effort, and dependency: ship the independent high-value/low-effort component early, and order dependent components after their prerequisites. Dependencies flow downstream, not first."
+  },
+  {
+    "id": "BA-013",
+    "domain": "Business Analysis",
+    "difficulty": "hard",
+    "stem": "A team using an adaptive approach receives a new stakeholder request mid-project. Compared with a predictive project, how does the methodology most likely shape the BA's response?",
+    "options": [
+      "Reject the request because requirements were baselined during planning",
+      "Submit a formal change request for signature before any analysis",
+      "Add the item to the product backlog and refine it with the product owner for future prioritization",
+      "Escalate the request to the sponsor because scope is fixed"
+    ],
+    "answer": 2,
+    "explanation": "In adaptive delivery, requirements emerge continuously: new needs enter the backlog and are refined and re-prioritized rather than blocked by baseline change control, which is the predictive mechanism."
+  },
+  {
+    "id": "BA-014",
+    "domain": "Business Analysis",
+    "difficulty": "hard",
+    "stem": "A release date arrives; developers report all stories are coded, but three stories have no defined acceptance criteria. What is the most defensible determination of delivery readiness?",
+    "options": [
+      "The product is ready because the development work is complete and the date has arrived",
+      "The product is ready if the stakeholders verbally confirm satisfaction at the demo",
+      "The product is not yet ready — readiness must be evidenced by items traced and tested against defined acceptance criteria",
+      "The product is ready once the scrum master documents the completion in the sprint report"
+    ],
+    "answer": 2,
+    "explanation": "Delivery readiness is an evidence-based judgment: backlog or RTM evidence must show release scope traced, tested, and meeting acceptance criteria. Work completion, dates, optimism, and verbal assurances are weak claims."
+  }
+]

@@ -1,0 +1,170 @@
+[
+  {
+    "id": "M-01",
+    "domain": "Models & Methods",
+    "difficulty": "easy",
+    "stem": "In Ken Blanchard's Situational Leadership II, which two variables are used to measure a project team member's development?",
+    "options": [
+      "Power and legitimacy",
+      "Competence and commitment",
+      "Autonomy and mastery",
+      "Urgency and impact"
+    ],
+    "answer": 1,
+    "explanation": "SLII measures development using competence (ability, knowledge, skill) and commitment (confidence and motivation); leadership style then evolves from directing to coaching to supporting to delegating."
+  },
+  {
+    "id": "M-02",
+    "domain": "Models & Methods",
+    "difficulty": "easy",
+    "stem": "Which five sequential steps make up the ADKAR model of individual change?",
+    "options": [
+      "Awareness, Desire, Knowledge, Ability, Reinforcement",
+      "Urgency, Coalition, Vision, Wins, Anchoring",
+      "Formulate, Plan, Implement, Transition, Sustain",
+      "Ending, Neutral Zone, New Beginning, Practice, Integration"
+    ],
+    "answer": 0,
+    "explanation": "Jeff Hiatt's ADKAR sequences five individual steps: Awareness, Desire, Knowledge, Ability, Reinforcement. Urgency/coalition belongs to Kotter, formulate/sustain to the PMI practice guide, and neutral zone to Bridges."
+  },
+  {
+    "id": "M-03",
+    "domain": "Models & Methods",
+    "difficulty": "medium",
+    "stem": "Per Herzberg's motivation model, an organization substantially improves salaries and working conditions, yet employee satisfaction does not rise. Why?",
+    "options": [
+      "Salary and environment are motivational factors, so they only prevent dissatisfaction",
+      "Salary and environment are hygiene factors — sufficient levels remove dissatisfaction but do not create satisfaction",
+      "Satisfaction can only be produced by extrinsic rewards under Theory X",
+      "Hygiene factors produce satisfaction only when paired with urgency"
+    ],
+    "answer": 1,
+    "explanation": "Hygiene factors relate to the context of work (policies, salary, environment); insufficient hygiene causes dissatisfaction, but sufficient hygiene never creates satisfaction — only motivational factors like achievement, growth, and advancement do."
+  },
+  {
+    "id": "M-04",
+    "domain": "Models & Methods",
+    "difficulty": "medium",
+    "stem": "A project team has been working together for three months. The early clashes over roles and responsibilities have faded, members know their places on the team, and disagreements are now resolved quickly — though the team has not yet developed synergy. Which Tuckman stage is this team in?",
+    "options": [
+      "Forming",
+      "Storming",
+      "Norming",
+      "Performing"
+    ],
+    "answer": 2,
+    "explanation": "This is norming: the team functions as a collective body, members know their places and interfaces, and issues are resolved quickly. Synergy characterizes the next stage, performing."
+  },
+  {
+    "id": "M-05",
+    "domain": "Models & Methods",
+    "difficulty": "hard",
+    "stem": "A regulatory inspector demands a documentation change that has no chance of being successfully challenged. Per the Thomas-Kilmann conflict model, which approach is most appropriate?",
+    "options": [
+      "Forcing, because regulation always outweighs project needs",
+      "Compromising, since both parties have equal power",
+      "Collaborating, to reach consensus with the agency",
+      "Withdrawal/avoiding, because this is a no-win scenario"
+    ],
+    "answer": 3,
+    "explanation": "Withdrawal is appropriate in a no-win scenario, such as complying with a regulatory requirement instead of challenging it. Forcing is for emergencies with unequal power, compromising for equal-power standoffs, and collaborating requires time and trust that a mandated requirement does not."
+  },
+  {
+    "id": "M-06",
+    "domain": "Models & Methods",
+    "difficulty": "medium",
+    "stem": "In the Cynefin framework, which response pattern is recommended in a complex context containing unknown unknowns?",
+    "options": [
+      "Categorize and apply best practices",
+      "Analyze facts and apply good practices",
+      "Probe, sense, and respond using emergent practices",
+      "Act to stabilize, then sense, then respond"
+    ],
+    "answer": 2,
+    "explanation": "Complex contexts have unknown unknowns and no obvious cause-and-effect, so one probes the environment, senses the situation, and responds with emergent practices, repeating the cycle. Act-sense-respond describes chaotic contexts; best and good practices fit obvious and complicated contexts."
+  },
+  {
+    "id": "M-07",
+    "domain": "Models & Methods",
+    "difficulty": "easy",
+    "stem": "Which model distinguishes change (situational) from transition (the psychological process of accepting it), including a stage called the neutral zone?",
+    "options": [
+      "Virginia Satir Change Model",
+      "William Bridges' Transition Model",
+      "Kotter's 8-Step Process for Leading Change",
+      "Drexler/Sibbet Team Performance Model"
+    ],
+    "answer": 1,
+    "explanation": "Bridges' Transition Model has three stages — ending/losing/letting go, the neutral zone, and the new beginning — and explicitly separates situational change from psychological transition."
+  },
+  {
+    "id": "M-08",
+    "domain": "Models & Methods",
+    "difficulty": "medium",
+    "stem": "A project manager must deliver news of significant scope cuts that will disappoint several long-standing stakeholders. Per the communication channels model of effectiveness and richness, which medium should be chosen?",
+    "options": [
+      "A detailed email sent after business hours",
+      "A text message with a link to the updated scope document",
+      "A face-to-face meeting, because complex and personal information benefits from the richest channel",
+      "A note posted to the project portal, since facts can travel lean channels"
+    ],
+    "answer": 2,
+    "explanation": "Cockburn's model (richness per Daft and Lengel) holds that complex, complicated, and personal information benefits from richer channels such as face-to-face; simple factual information can use leaner channels like notes or texts."
+  },
+  {
+    "id": "M-09",
+    "domain": "Models & Methods",
+    "difficulty": "easy",
+    "stem": "Which three intrinsic motivators does Daniel Pink identify as lasting longer than extrinsic rewards for challenging work?",
+    "options": [
+      "Achievement, power, and affiliation",
+      "Autonomy, mastery, and purpose",
+      "Awareness, desire, and knowledge",
+      "Character, trust, and approach"
+    ],
+    "answer": 1,
+    "explanation": "Pink's three intrinsic motivators are autonomy (directing one's own life), mastery (improving and excelling), and purpose (making a difference). Achievement/power/affiliation belong to McClelland; character/trust/approach to Covey's win-win conditions."
+  },
+  {
+    "id": "M-10",
+    "domain": "Models & Methods",
+    "difficulty": "medium",
+    "stem": "Two weeks after a new reporting system goes live, team performance hits its lowest point: people are frustrated, behavior is unpredictable, and some are experimenting creatively with workarounds. Per the Virginia Satir Change Model, which stage is this, and what typically follows?",
+    "options": [
+      "The foreign element, followed by the late status quo",
+      "Chaos, followed by a transforming idea that begins raising performance",
+      "Practice and integration, followed by the new status quo",
+      "The neutral zone, followed by the new beginning"
+    ],
+    "answer": 1,
+    "explanation": "Chaos is where people are in unfamiliar territory and performance drops to its lowest, with unpredictable feelings and creative experimentation. It is followed by the transforming idea, after which performance begins to increase. The neutral zone is Bridges, not Satir."
+  },
+  {
+    "id": "M-11",
+    "domain": "Models & Methods",
+    "difficulty": "hard",
+    "stem": "A senior analyst is highly competent but new enough to the organization that she hesitates to make independent calls, and she often seeks reassurance. Using Situational Leadership II, which leadership style best fits this individual right now?",
+    "options": [
+      "Delegating — competence is high, so oversight can be minimal",
+      "Directing — she is new, so she needs detailed instructions on every task",
+      "Coaching or supporting — competence is high but commitment (confidence) still needs building",
+      "Forcing — hesitation must be corrected through top-down management"
+    ],
+    "answer": 2,
+    "explanation": "SLII matches style to the combination of competence and commitment. High competence with wavering confidence calls for the middle of the ladder — coaching/supporting — not delegating (which presumes high commitment) or directing (which presumes low competence)."
+  },
+  {
+    "id": "M-12",
+    "domain": "Models & Methods",
+    "difficulty": "medium",
+    "stem": "Which statement about the five Process Groups described in PMBOK Section 4.2 is accurate?",
+    "options": [
+      "Process Groups are equivalent to project phases and occur once per project",
+      "Process Groups apply only to predictive delivery approaches in construction industries",
+      "Process Groups are not project phases; they interact within each phase, may be iterated, and are independent of delivery approach and industry",
+      "Process Groups must be completed sequentially with no repetition within a life cycle"
+    ],
+    "answer": 2,
+    "explanation": "The Process Groups (Initiating, Planning, Executing, Monitoring and Controlling, Closing) are logical groupings, not phases; they interact within each phase of a life cycle, may be iterated, and are independent of delivery approach, application area, and industry."
+  }
+]
