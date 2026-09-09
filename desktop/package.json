@@ -3,7 +3,11 @@
   "productName": "CAPM Training Dojo",
   "version": "1.0.0",
   "description": "Professor Ainsworth's CAPM exam-prep dojo — offline desktop edition",
-  "author": "Kyle Gomez",
+  "homepage": "https://github.com/KGthePM/CAPM_DOJO",
+  "author": {
+    "name": "Kyle Gomez",
+    "email": "kgomez2k19@gmail.com"
+  },
   "license": "UNLICENSED",
   "private": true,
   "main": "main.js",
@@ -16,7 +20,8 @@
     "presmoke": "npm run refresh",
     "smoke": "DOJO_SMOKE_TEST=1 electron . --no-sandbox",
     "dist": "electron-builder --mac",
-    "dist:unsigned": "electron-builder --mac --config.mac.identity=null --config.mac.notarize=false"
+    "dist:unsigned": "electron-builder --mac --config.mac.identity=null --config.mac.notarize=false",
+    "dist:linux": "electron-builder --linux"
   },
   "devDependencies": {
     "electron": "^44.3.0",
@@ -46,6 +51,14 @@
     "dmg": {
       "title": "CAPM Training Dojo ${version}",
       "background": null
+    },
+    "linux": {
+      "category": "Education",
+      "icon": "icons",
+      "target": [
+        "AppImage",
+        "deb"
+      ]
     }
   }
 }

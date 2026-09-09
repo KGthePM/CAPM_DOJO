@@ -64,6 +64,18 @@ only need `CSC_NAME` in env.
 npm run dist:unsigned
 ```
 
+### Linux build (run on the Linux PC — fully verified there)
+
+```bash
+cd desktop
+npm run dist:linux
+```
+
+Outputs `dist/CAPM Training Dojo-1.0.0.AppImage` (single file, no install needed —
+just `chmod +x` and run) and `dist/capm-dojo_1.0.0_amd64.deb`. Current install on
+this PC: AppImage at `~/Applications/`, launcher in the Cinnamon menu + desktop
+shortcut, icon in `~/.local/share/icons/hicolor/512x512/apps/capm-dojo.png`.
+
 ## Progress data
 
 Completion history lives in localStorage inside the app (`capm_dojo_state`), separate
