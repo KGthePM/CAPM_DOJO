@@ -143,6 +143,48 @@
   .keyterms li { margin-bottom: 4px; }
   .keyterms li strong { color: var(--oxblood); }
 
+  /* ---------- Text annotations (highlights, emphasis, colors) ---------- */
+  .lecture-body ::selection { background: rgba(169,131,47,0.35); }
+  .annot-hl-yellow { background: rgba(233,196,106,.45); }
+  .annot-hl-green  { background: rgba(134,168,110,.40); }
+  .annot-hl-blue   { background: rgba(129,161,197,.38); }
+  .annot-hl-pink   { background: rgba(201,120,140,.32); }
+  .annot-tc-red   { color: #b23a2f; }
+  .annot-tc-green { color: var(--forest); }
+  .annot-tc-blue  { color: #3a5a8c; }
+  .annot-bold { font-weight: 700; }
+  .annot-underline { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 2px; }
+
+  /* floating annotation toolbar */
+  .annot-bar {
+    position: absolute; z-index: 999;
+    display: none; align-items: center; gap: 4px;
+    background: var(--parchment);
+    border: 1px solid var(--gold);
+    border-radius: 8px;
+    padding: 5px 7px;
+    box-shadow: 0 4px 12px rgba(43,36,26,0.4);
+  }
+  .annot-bar.show { display: flex; }
+  .annot-bar .abtn {
+    font-family: Georgia, serif; font-size: 0.85rem;
+    min-width: 30px; height: 30px;
+    display: inline-flex; align-items: center; justify-content: center;
+    background: transparent; color: var(--ink);
+    border: 1px solid transparent; border-radius: 5px;
+    cursor: pointer; padding: 0 6px;
+  }
+  .annot-bar .abtn:hover { background: rgba(46,74,58,0.1); border-color: var(--forest); }
+  .annot-bar .swatch {
+    width: 16px; height: 16px; border-radius: 3px;
+    border: 1px solid rgba(43,36,26,0.4); display: inline-block;
+  }
+  .annot-bar .dot {
+    width: 14px; height: 14px; border-radius: 50%;
+    border: 1px solid rgba(43,36,26,0.4); display: inline-block;
+  }
+  .annot-hint { font-style: italic; color: var(--ink-soft); font-size: 0.9rem; margin-top: 10px; }
+
   /* ---------- Quiz ---------- */
   .chip {
     display: inline-block; font-size: 0.78rem; padding: 3px 10px; border-radius: 999px;
@@ -244,6 +286,9 @@
       <div style="margin-top:20px; display:flex; gap:10px; flex-wrap:wrap;">
         <button class="btn" onclick="showScreen('lectures')">📖 Continue Studies</button>
         <button class="btn ox" onclick="showScreen('exam')">📜 Take Practice Exam</button>
+        <button class="btn ghost" onclick="exportProgress()">💾 Export Progress</button>
+        <button class="btn ghost" onclick="document.getElementById('importFile').click()">📂 Import Progress</button>
+        <input type="file" id="importFile" accept=".json,application/json" class="hide" onchange="importProgress(this)">
         <button class="btn ghost" onclick="resetProgress()">🧹 Reset Ledger</button>
       </div>
     </div>
@@ -287,6 +332,7 @@
         <button class="btn ox" id="markCompleteBtn" onclick="markLessonComplete()">✅ Mark Lesson Complete</button>
         <span id="markCompleteStatus"></span>
       </div>
+      <p class="annot-hint">Select any passage to highlight, emphasize, or recolor it — your marks are saved on this device.</p>
     </div>
   </section>
 
@@ -4114,6 +4160,7 @@ function defaultState() {
       lastReadiness: null          // 'PASS' | 'BELOW TARGET' verdict text of last attempt
     },
     history: {}                    // { [questionId]: {correct, miss, lastSeen} } across all sessions
+  , annotations: {}                // { ['lessonId:blockIndex']: [ {s, e, k} ] } text marks in lecture bodies
   };
 }
 
@@ -4129,7 +4176,9 @@ function loadState() {
       quiz: Object.assign(base.quiz, parsed.quiz || {}),
       grandExam: Object.assign(base.grandExam, parsed.grandExam || {}),
       history: (parsed.history && typeof parsed.history === 'object' && !Array.isArray(parsed.history))
-        ? parsed.history : {}
+        ? parsed.history : {},
+      annotations: (parsed.annotations && typeof parsed.annotations === 'object' && !Array.isArray(parsed.annotations))
+        ? parsed.annotations : {}
     };
   } catch (e) {
     return defaultState();
@@ -4874,6 +4923,73 @@ function resetProgress() {
 }
 
 /* ----------------------------------------------------------------
+ * PROGRESS BACKUP — export/import the ledger as a JSON file
+ * ---------------------------------------------------------------- */
+function exportProgress() {
+  const payload = {
+    app: 'capm-dojo',
+    version: 1,
+    exported: new Date().toISOString(),
+    state: state
+  };
+  const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  const d = new Date();
+  const stamp = d.getFullYear() + String(d.getMonth() + 1).padStart(2, '0') + String(d.getDate()).padStart(2, '0');
+  a.download = 'dojo-progress-' + stamp + '.json';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(a.href);
+}
+
+function importProgress(input) {
+  const file = input.files && input.files[0];
+  input.value = ''; // allow re-selecting the same file later
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function () {
+    let payload;
+    try { payload = JSON.parse(reader.result); }
+    catch (e) { alert('That file is not valid JSON — the ledger is untouched.'); return; }
+    if (!payload || payload.app !== 'capm-dojo' || !payload.state) {
+      alert('That is not a dojo progress file — the ledger is untouched.');
+      return;
+    }
+    // merge-validate through the same loader used for localStorage
+    const candidate = loadStateFromObject(payload.state);
+    const oldLessons = state.completedLessons.length;
+    const oldHist = Object.keys(state.history).length;
+    state = candidate;
+    saveState();
+    renderHome();
+    const newLessons = state.completedLessons.length;
+    const newHist = Object.keys(state.history).length;
+    alert('Ledger restored ✓\n' +
+      'Lessons completed: ' + oldLessons + ' → ' + newLessons + '\n' +
+      'Questions tracked: ' + oldHist + ' → ' + newHist);
+  };
+  reader.onerror = function () { alert('Could not read that file.'); };
+  reader.readAsText(file);
+}
+
+// validate an arbitrary parsed object into a safe state (same rules as loadState)
+function loadStateFromObject(parsed) {
+  const base = defaultState();
+  if (!parsed || typeof parsed !== 'object') return base;
+  return {
+    completedLessons: Array.isArray(parsed.completedLessons) ? parsed.completedLessons : [],
+    quiz: Object.assign(base.quiz, parsed.quiz || {}),
+    grandExam: Object.assign(base.grandExam, parsed.grandExam || {}),
+    history: (parsed.history && typeof parsed.history === 'object' && !Array.isArray(parsed.history))
+      ? parsed.history : {},
+    annotations: (parsed.annotations && typeof parsed.annotations === 'object' && !Array.isArray(parsed.annotations))
+      ? parsed.annotations : {}
+  };
+}
+
+/* ----------------------------------------------------------------
  * LECTURES
  * ---------------------------------------------------------------- */
 let currentLessonId = null;
@@ -4911,6 +5027,12 @@ function openLesson(id) {
     while (p.firstChild) { body.appendChild(p.firstChild); }
   });
 
+  // tag each top-level block so annotations can address it, then restore saved marks
+  for (var bi = 0; bi < body.children.length; bi++) {
+    body.children[bi].setAttribute('data-bidx', String(bi));
+  }
+  applyAnnotationsToLesson(id);
+
   const kt = document.getElementById('lessonKeyTerms');
   let termsHtml = '<strong>🗝️ Key Terms</strong><ul>';
   (lesson.keyTerms || []).forEach(function (kt2) {
@@ -4943,6 +5065,297 @@ function markLessonComplete() {
   btn.textContent = '✅ Lesson Recorded';
   document.getElementById('markCompleteStatus').textContent = 'Recorded in the ledger. Onward. 🫡';
 }
+
+/* ----------------------------------------------------------------
+ * TEXT ANNOTATIONS — highlight / bold / underline / text colors
+ * State shape: state.annotations['lessonId:blockIndex'] = [ {s, e, k} ]
+ * where s/e are offsets into the block's textContent (e exclusive)
+ * and k is a kind: hl-yellow|hl-green|hl-blue|hl-pink|bold|underline|tc-red|tc-green|tc-blue
+ * ---------------------------------------------------------------- */
+var ANNOT_KINDS = ['hl-yellow', 'hl-green', 'hl-blue', 'hl-pink', 'bold', 'underline', 'tc-red', 'tc-green', 'tc-blue'];
+
+function annotSpanClass(kind) {
+  return 'annot-' + kind;
+}
+
+// Wrap [start, end) of blockEl's textContent in <span class="...">, walking text
+// nodes so nested spans and author <strong>/<em> survive. Never throws on
+// out-of-range offsets (clamps silently).
+function wrapTextRange(blockEl, start, end, cls) {
+  if (!blockEl || typeof start !== 'number' || typeof end !== 'number' || end <= start) return;
+  const textLen = blockEl.textContent.length;
+  if (start >= textLen) return; // wholly past the end — content must have changed
+  if (start < 0) start = 0;
+  if (end > textLen) end = textLen;
+
+  const walker = document.createTreeWalker(blockEl, NodeFilter.SHOW_TEXT, null, false);
+  var node, cum = 0, wrapped = false;
+  while ((node = walker.nextNode())) {
+    const nLen = node.nodeValue.length;
+    const nStart = cum, nEnd = cum + nLen;
+    cum = nEnd;
+    // overlap of [start,end) with this node's range
+    const oStart = Math.max(start, nStart);
+    const oEnd = Math.min(end, nEnd);
+    if (oStart >= oEnd) continue;
+    if (oStart === nStart && oEnd === nEnd && node.parentNode &&
+        node.parentNode.nodeType === 1 && (' ' + node.parentNode.className + ' ').indexOf(' ' + cls + ' ') !== -1) {
+      wrapped = true; // already inside an identical span — leave it
+      continue;
+    }
+    // split the text node so the intersecting part stands alone, then wrap it
+    var target = node;
+    if (oEnd < nEnd) target.splitText(oEnd - nStart);
+    if (oStart > nStart) target = target.splitText(oStart - nStart);
+    const span = document.createElement('span');
+    span.className = cls;
+    target.parentNode.replaceChild(span, target);
+    span.appendChild(target);
+    wrapped = true;
+  }
+  return wrapped;
+}
+
+// Remove engine-created annotation spans intersecting [start, end), splicing
+// their text back into the parent and normalizing adjacent text nodes.
+function unwrapAnnotations(blockEl, start, end) {
+  if (!blockEl) return;
+  const whole = (start == null && end == null);
+  const spans = blockEl.querySelectorAll('span[class*="annot-"]');
+  for (var i = spans.length - 1; i >= 0; i--) {
+    const sp = spans[i];
+    // compute this span's offset range within the block
+    var sOff = 0, el = sp;
+    while ((el = el.previousSibling)) {
+      sOff += el.textContent ? el.textContent.length : 0;
+    }
+    const eOff = sOff + sp.textContent.length;
+    if (!whole && !(eOff > start && sOff < end)) continue; // no intersection
+    const parent = sp.parentNode;
+    while (sp.firstChild) parent.insertBefore(sp.firstChild, sp);
+    parent.removeChild(sp);
+  }
+  blockEl.normalize();
+}
+
+// Apply all stored annotations for the currently open lesson (or a given id).
+// Sorted by start ascending, applied in reverse so earlier offsets stay valid.
+function applyAnnotationsToLesson(lessonId) {
+  if (!lessonId) return;
+  const body = document.getElementById('lessonBody');
+  if (!body) return;
+  const ann = state.annotations || {};
+  Object.keys(ann).forEach(function (key) {
+    if (key.indexOf(lessonId + ':') !== 0) return;
+    const bidx = parseInt(key.split(':')[1], 10);
+    const block = body.children[bidx];
+    if (!block || !Array.isArray(ann[key])) return;
+    const entries = ann[key]
+      .filter(function (a) { return a && typeof a.s === 'number' && typeof a.e === 'number' && typeof a.k === 'string'; })
+      .sort(function (a, b) { return a.s - b.s; });
+    for (var i = entries.length - 1; i >= 0; i--) {
+      try {
+        wrapTextRange(block, entries[i].s, entries[i].e, annotSpanClass(entries[i].k));
+      } catch (e) { /* tolerate malformed entries */ }
+    }
+  });
+}
+
+// ---- floating toolbar ----------------------------------------------------
+
+var annotBar = null;
+
+function buildAnnotBar() {
+  if (annotBar) return annotBar;
+  annotBar = document.createElement('div');
+  annotBar.className = 'annot-bar';
+  annotBar.setAttribute('data-annot-bar', '1');
+
+  function mkBtn(html, title, fn) {
+    const b = document.createElement('button');
+    b.className = 'abtn';
+    b.type = 'button';
+    b.title = title;
+    b.innerHTML = html;
+    b.addEventListener('mousedown', function (ev) { ev.preventDefault(); ev.stopPropagation(); }); // keep selection
+    b.addEventListener('click', function (ev) { ev.preventDefault(); ev.stopPropagation(); fn(); });
+    return b;
+  }
+
+  const swatches = [
+    ['hl-yellow', 'rgba(233,196,106,.9)', 'Highlight — yellow'],
+    ['hl-green', 'rgba(134,168,110,.9)', 'Highlight — green'],
+    ['hl-blue', 'rgba(129,161,197,.9)', 'Highlight — blue'],
+    ['hl-pink', 'rgba(201,120,140,.9)', 'Highlight — pink']
+  ];
+  swatches.forEach(function (sw) {
+    annotBar.appendChild(mkBtn('<span class="swatch" style="background:' + sw[1] + '"></span>', sw[2], function () {
+      applyAnnotFromSelection(sw[0]);
+    }));
+  });
+  annotBar.appendChild(mkBtn('<strong>B</strong>', 'Bold', function () { applyAnnotFromSelection('bold'); }));
+  annotBar.appendChild(mkBtn('<span style="text-decoration:underline;text-underline-offset:2px;">U</span>', 'Underline', function () { applyAnnotFromSelection('underline'); }));
+  const dots = [
+    ['tc-red', '#b23a2f', 'Text color — red'],
+    ['tc-green', '#2e4a3a', 'Text color — green'],
+    ['tc-blue', '#3a5a8c', 'Text color — blue']
+  ];
+  dots.forEach(function (d) {
+    annotBar.appendChild(mkBtn('<span class="dot" style="background:' + d[1] + '"></span>', d[2], function () {
+      applyAnnotFromSelection(d[0]);
+    }));
+  });
+  annotBar.appendChild(mkBtn('🗑️', 'Remove marks in selection', function () { removeAnnotFromSelection(); }));
+  annotBar.appendChild(mkBtn('✕', 'Dismiss', function () { hideAnnotBar(); }));
+
+  document.body.appendChild(annotBar);
+  return annotBar;
+}
+
+function hideAnnotBar() {
+  if (annotBar) annotBar.classList.remove('show');
+}
+
+function showAnnotBarForSelection() {
+  const sel = window.getSelection();
+  if (!sel || sel.rangeCount === 0 || sel.isCollapsed) { hideAnnotBar(); return; }
+  const range = sel.getRangeAt(0);
+  // selection must live wholly inside #lessonBody (not quizzes, not key terms)
+  const body = document.getElementById('lessonBody');
+  function nodeInBody(n) {
+    const el = (n && n.nodeType === 1) ? n : (n && n.parentNode);
+    return !!el && body && el !== body && body.contains(el);
+  }
+  if (!nodeInBody(range.startContainer) || !nodeInBody(range.endContainer)) { hideAnnotBar(); return; }
+  let rect;
+  try { rect = range.getBoundingClientRect(); } catch (e) { hideAnnotBar(); return; }
+  if (!rect || (rect.width === 0 && rect.height === 0)) { hideAnnotBar(); return; }
+
+  const bar = buildAnnotBar();
+  document.body.appendChild(bar); // no-op if already attached; keeps position last
+  bar.classList.add('show');
+  // position above the selection, clamped to the viewport
+  var x = rect.left + window.pageXOffset + (rect.width / 2) - (bar.offsetWidth / 2);
+  var y = rect.top + window.pageYOffset - bar.offsetHeight - 8;
+  if (y < window.pageYOffset + 4) y = rect.bottom + window.pageYOffset + 8; // flip below if no room
+  x = Math.max(window.pageXOffset + 4, Math.min(x, window.pageXOffset + document.documentElement.clientWidth - bar.offsetWidth - 4));
+  bar.style.left = Math.round(x) + 'px';
+  bar.style.top = Math.round(y) + 'px';
+}
+
+// Find the #lessonBody child block containing the current selection's anchor;
+// returns { block, bidx } or null. Multi-block selections clamp to the anchor block.
+function annotBlockForSelection(sel) {
+  const body = document.getElementById('lessonBody');
+  if (!body || !sel || sel.rangeCount === 0) return null;
+  const range = sel.getRangeAt(0);
+  let node = range.startContainer;
+  if (node.nodeType === 1) node = node.firstChild || node; // element start → descend
+  let el = node ? (node.nodeType === 1 ? node : node.parentNode) : null;
+  while (el && el.parentNode !== body) el = el.parentNode;
+  if (!el) return null;
+  const bidx = parseInt(el.getAttribute('data-bidx'), 10);
+  if (isNaN(bidx)) return null;
+  return { block: el, bidx: bidx };
+}
+
+// Character offset of a node within a block's textContent (TreeWalker counting).
+function annotOffsetInBlock(blockEl, node, offsetInNode) {
+  if (node.nodeType !== 3) {
+    // element node: offset is a child index — measure text before that child
+    let child = node.childNodes[offsetInNode];
+    if (!child) return blockEl.textContent.length;
+    node = child.nodeType === 3 ? child : (child.firstChild || child);
+    offsetInNode = 0;
+    if (node.nodeType !== 3) return 0;
+  }
+  const walker = document.createTreeWalker(blockEl, NodeFilter.SHOW_TEXT, null, false);
+  var n, cum = 0;
+  while ((n = walker.nextNode())) {
+    if (n === node) return cum + offsetInNode;
+    cum += n.nodeValue.length;
+  }
+  return blockEl.textContent.length; // fallback: end of block
+}
+
+function applyAnnotFromSelection(kind) {
+  if (!currentLessonId || ANNOT_KINDS.indexOf(kind) === -1) { hideAnnotBar(); return; }
+  const sel = window.getSelection();
+  const found = annotBlockForSelection(sel);
+  if (!found || !sel || sel.rangeCount === 0 || sel.isCollapsed) { hideAnnotBar(); return; }
+  const range = sel.getRangeAt(0);
+  const s = annotOffsetInBlock(found.block, range.startContainer, range.startOffset);
+  const e = annotOffsetInBlock(found.block, range.endContainer, range.endOffset);
+  if (e <= s) { hideAnnotBar(); return; }
+
+  const key = currentLessonId + ':' + found.bidx;
+  if (!state.annotations) state.annotations = {};
+  if (!Array.isArray(state.annotations[key])) state.annotations[key] = [];
+  state.annotations[key].push({ s: s, e: e, k: kind });
+  saveState();
+  wrapTextRange(found.block, s, e, annotSpanClass(kind));
+  // keep the same passage selected so styles can be stacked without re-selecting
+  try {
+    sel.removeAllRanges();
+    const keep = document.createRange();
+    const blkText = found.block.textContent;
+    keep.selectNodeContents(found.block);
+    const walker = document.createTreeWalker(found.block, NodeFilter.SHOW_TEXT, null, false);
+    var n, cum = 0, sn = null, so = 0, en = null, eo = 0;
+    while ((n = walker.nextNode())) {
+      const len = n.nodeValue.length;
+      if (sn === null && cum + len >= s) { sn = n; so = s - cum; }
+      if (en === null && cum + len >= e) { en = n; eo = e - cum; }
+      cum += len;
+    }
+    if (sn && en) {
+      keep.setStart(sn, Math.min(so, sn.nodeValue.length));
+      keep.setEnd(en, Math.min(eo, en.nodeValue.length));
+      sel.addRange(keep);
+    } else {
+      keep.setStart(found.block, 0);
+      keep.setEnd(found.block, blkText.length);
+    }
+  } catch (err) { /* best-effort selection restore */ }
+  showAnnotBarForSelection();
+}
+
+function removeAnnotFromSelection() {
+  if (!currentLessonId) { hideAnnotBar(); return; }
+  const sel = window.getSelection();
+  const found = annotBlockForSelection(sel);
+  if (!found || !sel || sel.rangeCount === 0) { hideAnnotBar(); return; }
+  const range = sel.getRangeAt(0);
+  const s = annotOffsetInBlock(found.block, range.startContainer, range.startOffset);
+  const e = annotOffsetInBlock(found.block, range.endContainer, range.endOffset);
+  const key = currentLessonId + ':' + found.bidx;
+  const list = (state.annotations || {})[key];
+  hideAnnotBar();
+  try { sel.removeAllRanges(); } catch (err) {}
+  if (!Array.isArray(list)) return;
+  state.annotations[key] = list.filter(function (a) {
+    if (!a || typeof a.s !== 'number' || typeof a.e !== 'number') return true; // keep malformed out of the math
+    return !(a.e > s && a.s < e); // drop intersecting entries
+  });
+  if (state.annotations[key].length === 0) delete state.annotations[key];
+  saveState();
+  // re-render this block from stored state: strip engine spans, re-apply rest
+  unwrapAnnotations(found.block);
+  const remaining = (state.annotations[key] || []).slice().sort(function (a, b) { return a.s - b.s; });
+  for (var i = remaining.length - 1; i >= 0; i--) {
+    try { wrapTextRange(found.block, remaining[i].s, remaining[i].e, annotSpanClass(remaining[i].k)); }
+    catch (err) {}
+  }
+}
+
+// selection toolbar wiring — selectionchange covers touch/keyboard, mouseup is the desktop fallback
+document.addEventListener('selectionchange', function () {
+  // small delay so iOS reports final geometry
+  setTimeout(showAnnotBarForSelection, 10);
+});
+document.addEventListener('mouseup', function () {
+  setTimeout(showAnnotBarForSelection, 10);
+});
 
 /* ----------------------------------------------------------------
  * PRACTICE EXAM
