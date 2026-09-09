@@ -43,20 +43,30 @@ npm start          # launch the dojo as an app
 
 ```bash
 cd desktop
-CSC_NAME="Developer ID Application: YOUR NAME (TEAM_ID)" \
+CSC_NAME="YOUR NAME (TEAM_ID)" \
 APPLE_ID="your@apple.id" \
 APPLE_TEAM_ID="TEAM_ID" \
-APPLE_APP_SPECIFIED_PASSWORD="app-specific-password" \
+APPLE_APP_SPECIFIC_PASSWORD="app-specific-password" \
 npm run dist
 ```
+
+Note: `CSC_NAME` must be just the certificate's common name — omit the
+`Developer ID Application:` prefix, or electron-builder errors out.
 
 Output lands in `desktop/dist/`: `CAPM Training Dojo-1.0.0-arm64.dmg` (Apple Silicon),
 `-x64.dmg` (Intel), plus zips. Drag to /Applications — it opens with no warnings
 once notarized.
 
-Shortcut: `notarytool store-credentials` (step 3 above) lets electron-builder find
-credentials by keychain profile; if you did that, plain `npm run dist` works and you
-only need `CSC_NAME` in env.
+Shortcut (preferred — no Apple ID/password sitting in shell env or history):
+after `notarytool store-credentials` (step 3 above), just set the keychain profile
+name and `CSC_NAME`:
+
+```bash
+cd desktop
+CSC_NAME="YOUR NAME (TEAM_ID)" \
+APPLE_KEYCHAIN_PROFILE="capm-dojo-notary" \
+npm run dist
+```
 
 ### Build (unsigned — fine for personal use, right-click→Open on first launch)
 
