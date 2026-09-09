@@ -1,0 +1,51 @@
+{
+  "name": "capm-dojo",
+  "productName": "CAPM Training Dojo",
+  "version": "1.0.0",
+  "description": "Professor Ainsworth's CAPM exam-prep dojo — offline desktop edition",
+  "author": "Kyle Gomez",
+  "license": "UNLICENSED",
+  "private": true,
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "refresh": "cp ../web/index.html app/index.html",
+    "prestart": "npm run refresh",
+    "predist": "npm run refresh",
+    "predist:unsigned": "npm run refresh",
+    "presmoke": "npm run refresh",
+    "smoke": "DOJO_SMOKE_TEST=1 electron . --no-sandbox",
+    "dist": "electron-builder --mac",
+    "dist:unsigned": "electron-builder --mac --config.mac.identity=null --config.mac.notarize=false"
+  },
+  "devDependencies": {
+    "electron": "^44.3.0",
+    "electron-builder": "^25.1.8"
+  },
+  "build": {
+    "appId": "com.kylegomez.capm-dojo",
+    "productName": "CAPM Training Dojo",
+    "asar": true,
+    "files": [
+      "main.js",
+      "app/**/*",
+      "package.json"
+    ],
+    "mac": {
+      "category": "public.app-category.education",
+      "icon": "icon.png",
+      "target": [
+        { "target": "dmg", "arch": ["arm64", "x64"] },
+        { "target": "zip", "arch": ["arm64", "x64"] }
+      ],
+      "hardenedRuntime": true,
+      "entitlements": "entitlements.mac.plist",
+      "entitlementsInherit": "entitlements.mac.plist",
+      "notarize": true
+    },
+    "dmg": {
+      "title": "CAPM Training Dojo ${version}",
+      "background": null
+    }
+  }
+}

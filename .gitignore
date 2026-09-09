@@ -9,3 +9,8 @@ session/eco.pdf
 # OS/editor cruft
 .DS_Store
 *.swp
+
+# Electron desktop wrapper
+desktop/node_modules/
+desktop/dist/
+desktop/app/index.html
