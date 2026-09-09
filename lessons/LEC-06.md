@@ -85,3 +85,12 @@ As markets shift from single to ongoing delivery, organizations pursue three str
 3. In one sentence each: how does a product life cycle differ from a project life cycle, and what are the three global market shifts driving organizations toward product management?
 
 Bring written answers to the next session, Mr. Gomez. The appendices are the quiet corner of the exam nobody studies — meaning the points are just sitting there for someone who read the whole book. Be that someone.
+
+## Addendum — The Project Team and the Sponsor: Two Different Jobs
+
+One more comparison the ECO insists on, Mr. Gomez, and it is a shorter distance to walk than PM-versus-sponsor, but the exam still enjoys blurring it.
+
+- The **project team** does the work: they plan, build, test, and deliver within the authority the charter grants the project manager. Their accountability is *inward and immediate* — the quality of today's deliverable, the honesty of today's status, the discipline of following the plans and registers we studied in Session Five.
+- The **sponsor** does not do the work; the sponsor *authorizes, resources, and shields* it. Recall the six areas of sponsor support from Appendix X2 — vision, business value, customer focus, decisions, motivation, accountability — every one of them sits *above* the team's day-to-day authority, not beside it. Where the team escalates a blocked decision, a denied resource, or a cross-department conflict, it escalates to the sponsor, because the team lacks the position power to resolve it itself.
+- The clean test the exam wants: if a question describes someone *doing project work* — building, testing, estimating, attending the standup — that is the team. If it describes someone *making decisions, securing funding, or being held accountable to the business for outcomes after closure* — that is the sponsor. A team member is never expected to accept or reject deliverables on the organization's behalf; that authority, per X2.2, belongs to the sponsor.
+- *Bar Exam:* watch for a distractor that hands the team a sponsor's function — "the team should approve the revised business case" — or hands the sponsor a team's function — "the sponsor should update the risk register." Both are wrong for the same reason: each role stays inside its own lane, coordinated but never interchangeable.

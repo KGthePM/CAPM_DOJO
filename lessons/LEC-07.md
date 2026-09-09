@@ -108,3 +108,15 @@ Hybrid is not a cop-out, Mr. Gomez; it is *tailoring in action*. The wrong answe
 3. Your vice president wants quarterly milestone baselines for the steering committee, but your software team is delivering working increments every two weeks. What is this approach called, and which PMBOK principle licenses it?
 
 Two weeks of waterfall thinking will not survive contact with Domain III, Mr. Gomez. Read the manifesto aloud once — yes, aloud; the rhythms aid recall — and come back ready for the field guide. Scrum's vocabulary is next, and I intend for you to conjugate it fluently.
+
+## Addendum — Organizational Structure and Adaptive Fit
+
+One more filter belongs in your suitability toolkit, Mr. Gomez, and the ECO names it by structure, not just by culture: how is the organization actually *shaped*, and does that shape let agility breathe?
+
+**Colocated teams** are agile's home turf — everyone in one room, feedback instant, the "cave and common" arrangement the Practice Guide praises. **Virtual teams**, dispersed across geography and time zones, can absolutely run agile — daily scrums and retrospectives translate fine over video — but the organization must *deliberately* supply what colocation gives for free: modern collaboration tooling, disciplined asynchronous communication, and explicit working agreements about overlap hours. A virtual team without that scaffolding does not fail because it is virtual; it fails because nobody built the bridge.
+
+**Matrix structures** — where a developer answers to both a functional manager and a project/product lead — are a mixed bag for agility. A *strong* matrix, which grants the project side real authority over the team's time, is workable; a *weak* matrix, where functional managers keep pulling people onto other priorities, poisons the dedicated, stable team membership that Scrum and XP both assume. Remember the earlier warning about decentralized portfolios splitting people across many projects — a weak matrix is that warning made structural.
+
+**Hierarchical (functional) structures** — rigid departmental silos with authority concentrated at the top — are agile's least hospitable home. Decisions that a self-organizing team should make locally instead climb a chain of approval, and the cross-functional membership agile teams need gets blocked by departments that will not lend their people across boundaries.
+
+- *Bar Exam:* a scenario naming the structure ("the team reports through a strict functional hierarchy," "developers split time across three project managers in a weak matrix") is testing this objective specifically. The tell is structural language, not just "the culture resists change." Strong matrix or a dedicated project-oriented structure → agile-friendly; weak matrix or rigid hierarchy → agile-hostile; virtual → agile-friendly *only if* tooling and agreements are in place.

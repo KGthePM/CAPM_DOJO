@@ -99,6 +99,7 @@
 
   /* ---------- Home ---------- */
   .welcome-note { font-style: italic; color: var(--ink-soft); }
+  .welcome-attrib { text-align: right; font-style: normal; color: var(--oxblood); font-size: 0.88em; margin-top: 6px; }
   .prof-sig { text-align: right; font-style: italic; color: var(--oxblood); margin-top: 10px; }
   .progress-bar-outer {
     background: var(--parchment-dark); border: 1px solid #c9b992;
@@ -160,6 +161,7 @@
   .opt:disabled { cursor: default; }
   .opt.correct { background: rgba(46,74,58,0.18); border-color: var(--forest); font-weight: bold; }
   .opt.wrong { background: rgba(94,31,31,0.15); border-color: var(--oxblood); text-decoration: line-through; }
+  .opt.selected { background: rgba(60,60,90,0.12); border-color: var(--forest); font-weight: bold; }
   .feedback {
     border-left: 4px solid var(--gold); background: rgba(169,131,47,0.1);
     padding: 12px 14px; border-radius: 0 8px 8px 0; margin: 14px 0; display: none;
@@ -202,6 +204,7 @@
       <button data-screen="home" class="active">🏠 Home</button>
       <button data-screen="lectures">📖 Lectures</button>
       <button data-screen="exam">📜 Practice Exam</button>
+      <button data-screen="grand">🏛️ Grand Examination</button>
     </nav>
   </div>
 </header>
@@ -212,11 +215,15 @@
   <section class="screen active" id="screen-home">
     <div class="panel">
       <h2>🏛️ Welcome to the Dojo</h2>
-      <p class="welcome-note">
+      <p class="welcome-note" id="welcomeNote">
         Sit down, sharpen your pencil, and mind the clock. Here we drill the PMI way of
         thinking until it is second nature. Progress is recorded in the ledger below —
         the dojo forgets nothing.
       </p>
+      <p class="welcome-attrib" id="welcomeAttrib"></p>
+      <div style="text-align:right; margin-top:8px;">
+        <button class="btn ghost" style="padding:4px 12px; font-size:0.85em;" onclick="renderWelcomeQuote()">🔄 Another Word, Professor?</button>
+      </div>
       <p class="prof-sig">— The Professor 🎓</p>
     </div>
 
@@ -239,6 +246,25 @@
         <button class="btn ox" onclick="showScreen('exam')">📜 Take Practice Exam</button>
         <button class="btn ghost" onclick="resetProgress()">🧹 Reset Ledger</button>
       </div>
+    </div>
+
+    <div class="panel">
+      <h2>🏛️ Grand Examination Record</h2>
+      <div class="stat-grid">
+        <div class="stat-box"><div class="big" id="geStatBest">—</div><div class="lbl">Best Score 🏆</div></div>
+        <div class="stat-box"><div class="big" id="geStatLast">—</div><div class="lbl">Last Attempt 🖋️</div></div>
+        <div class="stat-box"><div class="big" id="geStatAttempts">0</div><div class="lbl">Total Attempts 🔁</div></div>
+        <div class="stat-box"><div class="big" id="geStatVerdict">—</div><div class="lbl">Readiness Verdict ⚖️</div></div>
+      </div>
+      <div style="margin-top:16px;">
+        <button class="btn ox" onclick="showScreen('grand')">🏛️ Enter the Grand Examination</button>
+      </div>
+    </div>
+
+    <div class="panel hide" id="weakAreaPanel">
+      <h2>🎯 Weak-Area Watch</h2>
+      <p id="weakAreaText"></p>
+      <button class="btn" onclick="showScreen('exam')">🎯 Go Drill My Misses</button>
     </div>
   </section>
 
@@ -275,7 +301,10 @@
       </p>
       <h3 style="margin-top:14px;">Number of questions:</h3>
       <div class="numpick" id="numPick"></div>
-      <button class="btn ox" onclick="startQuiz()">⚔️ Begin the Trial</button>
+      <div style="margin-top:14px; display:flex; gap:10px; flex-wrap:wrap;">
+        <button class="btn ox" onclick="startQuiz()">⚔️ Begin the Trial</button>
+        <button class="btn ghost" onclick="startDrillQuiz()">🎯 Drill My Misses</button>
+      </div>
     </div>
 
     <!-- question -->
@@ -308,6 +337,62 @@
       </div>
       <div style="margin-top:20px;display:flex;gap:10px;flex-wrap:wrap;">
         <button class="btn ox" onclick="resetQuizUI()">⚔️ Retake the Trial</button>
+        <button class="btn ghost" onclick="showScreen('home')">🏠 Return Home</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ GRAND EXAMINATION ============ -->
+  <section class="screen" id="screen-grand">
+    <!-- setup -->
+    <div class="panel" id="geSetup">
+      <h2>🏛️ The Grand Examination Hall</h2>
+      <p style="font-style:italic;color:var(--ink-soft);">
+        150 questions. Three hours. One ten-minute recess after Question 75, from which there
+        is no return to what came before — exactly as the examiners intend. Questions are drawn
+        weighted to the real ECO domain split (36% Fundamentals / 17% Predictive / 20% Agile /
+        27% Business Analysis). No verdict is given after each question — only at the end, as
+        in the genuine trial.
+      </p>
+      <div id="geReadinessBox" style="margin-top:14px;"></div>
+      <button class="btn ox" id="geBeginBtn" onclick="startGrandExam()">🏛️ Begin the Grand Examination</button>
+    </div>
+
+    <!-- question -->
+    <div class="panel hide" id="geQuestion">
+      <div>
+        <span class="chip" id="geDomain"></span>
+        <span class="chip diff" id="geDiff"></span>
+        <span class="chip timer" id="geTimer">⏱️ 3:00:00</span>
+        <span style="float:right;font-style:italic;color:var(--ink-soft);" id="geProgress"></span>
+      </div>
+      <div class="qstem" id="geStem"></div>
+      <div id="geOptions"></div>
+      <button class="btn hide" id="geNextBtn" onclick="nextGrandQuestion()">Next Question →</button>
+    </div>
+
+    <!-- break -->
+    <div class="panel hide" id="geBreak">
+      <h2>☕ Section 1 Complete</h2>
+      <p>Questions 1–75 are now locked, Mr. Gomez — no returning to them, precisely as the real
+        exam demands. Take your ten minutes. The clock below is a courtesy; it does not gate you.</p>
+      <div class="bigscore" id="geBreakTimer">10:00</div>
+      <button class="btn ox" onclick="resumeGrandExam()">▶️ Resume the Examination</button>
+    </div>
+
+    <!-- results -->
+    <div class="panel hide" id="geResults">
+      <h2>🏁 The Grand Examination — Verdict</h2>
+      <div class="bigscore" id="geFinalScore"></div>
+      <div id="geFinalVerdict" style="font-style:italic;margin:8px 0 18px;"></div>
+      <h3>Per-Domain Breakdown (ECO Weighting)</h3>
+      <table class="domain-table" id="geDomainTable"></table>
+      <div id="geMissReviewWrap" style="margin-top:22px;">
+        <h3>🔍 Review Your Misses</h3>
+        <div id="geMissReview"></div>
+      </div>
+      <div style="margin-top:20px;display:flex;gap:10px;flex-wrap:wrap;">
+        <button class="btn ox" onclick="resetGrandExamUI()">🏛️ Return to the Hall</button>
         <button class="btn ghost" onclick="showScreen('home')">🏠 Return Home</button>
       </div>
     </div>
@@ -922,7 +1007,10 @@ const LESSONS = [
       "<ul><li><strong>Project sponsor</strong> — the decision leader providing authority and position power beyond the PM's, linking the team to executive strategy</li><li><strong>Sponsor behaviors</strong> — Resource, Guide, Align, Tailor, Influence, Communicate, Partner, Check, Unblock</li><li><strong>PMO</strong> — management structure standardizing project governance processes and facilitating sharing of resources, methodologies, and tools</li><li><strong>EPMO</strong> — enterprise-level PMO linking strategy implementation with portfolio investments in programs and projects</li><li><strong>ACoE/VDO</strong> — Agile Center of Excellence / Value Delivery Office; an enabling (not oversight) role that coaches teams and mentors sponsors and product owners</li><li><strong>Benefits realization</strong> — verifying that intended business value is actually achieved; the pressure driving PMO evolution</li><li><strong>Product</strong> — quantifiable artifact, either an end item or a component</li><li><strong>Product life cycle</strong> — evolution of a product from concept through delivery, growth, maturity, and retirement</li><li><strong>Stable teams</strong> — long-standing teams that sustain and evolve a product, preserving tacit knowledge and customer focus</li><li><strong>Incremental funding</strong> — frequent review-and-fund cycles (e.g., quarterly) directing investment toward value-delivering products</li></ul>",
       "<h2>Self-Check Questions</h2>",
       "<p>1. A project team is stuck: a vice president and a department head both claim the same senior engineer, decisions are taking weeks, and two team members have quietly been reassigned. Which role's absence explains all three symptoms, and which specific functions are going unperformed? 2. Your organization wants a PMO that coaches teams, builds agile capability, and mentors product owners — with no oversight authority. Which structure fits, and how does it differ from an EPMO? 3. In one sentence each: how does a product life cycle differ from a project life cycle, and what are the three global market shifts driving organizations toward product management?</p>",
-      "<p>Bring written answers to the next session, Mr. Gomez. The appendices are the quiet corner of the exam nobody studies — meaning the points are just sitting there for someone who read the whole book. Be that someone.</p>"
+      "<p>Bring written answers to the next session, Mr. Gomez. The appendices are the quiet corner of the exam nobody studies — meaning the points are just sitting there for someone who read the whole book. Be that someone.</p>",
+      "<h2>Addendum — The Project Team and the Sponsor: Two Different Jobs</h2>",
+      "<p>One more comparison the ECO insists on, Mr. Gomez, and it is a shorter distance to walk than PM-versus-sponsor, but the exam still enjoys blurring it.</p>",
+      "<ul><li>The <strong>project team</strong> does the work: they plan, build, test, and deliver within the authority the charter grants the project manager. Their accountability is <em>inward and immediate</em> — the quality of today's deliverable, the honesty of today's status, the discipline of following the plans and registers we studied in Session Five.</li><li>The <strong>sponsor</strong> does not do the work; the sponsor <em>authorizes, resources, and shields</em> it. Recall the six areas of sponsor support from Appendix X2 — vision, business value, customer focus, decisions, motivation, accountability — every one of them sits <em>above</em> the team's day-to-day authority, not beside it. Where the team escalates a blocked decision, a denied resource, or a cross-department conflict, it escalates to the sponsor, because the team lacks the position power to resolve it itself.</li><li>The clean test the exam wants: if a question describes someone <em>doing project work</em> — building, testing, estimating, attending the standup — that is the team. If it describes someone <em>making decisions, securing funding, or being held accountable to the business for outcomes after closure</em> — that is the sponsor. A team member is never expected to accept or reject deliverables on the organization's behalf; that authority, per X2.2, belongs to the sponsor.</li><li><em>Bar Exam:</em> watch for a distractor that hands the team a sponsor's function — \"the team should approve the revised business case\" — or hands the sponsor a team's function — \"the sponsor should update the risk register.\" Both are wrong for the same reason: each role stays inside its own lane, coordinated but never interchangeable.</li></ul>"
     ],
     keyTerms: [
           {
@@ -1017,7 +1105,13 @@ const LESSONS = [
       "<ul><li><strong>Predictive life cycle</strong> — scope, schedule, and cost fixed early; change formally controlled</li><li><strong>Adaptive (agile) life cycle</strong> — iterative plus incremental; timeboxed iterations each deliver a usable, tested increment</li><li><strong>Iterative</strong> — repeated cycles that refine the product toward correctness</li><li><strong>Incremental</strong> — delivery of the product in usable pieces, one slice at a time</li><li><strong>Hybrid</strong> — deliberate combination of predictive and adaptive elements, chosen through tailoring</li><li><strong>Timebox</strong> — fixed maximum duration for an iteration; scope flexes, time does not</li><li><strong>Agile Manifesto</strong> — 2001 statement of 4 values and 12 principles underlying all agile frameworks</li><li><strong>Suitability filter</strong> — X3 assessment scoring Culture, Team, and Project attributes on a radar chart; center = agile, periphery = predictive, middle = hybrid</li><li><strong>Definable work</strong> — low-uncertainty work with proven procedures (the predictive home turf)</li><li><strong>High-uncertainty work</strong> — exploratory work with high change, complexity, and risk (the adaptive home turf)</li><li><strong>Backlog</strong> — single ordered list of all known work; the adaptive replacement for the scope baseline</li></ul>",
       "<h2>Self-Check Questions</h2>",
       "<p>1. A hospital commissions a patient-monitoring device where failure means death, requirements are fixed by regulation, and the contract freezes scope. Predictive, adaptive, or hybrid — and which suitability factors decide it? 2. Recite the four Manifesto values from memory. Then explain, in one sentence each, why \"agile teams don't write documentation\" is a misreading. 3. Your vice president wants quarterly milestone baselines for the steering committee, but your software team is delivering working increments every two weeks. What is this approach called, and which PMBOK principle licenses it?</p>",
-      "<p>Two weeks of waterfall thinking will not survive contact with Domain III, Mr. Gomez. Read the manifesto aloud once — yes, aloud; the rhythms aid recall — and come back ready for the field guide. Scrum's vocabulary is next, and I intend for you to conjugate it fluently.</p>"
+      "<p>Two weeks of waterfall thinking will not survive contact with Domain III, Mr. Gomez. Read the manifesto aloud once — yes, aloud; the rhythms aid recall — and come back ready for the field guide. Scrum's vocabulary is next, and I intend for you to conjugate it fluently.</p>",
+      "<h2>Addendum — Organizational Structure and Adaptive Fit</h2>",
+      "<p>One more filter belongs in your suitability toolkit, Mr. Gomez, and the ECO names it by structure, not just by culture: how is the organization actually <em>shaped</em>, and does that shape let agility breathe?</p>",
+      "<p><strong>Colocated teams</strong> are agile's home turf — everyone in one room, feedback instant, the \"cave and common\" arrangement the Practice Guide praises. <strong>Virtual teams</strong>, dispersed across geography and time zones, can absolutely run agile — daily scrums and retrospectives translate fine over video — but the organization must <em>deliberately</em> supply what colocation gives for free: modern collaboration tooling, disciplined asynchronous communication, and explicit working agreements about overlap hours. A virtual team without that scaffolding does not fail because it is virtual; it fails because nobody built the bridge.</p>",
+      "<p><strong>Matrix structures</strong> — where a developer answers to both a functional manager and a project/product lead — are a mixed bag for agility. A <em>strong</em> matrix, which grants the project side real authority over the team's time, is workable; a <em>weak</em> matrix, where functional managers keep pulling people onto other priorities, poisons the dedicated, stable team membership that Scrum and XP both assume. Remember the earlier warning about decentralized portfolios splitting people across many projects — a weak matrix is that warning made structural.</p>",
+      "<p><strong>Hierarchical (functional) structures</strong> — rigid departmental silos with authority concentrated at the top — are agile's least hospitable home. Decisions that a self-organizing team should make locally instead climb a chain of approval, and the cross-functional membership agile teams need gets blocked by departments that will not lend their people across boundaries.</p>",
+      "<ul><li><em>Bar Exam:</em> a scenario naming the structure (\"the team reports through a strict functional hierarchy,\" \"developers split time across three project managers in a weak matrix\") is testing this objective specifically. The tell is structural language, not just \"the culture resists change.\" Strong matrix or a dedicated project-oriented structure → agile-friendly; weak matrix or rigid hierarchy → agile-hostile; virtual → agile-friendly <em>only if</em> tooling and agreements are in place.</li></ul>"
     ],
     keyTerms: [
           {
@@ -1112,7 +1206,13 @@ const LESSONS = [
       "<ul><li><strong>Scrum</strong> — lightweight framework of 3 roles, 5 events, 3 artifacts delivering iterations in fixed sprints</li><li><strong>Product Owner</strong> — accountable for backlog content and ordering; maximizes product value</li><li><strong>Scrum Master</strong> — servant leader who facilitates events and removes impediments; not a task-assigning PM</li><li><strong>Sprint</strong> — fixed 1–4 week timebox producing a usable increment; scope flexes, time does not</li><li><strong>Definition of Done</strong> — shared quality checklist an increment must satisfy; story-level success criterion</li><li><strong>Extreme Programming (XP)</strong> — agile approach centered on engineering quality: pairing, TDD, continuous integration, sustainable pace</li><li><strong>WIP limit</strong> — Kanban cap on work allowed in a workflow state; exposes bottlenecks, enforces finish-before-start</li><li><strong>Pull system</strong> — work enters the process only when capacity frees (Kanban), versus timebox-push (Scrum)</li><li><strong>Agile Release Train (ART)</strong> — SAFe's long-lived team of agile teams (50–125 people) on a shared cadence</li><li><strong>Program Increment (PI)</strong> — SAFe timebox (8–12 weeks) of iterations, opened by PI Planning</li><li><strong>Velocity</strong> — average story points completed per iteration; capacity and release forecasting</li><li><strong>Burn-up chart</strong> — completed vs. total work; makes scope change visible</li></ul>",
       "<h2>Self-Check Questions</h2>",
       "<p>1. A team's board shows the \"In Review\" column perpetually full while others sit empty. Which framework's defining practice would surface this, and what specific mechanism causes the signal? 2. During a sprint, a stakeholder demands an urgent feature be added immediately. Walk through which Scrum roles and events are involved in the correct response — and what does <em>not</em> happen. 3. Your program has forty developers across five teams whose releases keep colliding. Which framework and construct apply, what is the cadence's name and length, and who facilitates it?</p>",
-      "<p>There it is, Mr. Gomez: the field guide. Four frameworks, one disposition — deliver value early, inspect honestly, improve relentlessly. Next session: business analysis, twenty-seven percent of your exam. Bring coffee. I certainly will.</p>"
+      "<p>There it is, Mr. Gomez: the field guide. Four frameworks, one disposition — deliver value early, inspect honestly, improve relentlessly. Next session: business analysis, twenty-seven percent of your exam. Bring coffee. I certainly will.</p>",
+      "<h2>Addendum — The Logical Units of an Iteration, and Where Scope Comes From</h2>",
+      "<p>Two loose threads from iteration planning deserve their own thread count.</p>",
+      "<p><strong>The logical units, largest to smallest.</strong> An adaptive plan is not one flat list — it nests, along two axes the exam likes to blur into one. The <strong>release</strong> is the largest unit, a milestone that bundles several iterations into something the customer can actually use. An <strong>epic</strong> is the next size down — a large body of work too big to finish inside a single iteration, which is exactly why it is bigger than one: an epic needs <em>several</em> iterations' worth of stories before it is done. Only below the epic do you reach the <strong>iteration</strong> (sprint) itself — the fixed timebox the ECO means when it asks you to \"distinguish the logical units.\" Inside each iteration the team completes <strong>user stories</strong> sliced out of whichever epic they belong to (the standard \"as a \\_\\_\\_, I want \\_\\_\\_, so that \\_\\_\\_\" slice of value, sized to fit inside a single iteration), and a story splits further into <strong>tasks</strong> (the technical to-do items the Developers actually check off day to day). Release → epic → iteration → story → task: the release answers \"when do customers get value,\" the epic answers \"what large capability are we building,\" the iteration answers \"what will we finish next,\" the story answers \"what does done look like,\" and the task answers \"what do I do this afternoon.\"</p>",
+      "<ul><li><em>Bar Exam:</em> if a scenario says a work item is \"too large to fit in one sprint,\" the fix is to split the epic into smaller stories — <em>not</em> to lengthen the sprint. The timebox is fixed; the unit of work bends to it, never the reverse.</li></ul>",
+      "<p><strong>Where scope inputs come from.</strong> Predictive planning pulls scope from a signed-off requirements document. Adaptive planning has no such single artifact — scope is assembled continuously from several living inputs: the <strong>project charter and vision</strong> (the why, from Section 5.1 — what \"done\" means for the release); the <strong>product roadmap</strong> (the direction of travel across releases); <strong>personas and the voice of the customer</strong> (who the work is for, gathered through direct collaboration rather than a signed requirements binder); existing <strong>backlog items</strong> carried from prior refinement; and technical constraints or dependencies surfaced by the team itself. Backlog refinement (5.2.3) is where these inputs get continuously converted into sized, ready stories — scope in an adaptive project is never \"input once,\" it is re-derived every cycle from the same handful of living sources.</p>",
+      "<ul><li><em>Bar Exam:</em> a distractor claiming adaptive projects \"have no scope inputs, only a backlog\" is wrong — the backlog is the <em>output</em> of continuous refinement, not the <em>input</em>. The inputs are the charter, roadmap, personas, and prior backlog items that refinement acts upon.</li></ul>"
     ],
     keyTerms: [
           {
@@ -1213,7 +1313,22 @@ const LESSONS = [
       "<ul><li><strong>Process groups</strong> — Initiating, Planning, Executing, Monitoring & Controlling, Closing: clusters of PM work that recur within every phase (49 processes total, PG §1.7.4)</li><li><strong>Phase</strong> — a timeline division of the project ending in a deliverable handoff; each phase runs its own mini life cycle of all five groups</li><li><strong>Phase gate</strong> — end-of-phase review comparing performance to business case, charter, plan, and benefits plan; outcomes include continue, modify, end, remain, or repeat (PG §1.7.3)</li><li><strong>Knowledge areas</strong> — the ten cross-cutting domains (Integration through Stakeholder) that matrix against the process groups</li><li><strong>Project charter</strong> — the Initiating artifact that authorizes the project and appoints the project manager (PG §4.1)</li><li><strong>Baselines</strong> — the approved scope, schedule, and cost references against which performance is measured</li><li><strong>WBS</strong> — hierarchical, deliverable-oriented decomposition of total project scope (PG §5.5)</li><li><strong>Work package</strong> — lowest level of the WBS; unit of estimating, scheduling, and control; unique identifier from the code of accounts</li><li><strong>Control account</strong> — management control point integrating scope, budget, and schedule against earned value; contains two or more work packages</li><li><strong>Planning package</strong> — WBS component below a control account with known content but no detailed schedule activities yet</li><li><strong>WBS dictionary</strong> — detailed descriptions of each WBS component: work, responsible organization, milestones, resources, estimates, acceptance criteria</li><li><strong>Work performance data/information/reports</strong> — raw measurements collected during execution, analyzed in context, then packaged for stakeholders (PG §1.8)</li><li><strong>Functional organization</strong> — hierarchical silos by specialty; low PM authority (coordinator/expediter at best)</li><li><strong>Matrix organization</strong> — dual reporting to functional and project managers; weak, balanced, or strong by PM authority</li><li><strong>Projectized (project-oriented) organization</strong> — structure by projects; PM authority high to nearly total; team reports to the PM</li><li><strong>Colocation</strong> — physically co-locating the team to maximize informal communication</li><li><strong>Virtual team</strong> — geographically distributed team; wider talent pool, requires deliberate planned communication</li></ul>",
       "<h2>Self-Check Questions</h2>",
       "<p>1. A project is halfway through execution when the organization charters its second phase. Which process group's processes are performed, and why does this confuse candidates who equate process groups with phases? 2. Rank functional, weak matrix, balanced matrix, strong matrix, and projectized structures by project manager authority — and name the tell-tale feature of each. 3. Your sponsor wants to cut costs by disbanding the war room and sending everyone home to work remotely. What communication trade-off should you warn about, and what would a predictive project manager add to compensate?</p>",
-      "<p>Bring written answers, Mr. Gomez. And do brush up your arithmetic before next session — earned value forgives no one, least of all the unprepared.</p>"
+      "<p>Bring written answers, Mr. Gomez. And do brush up your arithmetic before next session — earned value forgives no one, least of all the unprepared.</p>",
+      "<h2>Addendum — What Actually Happens Inside Each Process Group</h2>",
+      "<p>The ECO does not merely want you to recite \"forty-nine processes, five groups.\" It wants you to recognize <em>which activities</em> belong to which group when a scenario describes them without naming the group outright. Let us build the roster properly, group by group, with the activities the exam likes to disguise.</p>",
+      "<p><strong>Initiating.</strong> Develop the project charter; identify stakeholders and populate the stakeholder register. That is the whole roster — two processes, done once per project <em>and</em> once at the start of every subsequent phase. If a scenario shows a PM meeting new stakeholders as Phase 3 opens, that is still Initiating, however far into the project's calendar it falls.</p>",
+      "<p><strong>Planning.</strong> Define scope and create the WBS; define and sequence activities, estimate durations, and develop the schedule; estimate costs and determine the budget; plan quality, resources, communications, risk (identify, analyze, plan responses), procurement, and stakeholder engagement; and assemble it all into the project management plan with its three baselines. Planning is where <em>estimating</em> verbs live — estimate, sequence, define, develop, plan. See an \"estimate\" or \"develop the plan for X\" verb in a stem, suspect Planning.</p>",
+      "<p><strong>Executing.</strong> Direct and manage the project work — which includes <em>implementing approved change requests</em>, the step candidates most often misplace into Monitoring & Controlling because the change was <em>approved</em> there. Manage project knowledge, manage quality (carrying out the audits Planning specified), acquire and develop the team, manage communications, implement risk responses, conduct procurements, and manage stakeholder engagement. Executing is where verbs turn active — <em>direct, implement, conduct, acquire, develop, manage</em> the doing.</p>",
+      "<ul><li><em>Bar Exam:</em> \"A change request is approved during Monitoring & Controlling. Which process group implements it?\" Executing, via Direct and Manage Project Work — approval and implementation are two different process groups, and the exam separates them on purpose.</li></ul>",
+      "<p><strong>Monitoring & Controlling.</strong> Monitor and control project work; perform integrated change control (the <em>gate</em>, not the doing); validate and control scope; control schedule, costs, quality, and resources; monitor communications, risk, and stakeholder engagement; and control procurements. The characteristic verbs are <em>monitor, control, validate</em> — comparing performance data against baselines and routing variances through change control.</p>",
+      "<p><strong>Closing.</strong> Close project or phase: formal acceptance of deliverables, final performance reporting, archiving records, releasing resources, capturing lessons learned. One process, but do not let its size fool you — it recurs at the end of <em>every</em> phase, not only at the project's final breath.</p>",
+      "<ul><li><em>Bar Exam:</em> \"Phase Two ends and the team disbands its temporary vendor contracts and archives documentation before Phase Three begins.\" That is Closing for Phase Two — happening mid-project, which confuses candidates who think Closing only happens once, at the very end.</li></ul>",
+      "<h2>Addendum — The Quality and Integration Management Plans</h2>",
+      "<p>Two subsidiary plans the ECO names directly deserve their own paragraph, since Session Nine only gestured at them in passing.</p>",
+      "<p>The <strong>quality management plan</strong> describes how the project will implement the performing organization's quality policy — standards to satisfy, metrics to measure them, and the approach for quality assurance and quality control. Its guiding philosophy, straight from the guide, is <strong>prevention over inspection</strong>: it is cheaper to design a process correctly than to catch defects afterward, and cheaper still to catch defects than to ship them to the customer. <strong>Quality assurance</strong> is process-focused — auditing whether the processes in use are capable of producing a quality result — while <strong>quality control</strong> is deliverable-focused — inspecting and testing the actual outputs against acceptance criteria. The plan also carries the <strong>cost of quality</strong>: conformance costs (prevention and appraisal — training, audits, testing) versus nonconformance costs (internal and external failure — rework, warranty claims, reputational damage). Spend on the left side of that ledger to avoid spending far more on the right.</p>",
+      "<ul><li><em>Bar Exam:</em> \"The team audits its code-review process before any code is written.\" That is quality assurance — a process audit, not an inspection of a finished product.</li></ul>",
+      "<p>The <strong>integration management plan</strong> is not one document you file away; it is the <em>connective tissue</em> running through every subsidiary plan. Its job is to knit scope, schedule, cost, quality, resources, communications, risk, procurement, and stakeholder plans into one coherent whole and to define how changes to any of them are evaluated together rather than in isolation. Its operational heart is <strong>integrated change control</strong>: every change request — no matter which knowledge area it touches — passes through a single gate that assesses its impact across <em>all</em> baselines before approval, deferral, or rejection. Configuration management (tracking which version of which deliverable and document is current) rides alongside it, so an approved change updates the right artifacts everywhere, not just the one the requester mentioned.</p>",
+      "<ul><li><em>Bar Exam:</em> A request to \"just tweak the schedule a little\" without touching cost or scope is a trap — integrated change control exists precisely because a schedule change without cost or scope analysis is an amateur's mistake, and the exam wants you to insist on the full impact assessment every time.</li></ul>"
     ],
     keyTerms: [
           {
@@ -2106,6 +2221,1183 @@ const QUIZ = [
     answer: 2, explanation: "Delivery readiness is an evidence-based judgment: backlog or RTM evidence must show release scope traced, tested, and meeting acceptance criteria. Work completion, dates, optimism, and verbal assurances are weak claims."
   },
   {
+    id: "D1-001", domain: "Fundamentals", difficulty: "medium",
+    stem: "An organization groups a new CRM initiative, a facility upgrade, and an unrelated marketing campaign under one executive umbrella purely because all three compete for the same strategic investment dollars. What is this grouping called?",
+    options: [
+          "A program, because the initiatives are coordinated for shared benefits",
+          "A portfolio, because the organizing logic is strategic objectives rather than relatedness of the work",
+          "A project, because each initiative is temporary and unique",
+          "Operations, because the initiatives run continuously"
+    ],
+    answer: 1, explanation: "A portfolio groups projects, programs, and operations to achieve strategic objectives; the work inside it need not be related, only united by a shared claim on strategy and funding. A program requires related work managed for benefits unavailable individually."
+  },
+  {
+    id: "D1-002", domain: "Fundamentals", difficulty: "medium",
+    stem: "Three separate but related initiatives share integrated schedules, common infrastructure, and one voice to stakeholders, producing benefits none of the three could achieve if managed on its own. This is best described as:",
+    options: [
+          "A portfolio",
+          "A program",
+          "A single large project with three phases",
+          "An operational function"
+    ],
+    answer: 1, explanation: "A program is a group of related projects, subsidiary programs, and program activities managed in a coordinated way to obtain benefits not available from managing them individually. A portfolio's organizing logic is strategy, not relatedness."
+  },
+  {
+    id: "D1-003", domain: "Fundamentals", difficulty: "easy",
+    stem: "A help desk team resolves incoming customer tickets every day, following the same procedure indefinitely with no planned end date. Is this work a project?",
+    options: [
+          "Yes, because it produces a unique result for each ticket",
+          "No, because it is ongoing and repetitive rather than temporary and unique — this is operations",
+          "Yes, because it requires a dedicated team and a budget",
+          "No, because operations never require skilled resources"
+    ],
+    answer: 1, explanation: "A project is a temporary endeavor with a defined beginning and end that creates a unique product, service, or result. Ongoing, repetitive work that keeps the organization running — like routine ticket handling — is operations, not a project, regardless of skill or budget involved."
+  },
+  {
+    id: "D1-004", domain: "Fundamentals", difficulty: "easy",
+    stem: "Which of the following is a project rather than operations?",
+    options: [
+          "Generating the monthly payroll run",
+          "Migrating the organization's ticketing system to a new platform",
+          "Performing routine server maintenance every weekend",
+          "Answering incoming customer support tickets"
+    ],
+    answer: 1, explanation: "Migrating to a new platform is temporary (it ends once the migration completes) and unique (a one-time changeover), which are the two defining characteristics of a project. Payroll runs, routine maintenance, and ticket handling are all ongoing, repetitive operations."
+  },
+  {
+    id: "D1-005", domain: "Fundamentals", difficulty: "medium",
+    stem: "A construction project has stable, well-documented requirements and a technology (standard building methods) that is thoroughly understood. A separate software component of the same initiative has requirements that are expected to evolve as users see working functionality. Which development approaches best fit each piece?",
+    options: [
+          "Predictive for the construction; adaptive for the software",
+          "Adaptive for the construction; predictive for the software",
+          "Predictive for both, since they belong to the same initiative",
+          "Adaptive for both, since all modern projects should iterate"
+    ],
+    answer: 0, explanation: "Predictive approaches suit stable, well-understood requirements and mature technology, as in the construction work. Adaptive approaches suit high uncertainty and evolving requirements with frequent feedback, as in the software component — and running both together makes the overall initiative a hybrid."
+  },
+  {
+    id: "D1-006", domain: "Fundamentals", difficulty: "medium",
+    stem: "A project manager reviews a draft scope statement and finds that two engineers on the team have each interpreted the same requirement differently. Which quality of a well-formed scope statement has failed?",
+    options: [
+          "Feasibility",
+          "Traceability",
+          "Unambiguity — a requirement that reads two ways is effectively two requirements sharing one number",
+          "Completeness"
+    ],
+    answer: 2, explanation: "A well-formed scope statement is complete, unambiguous, traceable, and feasible. A requirement that two competent engineers can read two different ways has failed the unambiguity test, even if every deliverable is otherwise present and achievable."
+  },
+  {
+    id: "D1-007", domain: "Fundamentals", difficulty: "hard",
+    stem: "During a scope review, the project manager discovers the team quietly added extra features beyond what the customer specified, believing the customer would appreciate the extra generosity. What is this called, and what does it indicate?",
+    options: [
+          "Scope creep caused by an uncontrolled change request — the change control board failed",
+          "Gold-plating — a defect of scope discipline even though no formal change request was involved",
+          "Rolling-wave planning applied correctly to unclear requirements",
+          "Tailoring the deliverable to better fit customer needs, which is always acceptable"
+    ],
+    answer: 1, explanation: "Gold-plating is the team deliberately exceeding the specification without being asked, effectively spending someone else's money and time on unrequested work. It is still a defect the scope review should catch, distinct from scope creep, which arrives through uncontrolled expansion rather than deliberate team choice."
+  },
+  {
+    id: "D1-008", domain: "Fundamentals", difficulty: "hard",
+    stem: "A project manager discovers that a colleague falsified quality test results to meet a deadline and is pressuring her to stay quiet. Per the PMI Code of Ethics and Professional Conduct, what is the correct action, and which value governs it?",
+    options: [
+          "Say nothing to preserve team harmony — this is a matter of Respect",
+          "Report the unethical conduct to appropriate management or another body capable of addressing it — this is a mandatory standard under Responsibility",
+          "Quietly redo the tests herself without telling anyone, satisfying Fairness",
+          "Wait until the project closes to raise the issue, satisfying Honesty"
+    ],
+    answer: 1, explanation: "Responsibility's mandatory standards require reporting unethical or illegal conduct to appropriate management or, if necessary, to bodies affected by the deception, and bringing violations to the attention of a body able to resolve them. Silence, delay, or unilaterally fixing the problem without disclosure are the incorrect, career-protecting answers the exam is designed to catch."
+  },
+  {
+    id: "D1-009", domain: "Fundamentals", difficulty: "hard",
+    stem: "A vendor competing for a contract sends the project manager an expensive vacation package while she sits on the vendor selection panel. What should she do, and which Code of Ethics value is in tension?",
+    options: [
+          "Accept the gift privately since it does not affect her judgment, satisfying Honesty",
+          "Fully disclose the situation to stakeholders and recuse herself from the selection decision, per Fairness",
+          "Report the vendor to a regulator immediately, per Respect",
+          "Split the gift with the rest of the panel to keep things equitable, per Responsibility"
+    ],
+    answer: 1, explanation: "Fairness requires disclosing any real or potential conflict of interest and letting stakeholders decide how to proceed, and refraining from decision making when objectivity is compromised. Accepting an inappropriate gift for professional advantage is itself a Fairness violation, so the only defensible path is disclosure and recusal."
+  },
+  {
+    id: "D1-010", domain: "Fundamentals", difficulty: "medium",
+    stem: "A project ships its final deliverable on schedule and under budget, but six months later almost none of the intended users have adopted the new system. What does this best illustrate?",
+    options: [
+          "The project was successful because scope, schedule, and cost targets were met",
+          "A project is a vehicle for change; deliverables that are not adopted produce no outcomes, benefits, or value regardless of on-time delivery",
+          "The project team should have gold-plated the deliverable to encourage adoption",
+          "Success should be measured solely by the performance measurement baseline"
+    ],
+    answer: 1, explanation: "A project exists to move an organization from a current state to a desired future state; the transition, not the deliverable alone, is the point. Enabling change requires structures, strategies, and stakeholder engagement — without adoption, deliverables produce no outcomes, benefits, or value, no matter how well they were built."
+  },
+  {
+    id: "D1-011", domain: "Fundamentals", difficulty: "medium",
+    stem: "An organization launches its fourth major transformation initiative in six months, and employees are exhausted and disengaged despite each initiative being individually well planned. What concept explains this, and what should the project manager consider?",
+    options: [
+          "Change fatigue — too much change too fast exhausts the organization, so pacing and sequencing change matters as much as executing it well",
+          "Scope creep — the initiatives have expanded beyond their charters",
+          "Resistance is unpredictable and cannot be planned for",
+          "The Cynefin framework's chaotic domain, requiring the team to act first and sense later"
+    ],
+    answer: 0, explanation: "Projects act as vehicles for change, but too much change too quickly produces change fatigue, while too little leaves value unrealized. The skill is pacing change so the organization can absorb it — resistance itself is a design input to plan for, not an unpredictable surprise."
+  },
+  {
+    id: "D1-012", domain: "Fundamentals", difficulty: "easy",
+    stem: "What is the primary purpose of a risk management plan within the project management plan?",
+    options: [
+          "To document the approved scope, schedule, and cost baselines",
+          "To describe how risk identification, analysis, and response activities will be structured and performed throughout the project",
+          "To record every stakeholder's power and interest in the project",
+          "To authorize the project and grant the project manager authority over resources"
+    ],
+    answer: 1, explanation: "Each subsidiary plan answers 'how will we manage X.' The risk management plan describes how risk-related activities will be structured and performed — not the risks themselves, which live in the risk register, and not project authorization, which belongs to the charter."
+  },
+  {
+    id: "D1-013", domain: "Fundamentals", difficulty: "medium",
+    stem: "Why does the quality management plan matter to a project even before any deliverable is produced?",
+    options: [
+          "Because quality is only relevant during final inspection of the completed deliverable",
+          "Because it describes how quality policies, procedures, and activities will be implemented so that quality is built into the work rather than inspected in afterward",
+          "Because it replaces the need for acceptance criteria",
+          "Because it is identical in purpose to the schedule management plan"
+    ],
+    answer: 1, explanation: "The quality management plan describes how quality requirements and standards will be implemented throughout the project. Consistent with the principle that quality is built in rather than inspected in at the end, the plan's purpose is proactive, not a late-stage inspection checklist."
+  },
+  {
+    id: "D1-014", domain: "Fundamentals", difficulty: "medium",
+    stem: "How does the project management plan differ in scope and duration from a product management plan for the same initiative?",
+    options: [
+          "They are identical documents with different titles",
+          "The project management plan describes how the project will be executed, monitored and controlled, and closed; a product management orientation instead shepherds the product across a longer life span from concept through retirement",
+          "The product management plan ends at project closure while the project management plan continues indefinitely",
+          "Only the product management plan addresses cost and schedule"
+    ],
+    answer: 1, explanation: "The project management plan's scope ends at project closure — the work of delivery. Product management takes a longer view, following the product through concept, delivery, growth, maturity, and retirement, well beyond any single project's boundaries."
+  },
+  {
+    id: "D1-015", domain: "Fundamentals", difficulty: "medium",
+    stem: "A sponsor asks who will track the software's evolution, adoption, and eventual retirement years after the delivery project ends. Which type of plan addresses this concern?",
+    options: [
+          "The project management plan, since it governs all execution activities",
+          "The scope management plan, since it defines what was built",
+          "A product management plan, since it follows the product across a life cycle that outlasts any one project",
+          "The milestone schedule, since it lists significant dates"
+    ],
+    answer: 2, explanation: "The telltale sign of product territory is a concern about post-project evolution and benefits realized over years. The project management plan describes only how the delivery project itself will be executed, monitored, and closed; it has nothing to say about the product's life after that."
+  },
+  {
+    id: "D1-016", domain: "Fundamentals", difficulty: "easy",
+    stem: "A schedule entry reads 'Obtain building permit — 15 days' and is followed by an entry reading 'Permit granted.' Which of these two entries is the milestone?",
+    options: [
+          "'Obtain building permit — 15 days,' because it consumes schedule time",
+          "'Permit granted,' because a milestone is a zero-duration marker signifying a significant point or event",
+          "Both are milestones because they both relate to the permit",
+          "Neither — milestones only apply to final project acceptance"
+    ],
+    answer: 1, explanation: "A milestone is a significant point or event with zero duration; a task duration is the number of work periods required to perform an activity. 'Obtain building permit' has a duration because work occurs during it; 'Permit granted' is the zero-duration marker that ends it."
+  },
+  {
+    id: "D1-017", domain: "Fundamentals", difficulty: "medium",
+    stem: "Why does a milestone schedule list only milestones with their planned dates, and never durations?",
+    options: [
+          "Because milestones serve as control points — approval gates, phase completions, hand-offs — and have no duration of their own to roll up",
+          "Because durations are always confidential information restricted from sponsors",
+          "Because a milestone schedule replaces the need for a full project schedule",
+          "Because milestones are estimated using parametric estimating, which produces no duration"
+    ],
+    answer: 0, explanation: "Milestones are zero-duration control points, so a milestone schedule — unlike a full project schedule or a summary task, which rolls up durations beneath it — presents only planned dates with nothing to roll up."
+  },
+  {
+    id: "D1-018", domain: "Fundamentals", difficulty: "medium",
+    stem: "Midway through execution, the team discovers that no one on the project has the specialized security-testing skill the work requires. What process failure does this most directly reflect?",
+    options: [
+          "A failure to decompose the scope (WBS) and map required skills and quantities against availability and constraints when determining resources",
+          "A failure of the change control board to approve new resources",
+          "A failure of the communications management plan",
+          "An unavoidable outcome that no planning process could have caught"
+    ],
+    answer: 0, explanation: "Determining the number and type of resources means decomposing the scope of work, identifying the skills and quantities each work package demands, and checking them against availability and constraints. A missing skill nobody enumerated is a failure of this mapping, not an unavoidable surprise."
+  },
+  {
+    id: "D1-019", domain: "Fundamentals", difficulty: "medium",
+    stem: "Which pair of tools most directly supports determining the number and type of resources a project needs?",
+    options: [
+          "The risk register and the issue log",
+          "The RACI chart, mapping who is responsible for what work, and the resource breakdown structure, organizing resources by category and type",
+          "The business case and the project charter",
+          "The Gantt chart and the S-curve"
+    ],
+    answer: 1, explanation: "The RACI chart maps who is responsible for which work, while the resource breakdown structure organizes resources by category and type so gaps and surpluses become visible — together the working instruments for determining resource number and type from the decomposed scope."
+  },
+  {
+    id: "D1-020", domain: "Fundamentals", difficulty: "medium",
+    stem: "A team member identifies a new uncertain event that could delay a supplier shipment. What is the correct next step using the risk register?",
+    options: [
+          "Ignore it until it becomes an actual issue",
+          "Add it to the risk register with an assigned owner, probability, impact, and score, and let the planned response govern any action",
+          "Escalate it immediately to the sponsor without documenting it",
+          "Record it in the issue log since it already affects the schedule"
+    ],
+    answer: 1, explanation: "The risk register stores each risk with its owner, probability, impact, score, and planned response. A newly identified uncertain event — not yet a current condition — should be added or updated in the register with an owner assigned, rather than acted on impulsively or logged as an issue, which is reserved for conditions already affecting objectives."
+  },
+  {
+    id: "D1-021", domain: "Fundamentals", difficulty: "medium",
+    stem: "A project manager wants to know which risk response to trigger now that a previously identified threat has begun to materialize. Where should she look first?",
+    options: [
+          "The stakeholder register, since stakeholders may be affected",
+          "The risk register, which records the planned response tied to each identified risk's owner, probability, and impact",
+          "The lessons learned register from a previous project",
+          "The project charter, since it authorized the project"
+    ],
+    answer: 1, explanation: "The risk register is the living artifact holding each risk's owner, probability, impact, score, and planned response — precisely the information needed to know which response to trigger as a threat begins to materialize."
+  },
+  {
+    id: "D1-022", domain: "Fundamentals", difficulty: "medium",
+    stem: "Midway through a project, a previously neutral stakeholder gains significant influence after a reorganization. What is the correct use of the stakeholder register in this situation?",
+    options: [
+          "Leave the register as originally recorded, since stakeholder information is a strategy artifact that should not change",
+          "Update the register's assessment and classification for that stakeholder and re-plan engagement accordingly",
+          "Remove the stakeholder from the register since their role has changed",
+          "Escalate to the PMO to reissue the project charter"
+    ],
+    answer: 1, explanation: "The stakeholder register holds each stakeholder's identification, assessment, and classification and is a living artifact updated throughout the project, unlike frozen strategy artifacts. When a stakeholder's power or interest shifts, the correct action is to update the register and adjust engagement plans."
+  },
+  {
+    id: "D1-023", domain: "Fundamentals", difficulty: "easy",
+    stem: "What information does a stakeholder register typically hold for each stakeholder?",
+    options: [
+          "Only their contact information and job title",
+          "Identification, assessment, and classification, used to plan and adjust engagement over the life of the project",
+          "The financial value they represent to the project's business case",
+          "A permanent record that never changes once initially populated"
+    ],
+    answer: 1, explanation: "The stakeholder register captures each stakeholder's identification, assessment, and classification. Like the risk register, it is a living artifact updated throughout the project as influence and interest shift — never a one-time, unchanging record."
+  },
+  {
+    id: "D1-024", domain: "Fundamentals", difficulty: "medium",
+    stem: "A project's final software release ships on Friday, and the team celebrates the project as complete. Is the project actually closed?",
+    options: [
+          "Yes, once the code ships, the project is closed by definition",
+          "No — closure requires formal acceptance of deliverables against acceptance criteria and transition to the operating group, among other steps not yet performed",
+          "Yes, provided the sponsor was informed by email",
+          "No, because closure requires the original project team to remain in place permanently"
+    ],
+    answer: 1, explanation: "Closure is a process, not a shipping event: it requires verification and formal acceptance of deliverables, transition to operations with training and support arrangements, financial and administrative close, lessons learned capture, and agreement on who will monitor benefits afterward. Shipping code satisfies none of these on its own."
+  },
+  {
+    id: "D1-025", domain: "Fundamentals", difficulty: "medium",
+    stem: "A year after a project closes, who is responsible for confirming that the promised 15% cost savings actually materialized?",
+    options: [
+          "The departed project manager, who must return to verify results",
+          "The sponsor, whose accountability for benefits realization extends beyond the project's closure",
+          "The project team, since they built the deliverable",
+          "No one — benefits tracking ends when the project closes"
+    ],
+    answer: 1, explanation: "Benefits realization does not end at closure; the sponsor monitors project outcomes after the team disperses to confirm the intended business benefits actually arrive. This is a sponsor function, not something that falls to the departed project manager or an ended team."
+  },
+  {
+    id: "D1-026", domain: "Fundamentals", difficulty: "medium",
+    stem: "A resource conflict arises between two departments, both claiming the same senior engineer, and neither the project manager nor the team has the authority to resolve it. Whose role and responsibility is this to resolve, and why?",
+    options: [
+          "The project team's, because they know the engineer's skills best",
+          "The project sponsor's, because the sponsor provides decision leadership and position power outside the authority of the project manager and team",
+          "The project manager's, because escalation always resolves within the team's own authority",
+          "No one's — the conflict must resolve itself organically"
+    ],
+    answer: 1, explanation: "The sponsor provides decision leadership outside the authority and position power of the project manager and project team, including facilitating executive-level decisions and addressing issues, like cross-department resource conflicts, beyond the team's authority to resolve."
+  },
+  {
+    id: "D1-027", domain: "Fundamentals", difficulty: "medium",
+    stem: "Which statement correctly distinguishes the project team's responsibilities from the sponsor's?",
+    options: [
+          "The team is accountable for organization-wide strategic alignment; the sponsor performs the daily work",
+          "The team performs the project work within the authority the charter grants the project manager; the sponsor authorizes, resources, and shields that work using position power the team lacks",
+          "Both roles are functionally identical and interchangeable on any project",
+          "The sponsor is responsible for building and testing deliverables while the team makes funding decisions"
+    ],
+    answer: 1, explanation: "The project team does the work — planning, building, testing, delivering — inside the authority granted by the charter. The sponsor authorizes, resources, and shields that work through position power the team does not hold, such as securing funding or resolving cross-department conflicts."
+  },
+  {
+    id: "D1-028", domain: "Fundamentals", difficulty: "medium",
+    stem: "A stem states, 'the team should formally accept the revised business case on the organization's behalf.' What is wrong with this statement?",
+    options: [
+          "Nothing — the team routinely accepts business cases",
+          "It hands the team a sponsor's function; accepting deliverables and business decisions on the organization's behalf is a sponsor accountability, not a team one",
+          "The business case cannot be revised once written",
+          "Only the PMO may accept business cases"
+    ],
+    answer: 1, explanation: "Each role stays inside its own lane. Accepting or rejecting deliverables and business decisions on the organization's behalf is a sponsor accountability under Appendix X2; a team member performing that role would be handed a function that does not belong to them."
+  },
+  {
+    id: "D1-029", domain: "Fundamentals", difficulty: "medium",
+    stem: "A project manager notices that a needed capability has never been proposed to leadership, so she frames the problem herself and proposes the initiative before being asked. Which of the project manager's role facets is she demonstrating?",
+    options: [
+          "Facilitator",
+          "Initiator",
+          "Listener",
+          "Working member"
+    ],
+    answer: 1, explanation: "The initiator champions the work: proposing a project or improvement, framing the problem, and getting things moving rather than waiting to be told. This is distinct from facilitating a meeting, listening to concerns, or personally performing project tasks."
+  },
+  {
+    id: "D1-030", domain: "Fundamentals", difficulty: "medium",
+    stem: "Two department heads disagree over which team should own a shared deliverable. The project manager works with both to reach a resource and scope trade-off that both sides can accept. Which role facet is she exercising?",
+    options: [
+          "Coach",
+          "Negotiator",
+          "Facilitator",
+          "Initiator"
+    ],
+    answer: 1, explanation: "The negotiator negotiates for resources, scope trade-offs, and agreements with functional managers, vendors, and stakeholders, aiming for a win-win outcome. A facilitator instead makes collaboration easy without steering toward a particular resolution, and a coach develops individual capability rather than mediating a dispute."
+  },
+  {
+    id: "D1-031", domain: "Fundamentals", difficulty: "easy",
+    stem: "Which statement correctly distinguishes leadership from management?",
+    options: [
+          "Management establishes vision and inspires change; leadership plans, budgets, and controls to produce predictability",
+          "Management — planning, budgeting, organizing, staffing, controlling — produces predictability and order; leadership — establishing vision, aligning people, motivating and inspiring — produces change",
+          "Leadership and management are synonyms used interchangeably by PMI",
+          "Only people with the project manager title may exercise leadership"
+    ],
+    answer: 1, explanation: "Management activities (planning, budgeting, organizing, staffing, controlling) exist to produce predictability and order; leadership activities (vision, alignment, motivation) exist to produce change. A project manager practices both, and per Principle 6, leadership may be demonstrated by any team member, not only the person holding the title."
+  },
+  {
+    id: "D1-032", domain: "Fundamentals", difficulty: "medium",
+    stem: "A junior team member, without any formal authority, notices the team is stalled and proposes a new way of organizing the work that the team adopts enthusiastically. Is this leadership or management, and why?",
+    options: [
+          "Management, because organizing work is a management activity by definition",
+          "Leadership, because leadership is earned and demonstrated by anyone on the team, not granted only by an org-chart title or position",
+          "Neither, because only the project manager can demonstrate leadership",
+          "Management, because the team member lacks position authority"
+    ],
+    answer: 1, explanation: "Authority is granted by the org chart, but leadership is earned and demonstrated — and per Principle 6, anyone on the team can exercise it. A junior member motivating the team toward a new direction with no formal authority is a textbook example of leadership independent of position."
+  },
+  {
+    id: "D1-033", domain: "Fundamentals", difficulty: "medium",
+    stem: "A project manager feels the urge to fire back angrily at a stakeholder's harsh email but pauses, thinks it through, and responds calmly the next morning. Which area of emotional intelligence is she demonstrating?",
+    options: [
+          "Social awareness",
+          "Self-management (self-regulation) — controlling and redirecting disruptive impulses",
+          "Social skill",
+          "Self-awareness"
+    ],
+    answer: 1, explanation: "Self-management, or self-regulation, is the ability to control and redirect disruptive impulses, thinking before acting and suspending snap judgment. Pausing before responding to provocation is the signature behavior of this EQ area, distinct from self-awareness (assessing one's own emotions and motivations) or social awareness (reading others)."
+  },
+  {
+    id: "D1-034", domain: "Fundamentals", difficulty: "medium",
+    stem: "During a status meeting, a project manager notices a team member's crossed arms and clipped answers and senses growing frustration before anyone says a word. Which emotional intelligence area, and why does it matter to project management?",
+    options: [
+          "Social awareness — empathy and reading nonverbal cues — because EQ is described as the basis of all forms of leadership, and social areas build the bonds needed with the team",
+          "Self-management, because it concerns controlling one's own impulses",
+          "Motivation, because it concerns what drives and inspires the observer",
+          "It is irrelevant to project management, which concerns only technical delivery"
+    ],
+    answer: 0, explanation: "Social awareness is empathy: considering others' feelings and reading nonverbal cues and body language. EQ matters to project management because it is described as the basis of all forms of leadership — the social areas build the bonds with the team that self-directed areas alone cannot."
+  },
+  {
+    id: "D1-035", domain: "Fundamentals", difficulty: "medium",
+    stem: "A previously identified risk trigger fires mid-project exactly as anticipated in the risk management plan. What is the appropriate response?",
+    options: [
+          "Improvise a new response on the spot since circumstances always differ from the plan",
+          "Execute the planned response as documented, since the framework anticipated this exact situation",
+          "Escalate to the sponsor before taking any action, regardless of the plan",
+          "Ignore the plan since risk triggers rarely occur as predicted"
+    ],
+    answer: 1, explanation: "A planned strategy or framework is a promise about behavior; the correct response when a risk trigger fires as anticipated is to execute the planned response, following the plan's own procedures rather than improvising or defaulting to escalation."
+  },
+  {
+    id: "D1-036", domain: "Fundamentals", difficulty: "medium",
+    stem: "A stakeholder is blindsided by project news that should have reached them under the communications management plan. What does this scenario actually reveal, and what is the correct fix?",
+    options: [
+          "The stakeholder is simply too demanding; no fix is needed",
+          "The communications plan was not followed; the remedy is to follow the plan as written, or deliberately revise it through its own change procedures if it no longer suits the situation",
+          "Communications plans are optional guidance and can be freely improvised",
+          "The project should immediately cancel all future stakeholder communications"
+    ],
+    answer: 1, explanation: "A scenario where a stakeholder is blindsided is really about a communications plan not being followed. The correct response is to follow the plan's cadence and channels, and if reality has diverged, to revise the plan deliberately through its own procedures — not to abandon planning or improvise indefinitely."
+  },
+  {
+    id: "D1-037", domain: "Fundamentals", difficulty: "medium",
+    stem: "In the proper sequence of project initiation, which document justifies whether and why a project should be undertaken, and which document formally authorizes it once that decision is made?",
+    options: [
+          "The project charter justifies; the business case authorizes",
+          "The business case justifies; the project charter, issued by the sponsor, formally authorizes the project and names the project manager's authority",
+          "The stakeholder register justifies; the risk register authorizes",
+          "Both documents perform the same function and may be issued in either order"
+    ],
+    answer: 1, explanation: "The business case argues whether and why to undertake a project, documenting economic and non-economic benefits and the recommendation. The project charter, issued by the sponsor, then formally authorizes the project and grants the project manager authority. The charter never precedes the business case in a correctly ordered sequence."
+  },
+  {
+    id: "D1-038", domain: "Fundamentals", difficulty: "medium",
+    stem: "For benefits identified in the business case to be tracked meaningfully after the project delivers, what must be true of those benefits, and who typically maintains the plan for measuring them?",
+    options: [
+          "Benefits need only be described in general terms; the project manager tracks them indefinitely",
+          "Benefits must be measurable and assigned ownership, with a benefits management plan governing how and when they are measured, and the sponsor's watch continuing after closure",
+          "Benefits are tracked exclusively by the PMO using the performance measurement baseline",
+          "Benefits tracking is optional once the charter is signed"
+    ],
+    answer: 1, explanation: "Benefits named in the business case must be measurable and assigned ownership, because realization is verified over time via a benefits management plan describing the how-and-when of measurement — and the sponsor, not the departed project manager, monitors outcomes after closure."
+  },
+  {
+    id: "D1-039", domain: "Fundamentals", difficulty: "medium",
+    stem: "A recurring weekly steering committee meeting runs 90 minutes with no stated agenda and ends with no decisions or assigned action items. What does this reveal about the meeting's effectiveness, and what would fix it?",
+    options: [
+          "The meeting is fine; steering committees do not require agendas",
+          "The meeting is ineffective — it lacks a stated purpose and agenda and produces no documented decisions with owners; the fix is to establish an agenda, invite only the right people, time-box discussion, and document decisions and action items",
+          "The correct fix is to cancel all future meetings entirely",
+          "The meeting's cost is irrelevant to its evaluation"
+    ],
+    answer: 1, explanation: "A meeting is effective when it achieves its objective at a cost proportionate to the outcome, evaluated by a stated agenda, the right people present, time-boxed discussion, and documented decisions with owners and due dates. The exam rejects the zealot's answer of cancelling meetings outright in favor of fixing their structure."
+  },
+  {
+    id: "D1-040", domain: "Fundamentals", difficulty: "easy",
+    stem: "What calculation helps a project manager judge whether a recurring meeting is worth its cost?",
+    options: [
+          "Story points assigned to the meeting's topic",
+          "Attendees multiplied by duration multiplied by hourly rate, compared against the value the meeting produces",
+          "The earned value schedule performance index (SPI) of the project",
+          "The number of agenda items regardless of attendee count"
+    ],
+    answer: 1, explanation: "One evaluable dimension of meeting effectiveness is a cost check: attendees times duration times rate, weighed against the value produced. A meeting that costs more in aggregate salary time than the decisions it produces are worth fails this check even if it otherwise runs smoothly."
+  },
+  {
+    id: "D1-041", domain: "Fundamentals", difficulty: "medium",
+    stem: "A product team wants qualitative insight into how a small group of prequalified customers feel about a proposed feature, capturing how their reactions build on one another in conversation. Which technique fits best, and why not a survey instead?",
+    options: [
+          "A survey, because it reaches more people",
+          "A focus group, because the interaction between prequalified participants captures perceptions and attitudes a survey's broad-but-shallow format cannot",
+          "A retrospective, because it improves team process",
+          "A standup, because it surfaces daily obstacles"
+    ],
+    answer: 1, explanation: "A focus group is a moderator-led session with prequalified stakeholders and subject matter experts interacting to elicit expectations and attitudes; the interaction itself, where participants build on one another's reactions, is the point — something a survey's breadth-over-depth format cannot replicate."
+  },
+  {
+    id: "D1-042", domain: "Fundamentals", difficulty: "medium",
+    stem: "During a brainstorming session, the facilitator interrupts each new idea to critique its feasibility before the next idea is offered. What is wrong with this facilitation, and what should a standup meeting's facilitation look like by contrast?",
+    options: [
+          "Nothing is wrong; critiquing ideas as they arrive is standard brainstorming practice",
+          "Brainstorming should be non-judgmental during idea generation, with evaluation deferred until afterward; a standup, by contrast, is a short, time-boxed daily sync covering yesterday, today, and obstacles, with blockers removed after the meeting by the right owner",
+          "Brainstorming and standups follow identical facilitation rules",
+          "The facilitator should instead extend the brainstorming session indefinitely until consensus is reached"
+    ],
+    answer: 1, explanation: "Brainstorming is a rapid, non-judgmental idea-generation technique; critiquing ideas mid-stream is brainstorming done wrong, since evaluation is meant to happen only after generation. A standup is a different instrument entirely — short, daily, and time-boxed, covering yesterday, today, and obstacles, with blockers resolved afterward by the appropriate owner rather than litigated in the meeting."
+  },
+  {
+    id: "D2-001", domain: "Predictive, Plan-Based", difficulty: "easy",
+    stem: "Which process group includes 'collect performance data and compare it against baselines' as one of its core activities?",
+    options: [
+          "Initiating",
+          "Planning",
+          "Monitoring & Controlling",
+          "Closing"
+    ],
+    answer: 2, explanation: "Monitoring & Controlling is built around comparing performance data to the scope, schedule, and cost baselines and routing variances through integrated change control. Initiating authorizes the project; Planning builds the baselines; Closing finalizes the project or phase."
+  },
+  {
+    id: "D2-002", domain: "Predictive, Plan-Based", difficulty: "medium",
+    stem: "During which process group are approved change requests actually implemented, procurements conducted, and the project team developed?",
+    options: [
+          "Planning",
+          "Executing",
+          "Monitoring & Controlling",
+          "Closing"
+    ],
+    answer: 1, explanation: "Executing (Direct and Manage Project Work) is where approved changes are carried out, procurements are conducted, and the team is developed. Monitoring & Controlling only approves or rejects the change through integrated change control; it does not perform the work."
+  },
+  {
+    id: "D2-003", domain: "Predictive, Plan-Based", difficulty: "easy",
+    stem: "Which of the following is a typical Planning process group activity?",
+    options: [
+          "Develop the project charter",
+          "Define activities and estimate their durations",
+          "Direct and manage the project work",
+          "Close the project or phase"
+    ],
+    answer: 1, explanation: "Defining activities and estimating durations are Planning processes feeding Develop Schedule. Developing the charter is Initiating; directing and managing work is Executing; closing is its own process group."
+  },
+  {
+    id: "D2-004", domain: "Predictive, Plan-Based", difficulty: "medium",
+    stem: "A project manager identifies stakeholders and drafts a charter for Phase 3 of a five-phase project already well underway. In which process group do these activities occur, and what is the common misconception the exam targets here?",
+    options: [
+          "Initiating, since Initiating recurs at the start of every phase, not only at the project's outset",
+          "Planning, because stakeholders must be understood before any plan is written",
+          "Executing, since stakeholder engagement is continuous throughout the project",
+          "Closing, since Phase 2 must be formally closed before Phase 3 activities count"
+    ],
+    answer: 0, explanation: "Process groups repeat within every phase. Identifying stakeholders and chartering work are Initiating activities regardless of how far along the overall project's calendar is — the trap is assuming Initiating only happens once, at the very beginning."
+  },
+  {
+    id: "D2-005", domain: "Predictive, Plan-Based", difficulty: "medium",
+    stem: "Per the WBS's '100% rule,' which statement is correct?",
+    options: [
+          "The WBS must include every deliverable defined in the scope statement, and nothing outside that scope",
+          "Each work package must represent at least 100 hours of effort",
+          "100% of project activities must fall on the critical path",
+          "The WBS dictionary must be fully complete before Planning can end"
+    ],
+    answer: 0, explanation: "The 100% rule means the WBS captures all of the scope statement's defined work and no work beyond it. The 8/80 heuristic (not '100 hours') is the common guidance for work package sizing, and neither the critical path nor dictionary completeness relates to this rule."
+  },
+  {
+    id: "D2-006", domain: "Predictive, Plan-Based", difficulty: "medium",
+    stem: "A control account sits between which two WBS elements, and what is the defining rule about its contents?",
+    options: [
+          "Between the project charter and the WBS; it contains exactly one work package",
+          "Between a deliverable and one or more work packages; it must contain two or more work packages",
+          "Between a work package and a schedule activity; it contains no work packages at all",
+          "Between the scope baseline and the WBS dictionary; it contains all planning packages"
+    ],
+    answer: 1, explanation: "A control account is the management control point where scope, budget, and schedule integrate for earned value measurement; it always contains two or more work packages, each of which belongs to exactly one control account."
+  },
+  {
+    id: "D2-007", domain: "Predictive, Plan-Based", difficulty: "hard",
+    stem: "A finish-to-start network has Activity A = 6 days (starts the project); B = 4 days (follows A); C = 8 days (follows A); D = 5 days (follows both B and C). What is the total project duration, and what is B's total float?",
+    options: [
+          "19 days; B has 4 days of float",
+          "18 days; B has 3 days of float",
+          "19 days; B has 0 days of float",
+          "23 days; B has 4 days of float"
+    ],
+    answer: 0, explanation: "Forward pass: A(0-6), B(6-10), C(6-14), D starts at max(10,14)=14, finishes at 19 — duration 19 days. Backward pass: D(LS 14), C(LS 6, since its only successor D has LS 14 minus C's duration 8), B(LS 10). A's LS = min(10,6) - 6 = 0. Critical path A-C-D (float 0 each); B's float = LS 10 - ES 6 = 4 days."
+  },
+  {
+    id: "D2-008", domain: "Predictive, Plan-Based", difficulty: "medium",
+    stem: "At the status date, PV = $80,000 and EV = $72,000. What are the schedule variance and schedule performance index, and what do they indicate?",
+    options: [
+          "SV = -$8,000, SPI = 0.90 — behind schedule",
+          "SV = +$8,000, SPI = 1.11 — ahead of schedule",
+          "SV = -$8,000, SPI = 1.11 — behind schedule but earning value faster than planned",
+          "SV = $0, SPI = 0.90 — on schedule"
+    ],
+    answer: 0, explanation: "SV = EV - PV = 72,000 - 80,000 = -$8,000 (behind schedule). SPI = EV/PV = 72,000/80,000 = 0.90, below 1.0, confirming behind-schedule status. SV and SPI must agree in direction; an option pairing a negative SV with SPI above 1.0 is internally contradictory."
+  },
+  {
+    id: "D2-009", domain: "Predictive, Plan-Based", difficulty: "easy",
+    stem: "The work breakdown structure is best described as:",
+    options: [
+          "A hierarchical, deliverable-oriented decomposition of the total scope of work",
+          "A sequential list of project activities in calendar order",
+          "A network diagram showing activity dependencies",
+          "A breakdown of the budget by cost category"
+    ],
+    answer: 0, explanation: "The WBS decomposes the total project scope into deliverables/work products hierarchically; it is not a schedule, network diagram, or cost breakdown — those are separate artifacts built from or alongside it."
+  },
+  {
+    id: "D2-010", domain: "Predictive, Plan-Based", difficulty: "medium",
+    stem: "Which statement about the WBS is FALSE?",
+    options: [
+          "It decomposes work products/deliverables, not schedule activities",
+          "Every element of the approved scope statement must appear somewhere in the WBS",
+          "The WBS by itself, without the WBS dictionary, constitutes the complete scope baseline",
+          "Each descending level represents a more detailed definition of the project work"
+    ],
+    answer: 2, explanation: "The scope baseline is the approved scope statement PLUS the WBS PLUS the WBS dictionary — the WBS alone is not the full scope baseline. The other three statements correctly describe WBS properties."
+  },
+  {
+    id: "D2-011", domain: "Predictive, Plan-Based", difficulty: "easy",
+    stem: "Each work package in a WBS is uniquely identified by its:",
+    options: [
+          "Control account name",
+          "Code of accounts identifier",
+          "Risk register entry",
+          "Network diagram node number"
+    ],
+    answer: 1, explanation: "Every work package carries a unique identifier from the code of accounts, linking it to the organization's chart of accounts for cost tracking. Control accounts sit above work packages and aggregate several of them."
+  },
+  {
+    id: "D2-012", domain: "Predictive, Plan-Based", difficulty: "medium",
+    stem: "The quality management plan emphasizes 'prevention over inspection.' Which activity best exemplifies this principle?",
+    options: [
+          "Auditing the design-review process before manufacturing begins",
+          "Inspecting a batch of finished units to catch defects",
+          "Logging a defect after a customer complaint arrives",
+          "Calculating rework costs after a failed final test"
+    ],
+    answer: 0, explanation: "Auditing a process before defects can occur is prevention (quality assurance); inspecting finished goods, logging post-delivery defects, and tallying rework costs are all after-the-fact detection — the costlier, inspection-driven approach the plan tries to minimize."
+  },
+  {
+    id: "D2-013", domain: "Predictive, Plan-Based", difficulty: "medium",
+    stem: "The integration management plan's core purpose is best described as:",
+    options: [
+          "Coordinating all subsidiary plans and change control so the knowledge areas function as one coherent whole",
+          "Managing only the project's budget and cost baseline",
+          "Documenting stakeholder communication preferences exclusively",
+          "Assigning work packages to individual team members"
+    ],
+    answer: 0, explanation: "Integration is the 'conductor' knowledge area: it binds scope, schedule, cost, quality, resource, communications, risk, procurement, and stakeholder plans together and governs how changes to any of them are evaluated as a whole through integrated change control."
+  },
+  {
+    id: "D2-014", domain: "Predictive, Plan-Based", difficulty: "easy",
+    stem: "Which document combines the approved scope statement, the WBS, and the WBS dictionary?",
+    options: [
+          "The project charter",
+          "The scope baseline",
+          "Requirements documentation",
+          "The basis of estimates"
+    ],
+    answer: 1, explanation: "The scope baseline is defined as the approved scope statement plus the WBS plus the WBS dictionary, and it can only be changed through formal change control."
+  },
+  {
+    id: "D2-015", domain: "Predictive, Plan-Based", difficulty: "medium",
+    stem: "Raw measurements collected during project execution — such as percent complete or actual hours worked — are first captured as:",
+    options: [
+          "Work performance reports",
+          "Work performance information",
+          "Work performance data",
+          "The performance measurement baseline"
+    ],
+    answer: 2, explanation: "The guide's data-to-information pipeline runs work performance data (raw measurements) to work performance information (data analyzed in context) to work performance reports (packaged for stakeholders). The performance measurement baseline is the integrated scope-schedule-cost target, not a stage in this pipeline."
+  },
+  {
+    id: "D2-016", domain: "Predictive, Plan-Based", difficulty: "hard",
+    stem: "At the status date, PV = $90,000, EV = $75,000, and AC = $70,000. What is the cost variance, and what does it indicate?",
+    options: [
+          "+$5,000 — under budget",
+          "-$15,000 — behind schedule",
+          "+$20,000 — under budget",
+          "-$5,000 — over budget"
+    ],
+    answer: 0, explanation: "CV = EV - AC = 75,000 - 70,000 = +$5,000, a favorable variance meaning the project is under budget. The -$15,000 figure is the schedule variance (EV - PV), a distractor testing whether the candidate confuses the two formulas."
+  },
+  {
+    id: "D2-017", domain: "Predictive, Plan-Based", difficulty: "hard",
+    stem: "PV = $120,000, EV = $100,000, AC = $125,000. Which statement correctly characterizes project performance?",
+    options: [
+          "SV = -$20,000 and CV = -$25,000: behind schedule and over budget",
+          "SV = +$20,000 and CV = +$25,000: ahead of schedule and under budget",
+          "SV = -$20,000 and CV = +$25,000: behind schedule but under budget",
+          "SPI = 1.2 and CPI = 1.25: ahead of schedule and under budget"
+    ],
+    answer: 0, explanation: "SV = EV - PV = 100,000 - 120,000 = -$20,000 (behind schedule). CV = EV - AC = 100,000 - 125,000 = -$25,000 (over budget). SPI = 100,000/120,000 = 0.83 and CPI = 100,000/125,000 = 0.80, both below 1.0 — confirming behind and over, not the inverted figures in option D."
+  },
+  {
+    id: "D3-001", domain: "Agile", difficulty: "medium",
+    stem: "A compliance team is building a system whose requirements are fixed by statute, must be exhaustively documented before a single line of code is written, and cannot legally change mid-project without a formal amendment. A junior PM proposes running the work in two-week sprints anyway, arguing agile is 'just better.' What is the strongest argument against her proposal?",
+    options: [
+          "Adaptive approaches cannot produce any documentation at all, which regulators require",
+          "Adaptive approaches trade formal upfront control and thin documentation for fast feedback — a poor exchange when scope is already fixed and documentation must satisfy a regulator, not a customer",
+          "Sprints are always longer than a month, which regulators forbid",
+          "Scrum Masters are not legally permitted to work on regulated projects"
+    ],
+    answer: 1, explanation: "Adaptive's honest weaknesses are thin governance/documentation and reliance on scope flexing through the backlog. When scope is already fixed by law and documentation must satisfy an external regulator rather than a paying customer, agile's core advantages (fast feedback, flexible scope) buy nothing while its weaknesses (lighter formal control) become liabilities. It is a fit argument, not a legal or procedural fabrication."
+  },
+  {
+    id: "D3-002", domain: "Agile", difficulty: "medium",
+    stem: "A startup is building a consumer app where the founders openly admit they don't yet know which features customers will actually use, the market shifts monthly, and the team can ship a usable slice every two weeks. A board member insists on a comprehensive requirements document and a fixed baseline before any coding starts. What is the strongest argument against the board member's approach?",
+    options: [
+          "A predictive baseline built on genuinely unknowable requirements locks in guesses early and defers discovery of errors to the point where they are most expensive to fix",
+          "Predictive approaches are illegal for consumer software",
+          "A requirements document always takes longer to write than the entire project",
+          "Board members are never permitted to set project constraints"
+    ],
+    answer: 0, explanation: "Predictive's honest weakness is that feedback arrives late and change is expensive once baselined. When requirements are genuinely unknowable up front — the startup's actual situation — a predictive baseline is a guess dressed as certainty, and errors in that guess surface only after the expensive commitment is made. This is the textbook profile for an adaptive approach instead."
+  },
+  {
+    id: "D3-003", domain: "Agile", difficulty: "easy",
+    stem: "A team is fully distributed across three time zones with no shared office. For this virtual team to run Scrum successfully, what must the organization deliberately supply that a colocated team gets for free?",
+    options: [
+          "Nothing — virtual teams cannot practice agile under any circumstances",
+          "Modern collaboration tooling and explicit working agreements about communication and overlap hours",
+          "A single scrum master physically present with each subgroup at all times",
+          "A predictive baseline to compensate for the lack of face-to-face contact"
+    ],
+    answer: 1, explanation: "Virtual teams can run agile well, but the organization must deliberately build what colocation provides automatically: collaboration technology and disciplined working agreements about availability and communication. Virtual is not inherently agile-hostile — it is agile-hostile only without that scaffolding."
+  },
+  {
+    id: "D3-004", domain: "Agile", difficulty: "medium",
+    stem: "A Scrum team routinely fails to complete its sprint commitments because two of its five developers are functional employees who get pulled onto other departmental priorities mid-sprint by their functional manager. Which organizational-structure factor best explains this recurring failure?",
+    options: [
+          "A weak matrix structure, where functional managers retain authority over people's time and undermine the dedicated, stable membership adaptive teams require",
+          "A strong project-oriented structure, which is ideal for agile delivery",
+          "A hierarchical structure, which has no bearing on team staffing",
+          "A virtual team structure, which always causes missed commitments"
+    ],
+    answer: 0, explanation: "In a weak matrix, functional managers hold the real authority over resource time, so team members get pulled onto competing priorities — exactly the decentralized-portfolio problem that poisons sprint commitments. A strong matrix or dedicated project structure would grant the team real authority over its own members' time instead."
+  },
+  {
+    id: "D3-005", domain: "Agile", difficulty: "easy",
+    stem: "Which enterprise environmental factor (EEF) most directly facilitates an organization's adoption of adaptive approaches?",
+    options: [
+          "A culture of trust and safety that tolerates failure as a source of learning",
+          "A change-control board that requires six weeks to approve any adjustment",
+          "Documentation standards written exclusively for predictive projects",
+          "Departmental silos that keep specialists reporting through separate chains"
+    ],
+    answer: 0, explanation: "A culture of trust and safety, with tolerance for failure as learning, is a facilitative EEF that lets teams experiment, inspect, and adapt without fear of blame. The other three options are the hostile versions of organizational assets — the kind a servant leader has to reform, not lean on."
+  },
+  {
+    id: "D3-006", domain: "Agile", difficulty: "medium",
+    stem: "Which organizational process asset (OPA) actively suppresses an organization's ability to adopt adaptive approaches?",
+    options: [
+          "An agile-friendly PMO offering coaching, training, and tool templates",
+          "A library of existing team charters and working agreements",
+          "A formal change-control process built for predictive baselines that takes six weeks to approve any adjustment",
+          "Escalation paths designed for rapid impediment removal"
+    ],
+    answer: 2, explanation: "A change-control process designed for a fixed predictive baseline is exactly the kind of hostile OPA that blocks agility — it forces the fast feedback loops of an adaptive project through a process built for the opposite cadence. The other three are facilitative OPAs the Practice Guide names explicitly."
+  },
+  {
+    id: "D3-007", domain: "Agile", difficulty: "easy",
+    stem: "Ordering the logical units of adaptive work from LARGEST to SMALLEST, which sequence is correct?",
+    options: [
+          "Task, story, iteration, epic, release",
+          "Release, epic, iteration, story, task",
+          "Epic, release, task, story, iteration",
+          "Story, task, release, epic, iteration"
+    ],
+    answer: 1, explanation: "A release bundles multiple iterations (sprints); a large epic is bigger than any single iteration because it takes several iterations' worth of stories to complete; within one iteration, the team finishes user stories sized to fit that timebox, and each story decomposes further into technical tasks. Release > epic > iteration > story > task."
+  },
+  {
+    id: "D3-008", domain: "Agile", difficulty: "medium",
+    stem: "During backlog refinement, the team discovers that a single backlog item is far too large to realistically finish within one two-week sprint. What is the correct response?",
+    options: [
+          "Extend the sprint's timebox until the item can be finished",
+          "Split the oversized item (the epic) into smaller user stories that each fit within the fixed iteration",
+          "Assign the entire item to one developer to work on across several sprints without splitting it",
+          "Remove the item from the backlog permanently since it cannot be estimated"
+    ],
+    answer: 1, explanation: "The iteration's timebox is fixed and does not stretch to accommodate oversized work; instead the unit of work is split — an epic becomes smaller stories that fit inside the sprint. Bending the timebox to the work item, rather than the reverse, is the recurring exam trap here."
+  },
+  {
+    id: "D3-009", domain: "Agile", difficulty: "medium",
+    stem: "Which statement correctly identifies a genuine trade-off of using a fixed iteration (timebox) rather than an open-ended work period?",
+    options: [
+          "Timeboxes guarantee that every planned item will be finished by the deadline",
+          "A timebox creates a regular cadence for feedback and forecasting, but work that doesn't fit must be deferred or split rather than let the box grow",
+          "Timeboxes eliminate the need for backlog refinement entirely",
+          "Timeboxes are only usable by teams larger than fifty people"
+    ],
+    answer: 1, explanation: "The benefit of a fixed timebox is a predictable cadence for planning, delivery, and feedback (and it enables velocity as a forecasting tool); the cost is that scope, not time, must flex — unfinished or oversized work is deferred or split, never used as a reason to lengthen the iteration."
+  },
+  {
+    id: "D3-010", domain: "Agile", difficulty: "medium",
+    stem: "A predictive WBS contains the work package 'Design and build customer login module,' estimated at six weeks of effort. The team is moving to two-week sprints. What is the correct way to translate this work package into the adaptive plan?",
+    options: [
+          "Keep it as a single six-week work package and pause sprints until it's finished",
+          "Split it into multiple smaller user stories (e.g., password reset, social sign-in, session timeout) that each fit inside a single sprint, ordered in the backlog by value",
+          "Convert it directly into one Daily Scrum agenda item",
+          "Discard it, since WBS work packages have no adaptive equivalent"
+    ],
+    answer: 1, explanation: "Translating a WBS to an adaptive plan means work packages become backlog items or user stories, split until each fits inside one iteration, then ordered in the backlog by value. A six-week package cannot become a single sprint's story — it must be decomposed."
+  },
+  {
+    id: "D3-011", domain: "Agile", difficulty: "hard",
+    stem: "While translating a WBS into backlog items, the team encounters a work package whose technical approach is genuinely unknown — nobody can estimate it with any confidence. What is the appropriate adaptive technique for handling it?",
+    options: [
+          "Assign it the same story-point estimate as a similar-looking, well-understood item",
+          "Create a spike: a short, timeboxed investigation whose output is the knowledge needed to estimate and split the real work",
+          "Escalate it to the sponsor to be removed from scope permanently",
+          "Skip estimation and add it directly to the current sprint at full size"
+    ],
+    answer: 1, explanation: "A spike is a timeboxed investigation used specifically when a backlog item hides unknowns that block confident estimation or splitting. Its output is information, not a shippable increment, and it converts an unknown into stories the team can actually plan."
+  },
+  {
+    id: "D3-012", domain: "Agile", difficulty: "easy",
+    stem: "In adaptive planning, scope for the release is continuously assembled from which set of living inputs?",
+    options: [
+          "A single signed-off requirements specification and nothing else",
+          "The project charter/vision, the product roadmap, personas and customer voice, and previously refined backlog items",
+          "Only the sprint backlog from the immediately prior sprint",
+          "The organization's annual budget document"
+    ],
+    answer: 1, explanation: "Unlike predictive planning's single requirements baseline, adaptive scope is re-derived every cycle from several living sources: the charter/vision, the roadmap, personas/customer voice, and backlog items carried forward from prior refinement — continuously converted into ready stories."
+  },
+  {
+    id: "D3-013", domain: "Agile", difficulty: "medium",
+    stem: "A new Product Owner skips writing a product vision or roadmap and jumps straight to drafting sprint backlogs from scratch each sprint. What problem does this create?",
+    options: [
+          "None — sprint backlogs are the only scope input an adaptive team needs",
+          "Without a vision and roadmap feeding backlog refinement, the team loses the directional inputs that let it prioritize consistently across sprints, risking a backlog that reacts to whichever request is loudest rather than what delivers the most value",
+          "It violates PMI's rule that all projects must use a WBS",
+          "It automatically converts the project to a predictive life cycle"
+    ],
+    answer: 1, explanation: "The sprint backlog is refinement's output, not scope's input. Skipping the vision and roadmap removes the directional inputs that anchor consistent, value-based prioritization, leaving the team to react to noise rather than pursue a coherent release direction."
+  },
+  {
+    id: "D3-014", domain: "Agile", difficulty: "easy",
+    stem: "Which of the following is an ARTIFACT used on an adaptive project, as opposed to an event or a role?",
+    options: [
+          "The Daily Scrum",
+          "The Sprint Retrospective",
+          "The Product Backlog",
+          "The Scrum Master"
+    ],
+    answer: 2, explanation: "The Product Backlog is one of Scrum's three artifacts (with the Sprint Backlog and the Increment). The Daily Scrum and Sprint Retrospective are timeboxed events; the Scrum Master is a role, not an artifact."
+  },
+  {
+    id: "D3-015", domain: "Agile", difficulty: "medium",
+    stem: "A team disagrees at the end of a sprint about whether a story is truly finished — one developer says it's done because the code compiles, another says testing and documentation are still outstanding. Which artifact exists specifically to prevent this disagreement?",
+    options: [
+          "The product roadmap",
+          "The Definition of Done — a shared quality checklist every increment must satisfy",
+          "The sprint burndown chart",
+          "The team's velocity history"
+    ],
+    answer: 1, explanation: "The Definition of Done is the adaptive artifact that establishes an agreed, shared checklist for what 'finished' means at the story/increment level, precisely to prevent exactly this kind of disagreement between team members."
+  },
+  {
+    id: "D3-016", domain: "Agile", difficulty: "medium",
+    stem: "A team wants to determine whether a completed backlog item can be counted as truly finished. Which criterion correctly answers that question on an adaptive project?",
+    options: [
+          "Whether the item was completed on the day originally forecast",
+          "Whether the item satisfies its acceptance criteria and the team's Definition of Done",
+          "Whether the item's actual cost matched its budgeted cost",
+          "Whether the item appears on the original project charter"
+    ],
+    answer: 1, explanation: "Success at the task/story level in an adaptive project is defined empirically: acceptance criteria plus the team's Definition of Done, not adherence to a predictive date or cost baseline that adaptive projects don't fix the same way."
+  },
+  {
+    id: "D3-017", domain: "Agile", difficulty: "easy",
+    stem: "How does adaptive project success differ from predictive project success?",
+    options: [
+          "Adaptive success is measured only by finishing exactly on the original baseline date",
+          "Adaptive success is redefined around value delivered — working increments, satisfied customers, sustainable pace, and improving flow — rather than on-time/on-budget/in-scope",
+          "There is no way to measure success on an adaptive project",
+          "Adaptive and predictive success criteria are identical in every respect"
+    ],
+    answer: 1, explanation: "Predictive success is the classic triple-constraint (on time, on budget, in scope). Adaptive success is redefined around delivered value: working increments, customer satisfaction, sustainable pace, improving flow, and demonstrable quality — evidence-based rather than baseline-based."
+  },
+  {
+    id: "D3-018", domain: "Agile", difficulty: "hard",
+    stem: "A Product Owner is prioritizing a backlog and wants to identify which features will genuinely delight customers versus which are baseline expectations that cause dissatisfaction only if missing. Which prioritization technique should she use?",
+    options: [
+          "MoSCoW (Must/Should/Could/Won't)",
+          "Weighted Shortest Job First (WSJF)",
+          "The Kano model, which classifies features as delighters, performance features, and must-be basics",
+          "A simple first-in-first-out queue"
+    ],
+    answer: 2, explanation: "The Kano model is built exactly for this judgment: it classifies features by their effect on customer satisfaction — delighters, linear performance features, and must-be basics whose absence causes dissatisfaction. MoSCoW sorts by necessity and WSJF sequences by economic cost of delay, neither of which targets the delight-versus-basic distinction."
+  },
+  {
+    id: "D4-001", domain: "Business Analysis", difficulty: "medium",
+    stem: "A business analyst builds the stakeholder register early but never revisits it after a downstream distribution partner joins the initiative mid-project. At acceptance, the partner's labeling requirements surface for the first time and force rework. What does this scenario most directly illustrate about stakeholder identification?",
+    options: [
+          "Stakeholder registers should only be built once, at project initiation, to avoid scope creep",
+          "Omitting or failing to update a stakeholder can mean the loss of critical product requirements",
+          "External stakeholders never need to be tracked in the register",
+          "The RTM, not the stakeholder register, is responsible for catching this kind of gap"
+    ],
+    answer: 1, explanation: "The Guide is explicit that overlooking any one stakeholder risks losing critical requirements entirely — which is why the register must be refined continuously as new stakeholders and influence emerge, not treated as a one-time deliverable."
+  },
+  {
+    id: "D4-002", domain: "Business Analysis", difficulty: "easy",
+    stem: "Why does a business analyst bother formally identifying stakeholders and their roles at all, rather than simply gathering requirements from whoever is in the room?",
+    options: [
+          "Formal identification is a documentation formality with no bearing on requirements quality",
+          "It ensures no affected individual, group, or organization is overlooked, since a missed stakeholder means missed requirements",
+          "It is required only on adaptive projects, never on predictive ones",
+          "It replaces the need for a communication plan"
+    ],
+    answer: 1, explanation: "Identifying roles and responsibilities exists precisely to prevent the loss of requirements that comes from overlooking a stakeholder who may affect, be affected by, or perceive itself affected by the initiative."
+  },
+  {
+    id: "D4-003", domain: "Business Analysis", difficulty: "medium",
+    stem: "A project team is corresponding with an outside regulatory agency about a compliance requirement. To keep messaging consistent across the organizational boundary, what approach does the Guide recommend for this kind of external-stakeholder communication?",
+    options: [
+          "Allow any team member on either side to respond directly to keep things fast",
+          "Route communications through single points of contact at both ends",
+          "Restrict all communication to push channels such as email only",
+          "Treat the regulator the same as an internal stakeholder since both are affected parties"
+    ],
+    answer: 1, explanation: "External stakeholders sit outside the organization's shared norms and repositories, so the Guide recommends single points of contact on both sides to keep external messaging consistent — unlike internal stakeholders, who already share common channels."
+  },
+  {
+    id: "D4-004", domain: "Business Analysis", difficulty: "medium",
+    stem: "A business analyst needs to make an approved backlog visible to a large, globally distributed set of stakeholders who will check it at their own convenience rather than needing it pushed to them. Which communication approach fits, and which tool is a natural fit for it?",
+    options: [
+          "Push communication, via a mass email to every stakeholder",
+          "Interactive communication, via a scheduled video call with all stakeholders",
+          "Pull communication, via a shared dashboard or repository stakeholders can retrieve on demand",
+          "Interactive communication, via one-on-one interviews with each stakeholder"
+    ],
+    answer: 2, explanation: "Pull communication lets large, dispersed audiences retrieve information as needed — a published dashboard or repository is the textbook example. Push sends to specific recipients without confirming uptake; interactive channels do not scale to a large distributed audience for routine visibility."
+  },
+  {
+    id: "D4-005", domain: "Business Analysis", difficulty: "medium",
+    stem: "Developers build a feature strictly from a requirements email the product owner sent them, but the QA team — which was never copied — writes test cases from an older specification and the two disagree at release. What does this scenario illustrate about business analysis communication?",
+    options: [
+          "QA should not be involved in requirements at all, only development",
+          "There is rarely a one-size-fits-all way to communicate product information to all stakeholders, and gaps in the structured, maintained information channel cause exactly this kind of mismatch",
+          "The product owner should have used an interactive channel instead of email for a routine requirement",
+          "This is a defect-tracking problem, not a communication-planning problem"
+    ],
+    answer: 1, explanation: "Requirements cross team boundaries constantly, and the Guide's own reasoning is that no single communication approach fits everyone. When one team builds from information another never received, the failure lies in how product information was structured, stored, and shared across teams."
+  },
+  {
+    id: "D4-006", domain: "Business Analysis", difficulty: "easy",
+    stem: "Why is deliberate communication planning by the business analyst important between separate teams working on the same product, such as development and testing?",
+    options: [
+          "Because requirements and features must move consistently across team boundaries, and without a structured approach some teams end up working from stale or incomplete information",
+          "Because PMI requires a documented communication plan for certification purposes only",
+          "Because interactive communication is always superior to push or pull communication",
+          "Because only the product owner is permitted to communicate requirements to any team"
+    ],
+    answer: 0, explanation: "BA communication planning matters because requirements and features must flow consistently across team boundaries; without a deliberate approach, teams can end up acting on different or outdated information, producing exactly the kind of mismatch the exam likes to test."
+  },
+  {
+    id: "D4-007", domain: "Business Analysis", difficulty: "medium",
+    stem: "A product owner wants to capture a single, small capability — \"As a returning customer, I want my saved address to pre-fill at checkout, so that I can order faster\" — for placement in the backlog. Which requirements format is this, and why would a use case be the wrong choice here?",
+    options: [
+          "A use case, because it involves a customer interacting with the checkout system",
+          "A user story, because it is a small, backlog-sized capability from one user's perspective, not a multi-actor branching workflow",
+          "A business requirement, because it states organizational value",
+          "A nonfunctional requirement, because it describes a quality attribute"
+    ],
+    answer: 1, explanation: "This is a classic user story: single perspective, small and conversational, backlog-ready. A use case is reserved for processes with multiple actors and branching main/alternate/exception flows, which this simple pre-fill capability does not have."
+  },
+  {
+    id: "D4-008", domain: "Business Analysis", difficulty: "medium",
+    stem: "A team using Scrum wants to know, at any moment, exactly which requirements are still outstanding, roughly how they are ordered, and which have been refined enough to build. Which artifact serves this purpose, and how does it relate to the predictive-world RTM?",
+    options: [
+          "The product roadmap, which plays the identical role as the RTM in both worlds",
+          "The product backlog, which serves as the adaptive world's living, continuously updated equivalent of tracing and managing requirements that the RTM provides in the predictive world",
+          "The stakeholder register, since it lists everyone who submitted a requirement",
+          "The release plan, since it is updated every sprint"
+    ],
+    answer: 1, explanation: "The product backlog is the adaptive-world requirements repository — ordered and continuously refined — performing the same essential tracking duty that the RTM performs on a predictive project, though without the RTM's formal source-to-test-case columns."
+  },
+  {
+    id: "D4-009", domain: "Business Analysis", difficulty: "easy",
+    stem: "A sponsor asks what the product roadmap is actually for, since it isn't a locked schedule and features on it sometimes shift. What is the roadmap's key benefit according to the Guide?",
+    options: [
+          "It legally commits the team to specific delivery dates",
+          "It creates shared expectations among stakeholders about what will be delivered and in what general order",
+          "It replaces the product backlog for day-to-day work sequencing",
+          "It is used only for external marketing materials and has no internal planning value"
+    ],
+    answer: 1, explanation: "The roadmap's stated key benefit is creating shared expectations among stakeholders for deliverables and their sequence. It is a strategic, high-level direction-setter, not a binding schedule — mistaking it for one is a common exam trap."
+  },
+  {
+    id: "D4-010", domain: "Business Analysis", difficulty: "medium",
+    stem: "A stakeholder mixes up three artifacts: one shows the long-range strategic evolution of the product with themes per release, one shows which specific components are allocated to the very next release, and one shows the near-term, continuously re-ordered work the team will pull from next. In order from longest-range to nearest-term, how does the exam expect you to name these three?",
+    options: [
+          "Backlog, release plan, roadmap",
+          "Roadmap, release plan, backlog",
+          "Release plan, roadmap, backlog",
+          "Roadmap, backlog, release plan"
+    ],
+    answer: 1, explanation: "The hierarchy runs roadmap (long-range strategic) to release plan (medium-range, components allocated to releases) to backlog (near-term, continuously re-ordered). Crossing these purposes is the exam's favorite distractor pattern."
+  },
+  {
+    id: "D4-011", domain: "Business Analysis", difficulty: "hard",
+    stem: "A roadmap lists four components for the next release window: one is low-value and unrelated to strategy, one is high-risk and poorly understood, one depends on a component not yet built, and one is high-value, independent, and well understood. Given standard release-planning logic, which component is the strongest candidate to ship in the earliest release?",
+    options: [
+          "The low-value, unrelated component, since it clears the backlog quickly",
+          "The component that depends on an unbuilt prerequisite, to get the hard part out of the way",
+          "The high-value, independent, well-understood component, since it delivers clear value with no blocking dependency",
+          "The high-risk, poorly understood component, because risk should always be deferred to the last release"
+    ],
+    answer: 2, explanation: "Release sequencing favors high-value, low-effort, dependency-free components early. The dependent component must wait for its prerequisite, the low-value item does not justify early placement, and risky-but-poorly-understood work is actually a candidate for early attention (to fail cheaply), not automatic deferral — but it is not the strongest early candidate here compared to a ready, high-value, independent item."
+  },
+  {
+    id: "D4-012", domain: "Business Analysis", difficulty: "medium",
+    stem: "How does the business analyst's core work differ between a predictive, plan-based project and an adaptive one?",
+    options: [
+          "On adaptive projects the BA no longer elicits, analyzes, traces, or validates requirements at all",
+          "The core activities of elicit, analyze, trace, and validate remain the same, but timing, level of detail, documentation formality, and collaboration cadence shift — up-front baselining and change control versus continuous refinement and feedback loops",
+          "On predictive projects the BA has no role once the RTM is baselined",
+          "The BA role is identical in both approaches, since PMI does not distinguish methodologies for business analysis"
+    ],
+    answer: 1, explanation: "The BA's fundamental activities never disappear; what changes across predictive and adaptive approaches is when work happens, how much detail is captured up front, how formally it is documented, and whether approval happens through gates or loops."
+  },
+  {
+    id: "D4-013", domain: "Business Analysis", difficulty: "easy",
+    stem: "A stakeholder proposes \"the new dashboard should feel modern and be easy to use\" as an acceptance criterion. What is the primary problem with this criterion?",
+    options: [
+          "It is too short to be a valid requirement",
+          "It is not objective or testable, so pass/fail cannot be determined at the demo",
+          "It should have been written as a use case instead",
+          "It belongs in the product roadmap, not the backlog"
+    ],
+    answer: 1, explanation: "Well-formed acceptance criteria are objective and checkable. \"Feel modern\" and \"easy to use\" cannot be verified pass/fail, which is exactly the trap the exam sets with vague, subjective criteria."
+  },
+  {
+    id: "D4-014", domain: "Business Analysis", difficulty: "medium",
+    stem: "A team confirms that a delivered feature exactly matches its written specification, yet the customer says it still doesn't solve their actual problem. Which concept explains the gap, and what role do acceptance criteria play here?",
+    options: [
+          "This is a transition requirement failure; acceptance criteria are irrelevant to it",
+          "The team achieved verification (built it right) but not validation (built the right thing); well-formed acceptance criteria are meant to serve both, so criteria tied only to the spec missed validating actual need",
+          "This shows the RTM was never created; acceptance criteria only matter in adaptive projects",
+          "This is a product roadmap problem, since roadmaps define customer needs"
+    ],
+    answer: 1, explanation: "Verification asks whether the deliverable conforms to spec; validation asks whether it meets the actual need — the higher bar. Acceptance criteria are meant to serve both, so criteria that only check spec conformance can pass verification while validation still fails."
+  },
+  {
+    id: "D4-015", domain: "Business Analysis", difficulty: "hard",
+    stem: "On an adaptive project, the team says a release is ready to ship because the sprint burndown hit zero and everyone \"feels good\" about the demo. What should a business analyst point to instead to determine delivery readiness?",
+    options: [
+          "The burndown chart reaching zero, since that is objective evidence of completion",
+          "Evidence that every release-scope backlog item has met its defined acceptance criteria, not team sentiment or a completed burndown",
+          "A verbal sign-off from the product owner at the sprint review",
+          "The product roadmap, since it lists the features intended for this release"
+    ],
+    answer: 1, explanation: "Delivery readiness is an evidence-based judgment. In the adaptive world that evidence is a backlog showing all release-scope items traced and meeting their acceptance criteria — not a burndown chart, verbal optimism, or the roadmap, which sets direction rather than proving completion."
+  },
+  {
+    id: "D4-016", domain: "Business Analysis", difficulty: "easy",
+    stem: "A Scrum team's stakeholders disagree about who has final say over the order of items in the sprint backlog versus who is accountable for the product's multi-year market positioning. Which pairing resolves the confusion?",
+    options: [
+          "The product owner orders the backlog; the product manager owns strategy and positioning",
+          "The product manager orders the backlog; the product owner owns strategy and positioning",
+          "The scrum master owns both, since Scrum has no room for two separate roles",
+          "Both roles are interchangeable titles for the same accountability"
+    ],
+    answer: 0, explanation: "The product owner is the single person accountable for ordering the backlog and maximizing value on a Scrum team; the product manager owns broader product strategy, market positioning, and lifecycle. Swapping these accountabilities is the exam's classic trap."
+  },
+  {
+    id: "D4-017", domain: "Business Analysis", difficulty: "medium",
+    stem: "A logistics company builds a new scanning app without including warehouse floor staff in the stakeholder register, relying instead on management's description of the workflow. After launch, floor staff reveal a workaround they've used for years that would have changed the scanner's required input method entirely. What does this scenario most directly demonstrate?",
+    options: [
+          "Stakeholder registers should be limited to management to avoid conflicting requirements",
+          "Omitting a stakeholder group from identification can mean the requirements they hold are never captured at all",
+          "Floor staff are not true stakeholders since they did not commission the project",
+          "This is purely a training failure, unrelated to stakeholder identification"
+    ],
+    answer: 1, explanation: "Anyone who affects or is affected by an initiative is a stakeholder whose requirements matter. Skipping the people who actually do the work — in favor of secondhand description — is exactly how critical requirements get lost until the expensive post-launch discovery."
+  },
+  {
+    id: "D4-018", domain: "Business Analysis", difficulty: "medium",
+    stem: "A hospital's project involves nursing staff who work inside the organization every day and a device manufacturer supplying an external interface specification. Which classification is correct, and what does it predict about how the team should coordinate with each group?",
+    options: [
+          "Both are internal stakeholders, since both are essential to the project's success",
+          "Nursing staff are internal stakeholders sharing the organization's norms and tools; the manufacturer is external, so communication should route through a single point of contact on each side",
+          "Nursing staff are external because they don't control the budget; the manufacturer is internal because it is contractually bound",
+          "Classification as internal or external has no bearing on how communication should be structured"
+    ],
+    answer: 1, explanation: "Internal stakeholders share the organization's repositories and norms; external stakeholders sit outside them, so coordination benefits from designated single points of contact to keep messaging consistent across the boundary."
+  },
+  {
+    id: "D4-019", domain: "Business Analysis", difficulty: "easy",
+    stem: "A business analyst needs to formally notify forty stakeholders that a requirements document has received sign-off. No real-time discussion is needed, and there is a clear, specific recipient list. Which type of communication and channel fits best?",
+    options: [
+          "Interactive communication, via a live conference call",
+          "Push communication, via an email or memo to the recipient list",
+          "Pull communication, via a shared portal stakeholders check on their own",
+          "Interactive communication, via one-on-one meetings with all forty stakeholders"
+    ],
+    answer: 1, explanation: "A specific, known recipient list receiving a one-way status update is the textbook use for push communication — email or a memo. Interactive channels are overkill for a routine sign-off notice, and pull is better suited to large, undefined audiences retrieving information at will."
+  },
+  {
+    id: "D4-020", domain: "Business Analysis", difficulty: "hard",
+    stem: "A mobile team builds a checkout feature against version 3 of a requirements document, while the backend team — never notified of the update — builds against version 2. The two features fail to integrate at release. What is the underlying cause the business analyst should address?",
+    options: [
+          "The backend team should have guessed that a newer version existed",
+          "There was no structured, maintained approach for how product information is stored and shared across teams, so a change reached one team but not the other",
+          "This is strictly a version-control tooling problem outside the scope of business analysis",
+          "Interactive communication should have been banned in favor of document-only updates"
+    ],
+    answer: 1, explanation: "Requirements cross team boundaries constantly, and there is rarely one channel that reaches everyone automatically. The root failure is the absence of a deliberate, structured way of maintaining and distributing product information — precisely the communication-planning responsibility of the BA."
+  },
+  {
+    id: "D4-021", domain: "Business Analysis", difficulty: "medium",
+    stem: "A business analyst must document how a customer, an internal warehouse system, and a third-party shipping carrier's API interact when an order is placed — including what happens when the carrier's API times out. Which requirements format is the correct fit?",
+    options: [
+          "A user story, since it starts with a single customer's request",
+          "A use case, since it involves multiple actors and a branching exception path",
+          "A nonfunctional requirement, since timeouts describe system performance",
+          "A transition requirement, since the carrier interface is temporary"
+    ],
+    answer: 1, explanation: "Multiple actors (customer, internal system, external API) and an explicit exception flow (timeout) are the signature of a use case, not the single-perspective, backlog-sized shape of a user story."
+  },
+  {
+    id: "D4-022", domain: "Business Analysis", difficulty: "easy",
+    stem: "Before scoping a new ERP rollout, leadership wants to understand what went wrong in three previous failed system implementations at the company. Which elicitation technique best surfaces this?",
+    options: [
+          "A large-scale survey of current employees",
+          "Document analysis of past project records and lessons learned",
+          "Observation of employees using the current ERP system",
+          "A facilitated workshop with the new project's stakeholders"
+    ],
+    answer: 1, explanation: "Reviewing existing documentation — prior project records, retrospectives, lessons learned — is the natural technique for mining historical experience before a project even starts eliciting new requirements."
+  },
+  {
+    id: "D4-023", domain: "Business Analysis", difficulty: "hard",
+    stem: "A business analyst needs candid input from a VP of Operations about a politically sensitive reorganization, but the VP has stayed guarded in every group setting so far. Which elicitation technique is most likely to get an honest answer, and why?",
+    options: [
+          "A companywide survey, because anonymity encourages candor",
+          "A one-on-one interview, because the private, in-depth setting suits a sensitive topic and a key individual whose perspective must be probed carefully",
+          "A facilitated workshop with peer executives present, to build consensus",
+          "Passive observation of the VP's daily meetings"
+    ],
+    answer: 1, explanation: "Interviews are suited exactly to this profile: a sensitive topic and a key stakeholder who needs a private, probing conversation rather than a group setting where guardedness is likely to persist."
+  },
+  {
+    id: "D4-024", domain: "Business Analysis", difficulty: "medium",
+    stem: "A new data-privacy regulation forces a mid-project change to an existing requirement on a predictive initiative. The project manager needs a complete list of every design element, coded component, and test case that must be revisited as a result. Which artifact answers this, and what characteristic of it makes that possible?",
+    options: [
+          "The stakeholder register, because it lists who is affected by the regulation",
+          "The requirements traceability matrix, because it links each requirement forward to design, implementation, and test evidence",
+          "The product roadmap, because it shows the release timeline",
+          "The communication plan, because it shows who must be informed"
+    ],
+    answer: 1, explanation: "The RTM's row-by-row links from requirement to design, build, and test artifacts are exactly what enables this kind of downstream impact analysis when a single requirement changes."
+  },
+  {
+    id: "D4-025", domain: "Business Analysis", difficulty: "easy",
+    stem: "Internal product managers receive a roadmap version with detailed feature names and target sprint numbers, while external customers see the same roadmap with only broad quarterly windows and no confidential initiatives. Why does the Guide consider this appropriate?",
+    options: [
+          "Roadmaps must legally be identical for every audience",
+          "Roadmaps are audience-tailored documents, and external audiences typically receive broader time ranges with sensitive or strategic detail removed",
+          "External customers are not real stakeholders and should not see a roadmap at all",
+          "This indicates the roadmap has not been properly baselined"
+    ],
+    answer: 1, explanation: "The roadmap sets shared expectations, but the level of detail is deliberately tailored: internal audiences like product managers get the fullest detail, while external customers get broad time ranges without confidential or strategy-sensitive content."
+  },
+  {
+    id: "D4-026", domain: "Business Analysis", difficulty: "hard",
+    stem: "A roadmap lists four candidate components for the next two releases: Component W requires Component X to exist first; Component X is independent, moderate-value, and ready to build; Component Y is high-value but requires extensive rework of legacy code with unclear scope; Component Z is a minor cosmetic tweak with negligible value. If the team can ship only two components in the first release, which pairing best reflects sound release-planning logic?",
+    options: [
+          "W and Z, to clear the highest-effort and lowest-effort items simultaneously",
+          "X and Y, since X unblocks future work and Y is the highest stated value regardless of its uncertainty",
+          "X first because it unblocks W and is ready now; Y is a strong second choice only if its scope can be clarified soon, ahead of the low-value Z",
+          "Z and Y, since cosmetic polish should ship alongside the most valuable feature"
+    ],
+    answer: 2, explanation: "X should ship early because it is ready, independent, and unblocks W downstream. Y carries real value but its unclear scope and rework risk argue for scoping it further before committing it to release one; either way it outranks the negligible-value Z. W must wait for X, and Z does not deserve an early release slot on value alone."
+  },
+  {
+    id: "D4-027", domain: "Business Analysis", difficulty: "medium",
+    stem: "A team debates whether a risky, poorly understood component should be pushed to the very last release, on the theory that better-understood work should go first. What does sound release-sequencing logic actually suggest?",
+    options: [
+          "Risky, poorly understood work should generally be tackled early, so problems surface while there is still time and budget to respond",
+          "Risky work should always be deferred to the final release regardless of context",
+          "Risk has no bearing on release sequencing, only value and effort do",
+          "Risky components should be removed from the roadmap entirely until fully understood"
+    ],
+    answer: 0, explanation: "A shrewd approach front-loads risky, poorly understood components so the team can fail cheaply and adjust while time remains, rather than discovering the risk has become unmanageable in the final release."
+  },
+  {
+    id: "D4-028", domain: "Business Analysis", difficulty: "medium",
+    stem: "A hybrid initiative documents hardware requirements up front with formal change control, while the accompanying software team captures requirements as user stories refined sprint by sprint. A stakeholder asks whether the business analyst's fundamental job differs between the two halves of the project. What is the accurate answer?",
+    options: [
+          "Yes — on the adaptive software side, the BA no longer elicits or validates requirements at all",
+          "No fundamental difference in core activities — elicit, analyze, trace, and validate remain the same; what changes is timing, level of detail, documentation formality, and collaboration cadence",
+          "Yes — on the predictive hardware side, the BA's role ends once the requirements document is baselined",
+          "The BA role only exists on the predictive side; adaptive teams manage their own requirements without a BA"
+    ],
+    answer: 1, explanation: "The BA's core activities persist across both approaches. What genuinely shifts is when the work happens, how much detail is captured up front, how formally it's documented, and whether approval runs through baselines and change control or through continuous refinement and feedback."
+  },
+  {
+    id: "D4-029", domain: "Business Analysis", difficulty: "hard",
+    stem: "Two proposed acceptance criteria are compared for a checkout feature: (1) \"The system should feel fast and responsive to users,\" and (2) \"95% of checkout requests complete in under two seconds under a load of 500 concurrent users.\" Why does only the second qualify as a well-formed acceptance criterion?",
+    options: [
+          "The first is shorter, and acceptance criteria must be lengthy to be valid",
+          "The second is objective and testable with a clear pass/fail threshold, while the first is subjective and cannot be verified at the demo",
+          "The first belongs on the product roadmap and was miscategorized as a criterion",
+          "Acceptance criteria are only ever written for nonfunctional requirements, so both are invalid"
+    ],
+    answer: 1, explanation: "Well-formed acceptance criteria must be objective and checkable. \"Feel fast and responsive\" cannot be adjudicated pass/fail, while the measurable percentile-and-load statement can be tested directly against evidence."
+  },
+  {
+    id: "D4-030", domain: "Business Analysis", difficulty: "hard",
+    stem: "On a predictive project, the RTM shows that 2 of 50 release-scope requirements remain untested as the planned release date arrives. The project manager wants to ship on schedule and address the two items in a fast-follow patch. What should the business analyst's evidence-based response be?",
+    options: [
+          "Agree immediately, since 48 of 50 requirements passing is a strong completion rate",
+          "Point out that delivery readiness is determined by the RTM showing all release-scope requirements traced, tested, and accepted — the two untested items mean readiness has not yet been demonstrated, whatever the schedule pressure",
+          "Defer entirely to the sponsor's preference, since acceptance criteria are a business decision, not a BA concern",
+          "Recommend shipping because the burndown of remaining tasks is nearly at zero"
+    ],
+    answer: 1, explanation: "Delivery readiness is an evidence-based judgment tied to the RTM (or backlog) showing every release-scope item traced and tested against its acceptance criteria — not a percentage that looks good enough, schedule pressure, or a burndown chart, none of which constitute that evidence."
+  },
+  {
     id: "FND-001", domain: "Foundations", difficulty: "easy",
     stem: "Which statement best describes why the 7th Edition of the PMBOK Guide shifted from a process-based to a principles-based standard?",
     options: [
@@ -2768,6 +4060,39 @@ const QUIZ = [
 ];
 
 /* ----------------------------------------------------------------
+ * ECO DOMAIN MAPPING — buckets the bank's legacy PMBOK-section domain
+ * strings into the 4 official ECO domains for Grand Exam weighting and
+ * dashboard analysis. Display/bucketing only — never rewrites a
+ * question's underlying `domain` field.
+ * ---------------------------------------------------------------- */
+const ECO_DOMAIN_MAP = {
+  'Fundamentals': 'Fundamentals',
+  'Principles': 'Fundamentals',
+  'Foundations': 'Fundamentals',
+  'Performance Domains': 'Fundamentals',
+  'Sponsor, PMO & Product': 'Fundamentals',
+  'Tailoring': 'Fundamentals',
+  'Models & Methods': 'Fundamentals',
+  'Methods & Artifacts': 'Fundamentals',
+  'Predictive, Plan-Based': 'Predictive, Plan-Based',
+  'Agile': 'Agile',
+  'Business Analysis': 'Business Analysis'
+};
+function ecoDomain(d) { return ECO_DOMAIN_MAP[d] || d; }
+
+/* ----------------------------------------------------------------
+ * GRAND EXAMINATION — constants
+ * 150 questions split 36/17/20/27% by ECO domain weight. Rounded to
+ * exact integers summing to 150 (25.5 -> 26 Predictive, 40.5 -> 40 BA).
+ * ---------------------------------------------------------------- */
+const GRAND_EXAM_WEIGHTS = { 'Fundamentals': 54, 'Predictive, Plan-Based': 26, 'Agile': 30, 'Business Analysis': 40 };
+const GRAND_EXAM_TOTAL = 150;
+const GRAND_EXAM_BREAK_AT = 75;
+const GRAND_EXAM_SECONDS = 3 * 60 * 60; // 10800 — 3 hours
+const GRAND_EXAM_BREAK_SECONDS = 10 * 60; // 10 minutes, courtesy countdown only
+const GRAND_EXAM_PASS_PCT = 70; // community-estimated benchmark, see EXAM_INTEL.md
+
+/* ----------------------------------------------------------------
  * STATE — persisted to localStorage under key 'capm_dojo_state'
  * ---------------------------------------------------------------- */
 const STORAGE_KEY = 'capm_dojo_state';
@@ -2780,7 +4105,15 @@ function defaultState() {
       bestPercent: null,           // best overall score (0-100)
       lastPercent: null,           // most recent score (0-100)
       lastDomains: null            // { domain: {correct, total} } of last attempt
-    }
+    },
+    grandExam: {
+      attempts: 0,
+      bestPercent: null,
+      lastPercent: null,
+      lastDomainScores: null,      // { ecoDomain: {correct, total} } of last attempt
+      lastReadiness: null          // 'PASS' | 'BELOW TARGET' verdict text of last attempt
+    },
+    history: {}                    // { [questionId]: {correct, miss, lastSeen} } across all sessions
   };
 }
 
@@ -2793,7 +4126,10 @@ function loadState() {
     const base = defaultState();
     return {
       completedLessons: Array.isArray(parsed.completedLessons) ? parsed.completedLessons : [],
-      quiz: Object.assign(base.quiz, parsed.quiz || {})
+      quiz: Object.assign(base.quiz, parsed.quiz || {}),
+      grandExam: Object.assign(base.grandExam, parsed.grandExam || {}),
+      history: (parsed.history && typeof parsed.history === 'object' && !Array.isArray(parsed.history))
+        ? parsed.history : {}
     };
   } catch (e) {
     return defaultState();
@@ -2821,6 +4157,7 @@ function showScreen(name) {
   if (name === 'home') renderHome();
   if (name === 'lectures') backToLessonList();
   if (name === 'exam') resetQuizUI();
+  if (name === 'grand') resetGrandExamUI();
 }
 
 document.querySelectorAll('#mainNav button').forEach(function (b) {
@@ -2828,9 +4165,542 @@ document.querySelectorAll('#mainNav button').forEach(function (b) {
 });
 
 /* ----------------------------------------------------------------
+ * HOME — rotating welcome quotes
+ * ---------------------------------------------------------------- */
+const QUOTES = [
+  {
+    text: "Sit down, sharpen your pencil, and mind the clock. Here we drill the PMI way of " +
+      "thinking until it is second nature. Progress is recorded in the ledger below — the " +
+      "dojo forgets nothing.",
+    attrib: null
+  },
+  {
+    text: "Marcus Aurelius wrote his private notes to himself between wars and plagues, never " +
+      "meaning for a soul to read them: <em>“You have power over your mind — not outside " +
+      "events. Realize this, and you will find strength.”</em> You cannot control what the " +
+      "exam asks, Mr. Gomez. You can control whether you sat down today and drilled.",
+    attrib: "— Marcus Aurelius, Roman Emperor, <em>Meditations</em>"
+  },
+  {
+    text: "Seneca, tutor to an emperor and no stranger to hard deadlines, put it plainly: " +
+      "<em>“It is not that we have a short time to live, but that we waste a lot of it.”</em> " +
+      "Spend twenty minutes here instead of scrolling. The ledger will thank you.",
+    attrib: "— Seneca the Younger, Roman Stoic philosopher"
+  },
+  {
+    text: "Epictetus was born a slave and became one of Rome's great teachers of the mind. His " +
+      "rule for students still holds: <em>“First say to yourself what you would be; and then " +
+      "do what you have to do.”</em> Decide you are a person who passes the CAPM. Then act like " +
+      "one, one lecture at a time.",
+    attrib: "— Epictetus, Stoic philosopher"
+  },
+  {
+    text: "Cicero, defending clients and the Republic in the same breath, warned: " +
+      "<em>“If you have a garden and a library, you have everything you need.”</em> Consider " +
+      "this dojo your library, Mr. Gomez. The garden can wait until after the exam.",
+    attrib: "— Marcus Tullius Cicero, Roman statesman and orator"
+  },
+  {
+    text: "Cato the Younger was famous for a stubbornness that outlasted Caesar's armies. Plutarch " +
+      "records that he practiced public speaking daily, rain or shine, because he refused to be " +
+      "caught unprepared. Practice quizzes are your daily forum speech. Show up to them.",
+    attrib: "— On Cato the Younger, as recorded by Plutarch"
+  },
+  {
+    text: "Julius Caesar crossed the Rubicon with a single line that has outlived every empire he " +
+      "built: <em>“alea iacta est”</em> — “the die is cast.” Every session you open this " +
+      "app, the die is cast again. Best make the roll count.",
+    attrib: "— Julius Caesar, Roman general and statesman"
+  },
+  {
+    text: "Augustus inherited a civil war and left behind two centuries of peace, largely by " +
+      "refusing to rush. His own motto, translated, ran: <em>“Make haste slowly.”</em> Cramming " +
+      "the night before helps no one, Mr. Gomez. Steady lectures, steady quizzes.",
+    attrib: "— Caesar Augustus, first Roman Emperor (motto: <em>festina lente</em>)"
+  },
+  {
+    text: "Trajan expanded Rome to its greatest extent, but historians remember him just as much " +
+      "for reading every petition brought to him personally. Diligence in small things, he " +
+      "understood, is what makes the large things possible. Read the Key Terms section. All of it.",
+    attrib: "— On Trajan, Roman Emperor"
+  },
+  {
+    text: "Alexander the Great supposedly slept with a copy of the <em>Iliad</em> — annotated by his " +
+      "tutor Aristotle — under his pillow. He is said to have remarked, <em>“There is nothing " +
+      "impossible to him who will try.”</em> Try the practice exam, Mr. Gomez. You may surprise " +
+      "yourself.",
+    attrib: "— Attributed to Alexander the Great"
+  },
+  {
+    text: "Confucius, asked how to govern well, answered that it begins with correcting one's own " +
+      "conduct: <em>“It does not matter how slowly you go as long as you do not stop.”</em> Slow " +
+      "and thorough beats fast and shaky on this exam. Keep moving.",
+    attrib: "— Confucius, Chinese philosopher"
+  },
+  {
+    text: "Sun Tzu's oldest lesson in <em>The Art of War</em> is really a study lesson in disguise: " +
+      "<em>“Victorious warriors win first and then go to war, while defeated warriors go to war " +
+      "first and then seek to win.”</em> Win the exam in this dojo, long before you sit for it.",
+    attrib: "— Sun Tzu, <em>The Art of War</em>"
+  },
+  {
+    text: "Abraham Lincoln, largely self-taught by firelight, once said: <em>“Give me six hours to " +
+      "chop down a tree and I will spend the first four sharpening the axe.”</em> Lectures are the " +
+      "sharpening, Mr. Gomez. Do not skip to the chopping.",
+    attrib: "— Attributed to Abraham Lincoln"
+  },
+  {
+    text: "Winston Churchill failed his exams more than once on the way to becoming Churchill. His " +
+      "own counsel to a room of schoolboys was blunt: <em>“Never give in, never give in, never, " +
+      "never, never, never.”</em> Missed a practice question? Reread the explanation and move on.",
+    attrib: "— Winston Churchill, from his 1941 Harrow School address"
+  },
+  {
+    text: "Dwight Eisenhower, who planned an invasion of a continent, kept a note on his desk: " +
+      "<em>“Plans are worthless, but planning is indispensable.”</em> Your study plan will bend " +
+      "as the exam date nears. The discipline of planning it will not go to waste.",
+    attrib: "— Dwight D. Eisenhower, U.S. General and President"
+  },
+  {
+    text: "Benjamin Franklin, printer, diplomat, and inveterate self-improver, wrote of his own " +
+      "habit tracking: <em>“An investment in knowledge pays the best interest.”</em> Consider " +
+      "every lecture you finish today a small deposit toward September's exam.",
+    attrib: "— Benjamin Franklin"
+  },
+  {
+    text: "George Washington, by most accounts an unremarkable student, made up the difference " +
+      "with relentless self-discipline, copying out 110 <em>Rules of Civility</em> by hand as a " +
+      "teenager simply to drill them into memory. There is no shame in rereading a lecture twice.",
+    attrib: "— On George Washington's youth"
+  },
+  {
+    text: "The Spartans at Thermopylae were vastly outnumbered and knew it. When told the Persian " +
+      "arrows would blot out the sun, Dienekes is said to have replied, <em>“Then we will fight " +
+      "in the shade.”</em> A 150-question exam looks like a wall of arrows from here. Fight it " +
+      "one question at a time.",
+    attrib: "— Attributed to Dienekes the Spartan, before Thermopylae"
+  },
+  {
+    text: "Hannibal Barca crossed the Alps with elephants because everyone assured him it could not " +
+      "be done. He is reported to have told his officers: <em>“We will either find a way, or make " +
+      "one.”</em> If a domain feels impassable, Mr. Gomez, we will find the way through it together.",
+    attrib: "— Attributed to Hannibal Barca, Carthaginian general"
+  },
+  {
+    text: "The Emperor Vespasian rose from a modest muleteer's family to found a dynasty, and kept " +
+      "a soldier's habit of finishing what he began each day rather than carrying it forward. Close " +
+      "out one lecture fully before you open the next.",
+    attrib: "— On Vespasian, Roman Emperor"
+  },
+  {
+    text: "Zeno of Citium, shipwrecked and penniless in Athens, wandered into a bookshop, heard a " +
+      "philosopher read aloud, and founded Stoicism on the spot. He later taught: <em>“Well-being " +
+      "is realized by small steps, but is truly no small thing.”</em> Small steps, Mr. Gomez. That " +
+      "is all this dojo asks of you.",
+    attrib: "— Zeno of Citium, founder of Stoicism"
+  },
+  {
+    text: "Plutarch, the great biographer of Greeks and Romans alike, believed the point of studying " +
+      "the great was never mere admiration: <em>“The mind is not a vessel to be filled, but a " +
+      "fire to be kindled.”</em> Do not just memorize the process groups. Understand why they " +
+      "exist.",
+    attrib: "— Plutarch, Greek biographer"
+  },
+  {
+    text: "Theodore Roosevelt, sickly as a boy and nearly blind in one eye as a man, still charged " +
+      "up San Juan Hill. His creed was simple: <em>“Do what you can, with what you have, where " +
+      "you are.”</em> You do not need a perfect study schedule. You need today's lecture.",
+    attrib: "— Theodore Roosevelt"
+  },
+  {
+    text: "Julius Caesar's rival Cato reportedly read philosophy at his dinner table, in the Senate " +
+      "waiting room, even by lamplight before battle. Ainsworth does not ask that much of you, Mr. " +
+      "Gomez — only that you open the app before you open anything else tonight.",
+    attrib: "— On Cato the Younger's study habits"
+  },
+  {
+    text: "Marcus Aurelius, again, because some lessons bear repeating for a stubborn student: " +
+      "<em>“Waste no more time arguing about what a good man should be. Be one.”</em> Waste no " +
+      "more time deciding whether you are a person who studies. Be one, starting now.",
+    attrib: "— Marcus Aurelius, <em>Meditations</em>"
+  },
+  {
+    text: "Frederick Douglass, who taught himself to read in defiance of the law, held that " +
+      "<em>“it is easier to build strong children than to repair broken men.”</em> It is easier " +
+      "still to build strong exam habits now than to cram them together the week before.",
+    attrib: "— Frederick Douglass"
+  },
+  {
+    text: "Julius Caesar's own commentaries on the Gallic Wars were written, historians believe, as " +
+      "much to keep discipline among his own staff as to record events — a general who wrote down " +
+      "his campaign kept himself honest about its progress. Your progress ledger below serves the " +
+      "same purpose.",
+    attrib: "— On Caesar's <em>Commentarii</em>"
+  },
+  {
+    text: "Aristotle, who tutored an emperor before Marcus Aurelius ever wrote a word, held that " +
+      "<em>“we are what we repeatedly do. Excellence, then, is not an act, but a habit.”</em> One " +
+      "quiz will not make a PMP-certified mind. A habit of quizzes will.",
+    attrib: "— Aristotle, Greek philosopher"
+  },
+  {
+    text: "Marcus Porcius Cato, the elder Cato and great-grandfather of the younger, closed every " +
+      "single Senate speech with the same line regardless of the topic: <em>“Carthago delenda " +
+      "est”</em> — “Carthage must be destroyed.” Ainsworth will settle for a smaller refrain: " +
+      "the exam must be passed.",
+    attrib: "— Cato the Elder, Roman statesman"
+  },
+  {
+    text: "Napoleon Bonaparte, no historian's idea of a modest man, nonetheless credited unglamorous " +
+      "preparation for his victories: <em>“Victory belongs to the most persevering.”</em> There " +
+      "is no domain in the ECO that rewards talent over persistence. Only the reverse.",
+    attrib: "— Napoleon Bonaparte"
+  },
+  {
+    text: "Marcus Aurelius kept a single question for himself on hard mornings when the bed was " +
+      "warmer than the work ahead: <em>“At dawn, when you have trouble getting out of bed, tell " +
+      "yourself: I have to go to work — as a human being.”</em> This morning, tell yourself you " +
+      "have a lecture to finish — as a candidate.",
+    attrib: "— Marcus Aurelius, <em>Meditations</em>"
+  },
+  {
+    text: "Queen Elizabeth I studied Latin, Greek, French, and Italian daily under tutors who spared " +
+      "her nothing for being royalty. She later told Parliament she counted it no shame to have " +
+      "been made to work hard for what she knew. Neither should you, Mr. Gomez.",
+    attrib: "— On the education of Elizabeth I"
+  },
+  {
+    text: "The Roman legions drilled the same formations for years before ever seeing battle, not " +
+      "because the drills were interesting but because repetition under no pressure is what holds " +
+      "up under real pressure. The practice exam is your drill field.",
+    attrib: "— On Roman legionary training"
+  },
+  {
+    text: "Marcus Aurelius once reminded himself that obstacles are not detours from the path but " +
+      "the path itself: <em>“The impediment to action advances action. What stands in the way " +
+      "becomes the way.”</em> A domain you find difficult is not a detour from mastery. It is the " +
+      "route to it.",
+    attrib: "— Marcus Aurelius, <em>Meditations</em>"
+  },
+  {
+    text: "Hadrian, who built a wall across Britain rather than an empire without end, understood " +
+      "the discipline of finishing what could reasonably be finished rather than chasing endless " +
+      "expansion. Finish today's lecture. Do not sprawl across four at once.",
+    attrib: "— On Hadrian, Roman Emperor"
+  },
+  {
+    text: "Harriet Tubman, who returned again and again into danger she had already escaped, put " +
+      "her philosophy in six words: <em>“Always remember, you have within you the strength, the " +
+      "patience, and the passion to reach for the stars.”</em> You also have a Key Terms section " +
+      "waiting. Reach for that first.",
+    attrib: "— Harriet Tubman"
+  },
+  {
+    text: "Scipio Africanus studied the tactics of the very man who defeated Rome at Cannae, " +
+      "Hannibal, before he ever faced him — and beat him at Zama using lessons learned from his " +
+      "own enemy's playbook. Study the questions you get wrong more closely than the ones you get " +
+      "right.",
+    attrib: "— On Scipio Africanus, Roman general"
+  },
+  {
+    text: "Marie Curie, twice a Nobel laureate in an era that doubted a woman could be once, held " +
+      "that <em>“nothing in life is to be feared, it is only to be understood.”</em> Earned value " +
+      "formulas are not to be feared, Mr. Gomez. Only understood. We will get there.",
+    attrib: "— Marie Curie"
+  },
+  {
+    text: "Marcus Aurelius closed one of his private notebooks with a line meant for no one but " +
+      "himself, which makes it worth more, not less: <em>“Very little is needed to make a happy " +
+      "life; it is all within yourself, in your way of thinking.”</em> Very little is needed to " +
+      "pass this exam either — steady thinking, applied daily.",
+    attrib: "— Marcus Aurelius, <em>Meditations</em>"
+  },
+  {
+    text: "Miyamoto Musashi fought over sixty duels and never lost one, then spent his final years " +
+      "writing down why: <em>“Today is victory over yourself of yesterday.”</em> Do not compare " +
+      "yourself to the imaginary candidate who studied everything. Compare yourself to " +
+      "yesterday's Mr. Gomez, and beat him.",
+    attrib: "— Miyamoto Musashi, <em>The Book of Five Rings</em>"
+  },
+  {
+    text: "Musashi also warned against a fault every crammer knows too well: <em>“You can only " +
+      "fight the way you practice.”</em> If you guess randomly on practice quizzes, you will " +
+      "guess randomly on exam day. Practice the way you mean to test.",
+    attrib: "— Miyamoto Musashi, <em>The Book of Five Rings</em>"
+  },
+  {
+    text: "Tokugawa Ieyasu waited decades — through defeat, humiliation, and the deaths of rivals " +
+      "more talented than himself — before he ever became shogun. His own words on the matter: " +
+      "<em>“Life is like unto a long journey with a heavy burden. Let thy step be slow and " +
+      "steady.”</em> The CAPM is a long journey. Slow, steady steps carry it.",
+    attrib: "— Tokugawa Ieyasu, founder of the Tokugawa shogunate"
+  },
+  {
+    text: "Ieyasu also kept a maxim for setbacks that any exam-taker should tattoo somewhere " +
+      "visible: <em>“The heart of the man before the age of fifty cannot be understood by that " +
+      "of a man after fifty.”</em> More simply put elsewhere: patience beats haste in every " +
+      "campaign worth winning. One missed practice question is not a lost war.",
+    attrib: "— Tokugawa Ieyasu"
+  },
+  {
+    text: "Yamamoto Tsunetomo, compiling the samurai code known as the <em>Hagakure</em>, opened " +
+      "with a line that has outlived his own name: <em>“It is said that what is called ‘the " +
+      "spirit of an age’ is something to which one cannot return.”</em> The exam window will " +
+      "not wait for you to feel ready. Prepare as though it is already open.",
+    attrib: "— Yamamoto Tsunetomo, <em>Hagakure</em>"
+  },
+  {
+    text: "The <em>Hagakure</em> also records a simpler discipline still taught in dojos today: " +
+      "<em>“One should make his decisions within the space of seven breaths.”</em> On exam day, " +
+      "you will not have time to agonize over every option. Trust the drilling that brought you " +
+      "here.",
+    attrib: "— <em>Hagakure</em>, the way of the samurai"
+  },
+  {
+    text: "Oda Nobunaga, who unified half of a fractured Japan by force of will as much as force " +
+      "of arms, is remembered for a blunt creed: <em>“If the cuckoo does not sing, kill it.”</em> " +
+      "Ainsworth is gentler with quiz questions you get wrong. But the impatience with excuses, " +
+      "Mr. Gomez, he shares entirely.",
+    attrib: "— Attributed to Oda Nobunaga, Japanese daimyo"
+  },
+  {
+    text: "Takeda Shingin, one of Nobunaga's fiercest rivals, flew a banner into every battle " +
+      "reading <em>“Fū-Rin-Ka-Zan”</em> — swift as wind, quiet as forest, fierce as fire, " +
+      "immovable as mountain. Be immovable on the days you do not feel like studying. That is " +
+      "when the habit is actually built.",
+    attrib: "— Takeda Shingen, Japanese daimyo"
+  },
+  {
+    text: "Uesugi Kenshin, Takeda's great rival and by some accounts a devout ascetic, is said to " +
+      "have remarked: <em>“Those who cling to life die, and those who defy death live.”</em> Do " +
+      "not cling to the comfort of postponing hard domains. Confront them directly, and they " +
+      "lose their power over you.",
+    attrib: "— Attributed to Uesugi Kenshin, Japanese daimyo"
+  },
+  {
+    text: "Date Masamune, the one-eyed daimyo nicknamed the “Independent Dragon,” held that " +
+      "<em>“rectitude carried to a fault hardens into stubbornness”</em> — even in Bushido, " +
+      "there was such a thing as overdoing discipline. Study hard, Mr. Gomez, but rest when " +
+      "the ledger tells you to rest.",
+    attrib: "— Date Masamune, Japanese daimyo"
+  },
+  {
+    text: "The seven virtues of Bushido open with <em>gi</em>, rectitude — doing the correct thing " +
+      "because it is correct, with no one watching to reward it. No one is watching whether you " +
+      "actually read this lecture start to finish. Do it anyway.",
+    attrib: "— <em>Gi</em> (義), the first virtue of Bushido"
+  },
+  {
+    text: "The second Bushido virtue, <em>yū</em>, is courage — not the absence of fear but action " +
+      "in spite of it. It is entirely reasonable to fear the Business Analysis domain. Open the " +
+      "lecture anyway.",
+    attrib: "— <em>Yū</em> (勇), courage, a virtue of Bushido"
+  },
+  {
+    text: "The fifth virtue, <em>makoto</em>, is sincerity — a samurai's word needed no contract " +
+      "behind it, because his bond was the guarantee. When you mark a lecture complete in this " +
+      "ledger, Mr. Gomez, let it mean you actually read it.",
+    attrib: "— <em>Makoto</em> (誠), sincerity, a virtue of Bushido"
+  },
+  {
+    text: "A Zen teaching long borrowed by Japan's warrior class holds that <em>“the obstacle is " +
+      "the path”</em> in nearly the same breath as Marcus Aurelius across an ocean and a " +
+      "continent. Two very different empires, the same discovery: difficulty is not in your " +
+      "way. It is the way.",
+    attrib: "— Zen teaching, adopted into samurai training"
+  },
+  {
+    text: "Kōsaka Masanobu, chronicling Takeda Shingen's campaigns, recorded a training principle " +
+      "worth stealing: repeat the same drill until the body no longer needs the mind's " +
+      "permission to perform it. Run through the earned value formulas until you stop counting " +
+      "on your fingers.",
+    attrib: "— On Takeda-clan military training, <em>Kōyō Gunkan</em>"
+  },
+  {
+    text: "Minamoto no Yoshitsune, one of Japan's most celebrated (and tragic) generals, is said " +
+      "to have trained under the tengu of Mount Kurama as a boy rather than accept that a small, " +
+      "orphaned student could not become a great swordsman. Whatever your starting point, Mr. " +
+      "Gomez, it does not fix your ceiling.",
+    attrib: "— On the legend of Minamoto no Yoshitsune"
+  },
+  {
+    text: "The tea master Sen no Rikyū, who shaped the discipline of the Japanese tea ceremony, " +
+      "taught that mastery lay entirely in doing ordinary things — boiling water, whisking tea " +
+      "— with total attention. Reading a Key Terms bullet with total attention beats skimming " +
+      "ten of them.",
+    attrib: "— Sen no Rikyū, Japanese tea master"
+  },
+  {
+    text: "Miyamoto Musashi again, on the fault of the half-committed student: <em>“Do nothing " +
+      "which is of no use.”</em> If a study habit is not moving the ledger forward, Mr. Gomez, " +
+      "stop doing it and study instead.",
+    attrib: "— Miyamoto Musashi, <em>The Book of Five Rings</em>"
+  },
+  {
+    text: "Musashi's final rule, written days before his death, was the simplest of the sixty he " +
+      "left behind: <em>“There is nothing outside of yourself that can ever enable you to get " +
+      "better, stronger, richer, quicker, or smarter.”</em> No app, dojo, or professor can take " +
+      "the exam for you. Only the work does that.",
+    attrib: "— Miyamoto Musashi, final precepts"
+  },
+  {
+    text: "Yagyū Munenori, swordmaster to two Tokugawa shoguns, taught his students that " +
+      "<em>“perception and sight are two different things”</em> — a skilled eye reads what is " +
+      "about to happen, not merely what has already happened. Read exam questions the same way: " +
+      "for what they are actually testing, not just the words on the page.",
+    attrib: "— Yagyū Munenori, <em>The Life-Giving Sword</em>"
+  },
+  {
+    text: "Hōjō Sōun, one of the earliest daimyo to write his precepts down for his household, " +
+      "opened them with a rule about mornings: rise before the household, and do not let the " +
+      "day begin without you. Open this app before you open anything else that will waste the " +
+      "hour.",
+    attrib: "— Hōjō Sōun, <em>Twenty-One Precepts</em>"
+  },
+  {
+    text: "Imagawa Ryōshun warned his own retainers against a fault as old as ambition itself: " +
+      "<em>“One should not scorn an enemy for being weak, nor fear him for being strong.”</em> " +
+      "Do not scorn an easy domain into carelessness, nor fear a hard one into avoidance. Study " +
+      "both the same way.",
+    attrib: "— Imagawa Ryōshun, Japanese daimyo and scholar"
+  },
+  {
+    text: "Torii Mototada, before making his final stand at Fushimi Castle knowing rescue would " +
+      "never come, wrote to his son that a duty accepted must be carried through regardless of " +
+      "the odds. Very few of your obligations here carry such stakes, Mr. Gomez. Carry them " +
+      "through anyway.",
+    attrib: "— On Torii Mototada, defender of Fushimi Castle"
+  },
+  {
+    text: "Kumagai Naozane, a Genpei War commander who later renounced his sword to become a monk, " +
+      "spent his second life teaching that discipline does not end when the battle does — it " +
+      "simply changes what it is aimed at. Redirect the discipline you already have toward the " +
+      "ledger below.",
+    attrib: "— On Kumagai Naozane, Genpei War general"
+  },
+  {
+    text: "Katō Kiyomasa, who helped build the castle towns of Kumamoto, told his samurai plainly " +
+      "that a warrior who neglected study of the classics in peacetime would find himself " +
+      "useless when war returned. Peacetime, for you, is the weeks before the exam. Do not " +
+      "waste them.",
+    attrib: "— Katō Kiyomasa, Japanese daimyo"
+  },
+  {
+    text: "Kuroda Kanbei, strategist behind two of Japan's great unifiers, was prized less for " +
+      "bravery than for patience — he was known to wait years for the right moment rather than " +
+      "force a battle he was not ready to win. You need not sit the exam before you are ready " +
+      "for it either.",
+    attrib: "— On Kuroda Kanbei, Japanese strategist"
+  },
+  {
+    text: "Honda Tadakatsu fought over a hundred battles across his life and, by every surviving " +
+      "account, was never once wounded — a record he credited less to luck than to never " +
+      "entering a fight he had not already studied thoroughly beforehand. Study the terrain of " +
+      "the exam before you walk onto it.",
+    attrib: "— On Honda Tadakatsu, Japanese general"
+  },
+  {
+    text: "Saigō Takamori, sometimes called the last true samurai, held that a leader's worth was " +
+      "measured by what he demanded of himself first: <em>“The virtuous ruler carries himself " +
+      "with humility and frugality, and works hard for the sake of his people.”</em> Work hard " +
+      "for the sake of the candidate you are trying to become.",
+    attrib: "— Saigō Takamori, Japanese statesman"
+  },
+  {
+    text: "Katsu Kaishū, who negotiated the peaceful surrender of a shogunate rather than let it " +
+      "burn, believed calm preparation would always outlast panic: <em>“A great man has no " +
+      "sense of time.”</em> He meant that patience free of clock-watching produces better " +
+      "results than a mind racing the deadline. Study steadily, and let the clock take care of " +
+      "itself.",
+    attrib: "— Katsu Kaishū, Japanese statesman"
+  },
+  {
+    text: "Nitobe Inazō, who later wrote the book that introduced Bushido's code to the world, " +
+      "distilled the whole tradition into one working idea: <em>“The sense of honor... implies a " +
+      "vivid consciousness of personal dignity and worth.”</em> Treat your own preparation with " +
+      "that same dignity, Mr. Gomez. Do not shortchange it.",
+    attrib: "— Nitobe Inazō, <em>Bushido: The Soul of Japan</em>"
+  },
+  {
+    text: "Ashikaga Takauji, founder of a shogunate that lasted two centuries, is remembered by " +
+      "chroniclers as unusually willing to change his own plans the moment new information " +
+      "proved them wrong — a rarer trait among commanders than courage itself. Update your " +
+      "study plan the moment a practice score tells you where the gaps are.",
+    attrib: "— On Ashikaga Takauji, founder of the Ashikaga shogunate"
+  },
+  {
+    text: "Matsuo Bashō, though a poet rather than a warrior, trained with the same discipline the " +
+      "samurai prized: <em>“Do not seek to follow in the footsteps of the wise. Seek what they " +
+      "sought.”</em> Do not merely memorize what Ainsworth says about a process. Understand why " +
+      "he says it.",
+    attrib: "— Matsuo Bashō, Japanese poet"
+  },
+  {
+    text: "Musashi, one final time, on the trap of thinking preparation is ever really finished: " +
+      "<em>“Today is different from yesterday, tomorrow will be different from today.”</em> The " +
+      "domain you struggled with last week deserves a second look. You are not the same student " +
+      "who first read it.",
+    attrib: "— Miyamoto Musashi, <em>The Book of Five Rings</em>"
+  },
+  {
+    text: "The third Bushido virtue, <em>jin</em>, is benevolence — the strong have a duty toward " +
+      "the weak, the samurai toward those he protects. Be a little gentler with yourself on the " +
+      "days a quiz score disappoints you. Harshness was never the point of the training.",
+    attrib: "— <em>Jin</em> (仁), benevolence, a virtue of Bushido"
+  },
+  {
+    text: "The fourth virtue, <em>rei</em>, is respect — the elaborate courtesy of the tea " +
+      "ceremony and the sword hall alike exists to keep the practitioner humble regardless of " +
+      "skill. However many practice exams you ace, Mr. Gomez, keep opening the next lecture with " +
+      "the same attention as the first.",
+    attrib: "— <em>Rei</em> (礼), respect, a virtue of Bushido"
+  },
+  {
+    text: "The sixth virtue, <em>meiyo</em>, is honor — measured not by what others saw, but by " +
+      "whether the warrior could still respect his own conduct in private. Complete the lecture " +
+      "even on the nights no one is checking your ledger but you.",
+    attrib: "— <em>Meiyo</em> (名誉), honor, a virtue of Bushido"
+  },
+  {
+    text: "The seventh and final virtue, <em>chūgi</em>, is loyalty — not blind obedience, but a " +
+      "steady, chosen devotion to a purpose larger than one's own comfort. Let the CAPM be that " +
+      "purpose for the next few weeks, and give it the loyalty it is owed.",
+    attrib: "— <em>Chūgi</em> (忠義), loyalty, a virtue of Bushido"
+  },
+  {
+    text: "Ii Naomasa led one of the most feared units in Japan, clad head to toe in red armor so " +
+      "his men could always be found first on the field, exactly where the fighting was worst. " +
+      "Do not hide from the domain that scares you, Mr. Gomez. Meet it first, not last.",
+    attrib: "— On Ii Naomasa, Japanese daimyo"
+  },
+  {
+    text: "The old dojo saying attributed to generations of unnamed sword instructors put the " +
+      "whole philosophy in four words: <em>“Fall down seven times, stand up eight.”</em> Fail a " +
+      "practice quiz seven times if you must. Stand up an eighth, and you are still in the fight.",
+    attrib: "— Traditional Japanese proverb"
+  }
+];
+
+let lastQuoteIdx = -1;
+function pickQuote() {
+  if (QUOTES.length <= 1) return QUOTES[0];
+  let idx;
+  do { idx = Math.floor(Math.random() * QUOTES.length); } while (idx === lastQuoteIdx);
+  lastQuoteIdx = idx;
+  return QUOTES[idx];
+}
+
+function renderWelcomeQuote() {
+  const q = pickQuote();
+  document.getElementById('welcomeNote').innerHTML = q.text;
+  document.getElementById('welcomeAttrib').innerHTML = q.attrib || '';
+}
+
+/* ----------------------------------------------------------------
  * HOME
  * ---------------------------------------------------------------- */
 function renderHome() {
+  renderWelcomeQuote();
   const total = LESSONS.length;
   const done = state.completedLessons.filter(function (id) {
     return LESSONS.some(function (l) { return l.id === id; });
@@ -2845,6 +4715,24 @@ function renderHome() {
   document.getElementById('statLast').textContent =
     state.quiz.lastPercent === null ? '—' : state.quiz.lastPercent + '%';
   document.getElementById('statAttempts').textContent = state.quiz.attempts;
+
+  document.getElementById('geStatBest').textContent =
+    state.grandExam.bestPercent === null ? '—' : state.grandExam.bestPercent + '%';
+  document.getElementById('geStatLast').textContent =
+    state.grandExam.lastPercent === null ? '—' : state.grandExam.lastPercent + '%';
+  document.getElementById('geStatAttempts').textContent = state.grandExam.attempts;
+  document.getElementById('geStatVerdict').textContent = state.grandExam.lastReadiness || '—';
+
+  const weak = weakDomainSummary();
+  const weakPanel = document.getElementById('weakAreaPanel');
+  if (!weak) {
+    weakPanel.classList.add('hide');
+  } else {
+    weakPanel.classList.remove('hide');
+    document.getElementById('weakAreaText').innerHTML =
+      'Weakest domain so far: <strong>' + escapeHtml(weak.domain) + '</strong> — ' +
+      Math.round(weak.pct * 100) + '% correct across ' + weak.total + ' answers historically.';
+  }
 }
 
 function resetProgress() {
@@ -2933,13 +4821,13 @@ let quizIndex = 0;         // current question index
 let quizResults = [];      // [{ question, chosenIndex, correct }]
 let quizTimerId = null;
 let quizStartTs = 0;
-let quizN = 4;             // selected number of questions
+let quizN = 10;            // selected number of questions
 
 function renderNumPick() {
   const wrap = document.getElementById('numPick');
   wrap.innerHTML = '';
-  const choices = [];
-  for (let n = 2; n <= QUIZ.length; n++) { choices.push(n); }
+  const curated = [5, 10, 15, 20, 25, 30, 40, 50, 75, 100, 150];
+  const choices = curated.filter(function (n) { return n < QUIZ.length; });
   choices.push(QUIZ.length ? QUIZ.length : 0);
   const unique = choices.filter(function (v, i, a) { return a.indexOf(v) === i; }).sort(function (a, b) { return a - b; });
   unique.forEach(function (n) {
@@ -2968,10 +4856,8 @@ function shuffle(arr) {
   return a;
 }
 
-function startQuiz() {
-  const n = Math.min(quizN, QUIZ.length);
-  if (n < 1) { alert('The question bank is empty. Add questions to the QUIZ array.'); return; }
-  quizQueue = shuffle(QUIZ).slice(0, n);
+function beginQuizRun(queue) {
+  quizQueue = queue;
   quizIndex = 0;
   quizResults = [];
   document.getElementById('quizSetup').classList.add('hide');
@@ -2980,6 +4866,25 @@ function startQuiz() {
   quizStartTs = Date.now();
   startTimer();
   renderQuestion();
+}
+
+function startQuiz() {
+  const n = Math.min(quizN, QUIZ.length);
+  if (n < 1) { alert('The question bank is empty. Add questions to the QUIZ array.'); return; }
+  beginQuizRun(shuffle(QUIZ).slice(0, n));
+}
+
+function missPool() {
+  return QUIZ.filter(function (q) {
+    const h = state.history[q.id];
+    return h && h.miss > h.correct;
+  });
+}
+
+function startDrillQuiz() {
+  const pool = missPool();
+  if (!pool.length) { alert('No net-missed questions yet, Mr. Gomez. Keep drilling and they will surface here.'); return; }
+  beginQuizRun(shuffle(pool));
 }
 
 function startTimer() {
@@ -3017,10 +4922,40 @@ function renderQuestion() {
   document.getElementById('qNextBtn').classList.add('hide');
 }
 
+function recordAnswerHistory(qid, correct) {
+  const h = state.history[qid] || { correct: 0, miss: 0, lastSeen: 0 };
+  if (correct) h.correct++; else h.miss++;
+  h.lastSeen = Date.now();
+  state.history[qid] = h;
+  saveState();
+}
+
+function weakDomainSummary() {
+  const agg = {};
+  Object.keys(state.history).forEach(function (qid) {
+    const q = QUIZ.find(function (x) { return x.id === qid; });
+    if (!q) return; // stale id from a removed/renamed question — ignore
+    const d = ecoDomain(q.domain);
+    const h = state.history[qid];
+    agg[d] = agg[d] || { correct: 0, total: 0 };
+    agg[d].correct += h.correct;
+    agg[d].total += h.correct + h.miss;
+  });
+  const totalAnswered = Object.keys(agg).reduce(function (s, d) { return s + agg[d].total; }, 0);
+  if (totalAnswered < 10) return null; // not enough signal yet
+  let worst = null;
+  Object.keys(agg).forEach(function (d) {
+    const pct = agg[d].correct / agg[d].total;
+    if (!worst || pct < worst.pct) worst = { domain: d, pct: pct, total: agg[d].total };
+  });
+  return worst;
+}
+
 function answerQuestion(chosen) {
   const q = quizQueue[quizIndex];
   const correct = chosen === q.answer;
   quizResults.push({ question: q, chosenIndex: chosen, correct: correct });
+  recordAnswerHistory(q.id, correct);
 
   document.querySelectorAll('#qOptions .opt').forEach(function (b, i) {
     b.disabled = true;
@@ -3091,6 +5026,280 @@ function finishQuiz() {
   const misses = quizResults.filter(function (r) { return !r.correct; });
   const missWrap = document.getElementById('missReviewWrap');
   const missList = document.getElementById('missReview');
+  if (!misses.length) {
+    missWrap.classList.add('hide');
+  } else {
+    missWrap.classList.remove('hide');
+    missList.innerHTML = '';
+    misses.forEach(function (r) {
+      const q = r.question;
+      const letters = ['A', 'B', 'C', 'D', 'E', 'F'];
+      const div = document.createElement('div');
+      div.className = 'miss-item';
+      div.innerHTML =
+        '<div style="font-weight:bold;">' + escapeHtml(q.stem) + '</div>' +
+        '<div style="margin:6px 0;"><span class="badge todo">Your answer: ' + letters[r.chosenIndex] + '</span> ' +
+        '<span class="badge done">Correct: ' + letters[q.answer] + '</span></div>' +
+        '<div><strong>Reasoning:</strong> ' + escapeHtml(q.explanation) + '</div>';
+      missList.appendChild(div);
+    });
+  }
+}
+
+/* ----------------------------------------------------------------
+ * GRAND EXAMINATION
+ * ---------------------------------------------------------------- */
+let geQueue = [];
+let geIndex = 0;
+let geResults = [];         // [{ question, chosenIndex, correct }]
+let geRemainingSecs = GRAND_EXAM_SECONDS;
+let geTimerId = null;
+let geBreakRemainingSecs = GRAND_EXAM_BREAK_SECONDS;
+let geBreakTimerId = null;
+let geRepeats = 0;          // count of repeated questions if a bucket was short
+
+function bucketQuiz() {
+  const buckets = {};
+  QUIZ.forEach(function (q) {
+    const d = ecoDomain(q.domain);
+    if (!buckets[d]) buckets[d] = [];
+    buckets[d].push(q);
+  });
+  return buckets;
+}
+
+function grandExamReadiness() {
+  const buckets = bucketQuiz();
+  const shortfalls = {};
+  let ready = true;
+  Object.keys(GRAND_EXAM_WEIGHTS).forEach(function (d) {
+    const have = (buckets[d] || []).length;
+    const need = GRAND_EXAM_WEIGHTS[d];
+    if (have < need) { shortfalls[d] = { have: have, need: need }; ready = false; }
+  });
+  return { ready: ready, shortfalls: shortfalls };
+}
+
+function buildGrandExamQueue() {
+  const buckets = bucketQuiz();
+  geRepeats = 0;
+  let drawn = [];
+  Object.keys(GRAND_EXAM_WEIGHTS).forEach(function (d) {
+    const need = GRAND_EXAM_WEIGHTS[d];
+    const pool = shuffle(buckets[d] || []);
+    if (pool.length === 0) return;
+    const picked = [];
+    while (picked.length < need) {
+      const remaining = need - picked.length;
+      if (remaining >= pool.length) {
+        picked.push.apply(picked, pool);
+        if (picked.length < need) geRepeats += pool.length; // this whole cycle was a repeat pass
+      } else {
+        picked.push.apply(picked, shuffle(pool).slice(0, remaining));
+      }
+    }
+    drawn = drawn.concat(picked);
+  });
+  return shuffle(drawn);
+}
+
+function formatHMS(totalSecs) {
+  const s = Math.max(0, totalSecs);
+  const hh = String(Math.floor(s / 3600)).padStart(2, '0');
+  const mm = String(Math.floor((s % 3600) / 60)).padStart(2, '0');
+  const ss = String(s % 60).padStart(2, '0');
+  return hh + ':' + mm + ':' + ss;
+}
+
+function resetGrandExamUI() {
+  if (geTimerId) { clearInterval(geTimerId); geTimerId = null; }
+  if (geBreakTimerId) { clearInterval(geBreakTimerId); geBreakTimerId = null; }
+  document.getElementById('geSetup').classList.remove('hide');
+  document.getElementById('geQuestion').classList.add('hide');
+  document.getElementById('geBreak').classList.add('hide');
+  document.getElementById('geResults').classList.add('hide');
+
+  const r = grandExamReadiness();
+  const box = document.getElementById('geReadinessBox');
+  const beginBtn = document.getElementById('geBeginBtn');
+  if (r.ready) {
+    box.innerHTML = '<p style="color:var(--ok, #2a7);">✅ The bank is deep enough to draw all 150 questions without repeats.</p>';
+    beginBtn.disabled = false;
+  } else {
+    let msg = '<p>⚠️ The bank is not yet deep enough for a repeat-free Grand Examination in every domain ' +
+      '(the exam will still run, drawing repeats where needed):</p><ul>';
+    Object.keys(r.shortfalls).forEach(function (d) {
+      const s = r.shortfalls[d];
+      msg += '<li><strong>' + escapeHtml(d) + '</strong> — have ' + s.have + ', need ' + s.need + '</li>';
+    });
+    msg += '</ul>';
+    box.innerHTML = msg;
+    beginBtn.disabled = false;
+  }
+}
+
+function startGrandExam() {
+  geQueue = buildGrandExamQueue();
+  geIndex = 0;
+  geResults = [];
+  geRemainingSecs = GRAND_EXAM_SECONDS;
+  document.getElementById('geSetup').classList.add('hide');
+  document.getElementById('geResults').classList.add('hide');
+  document.getElementById('geBreak').classList.add('hide');
+  document.getElementById('geQuestion').classList.remove('hide');
+  startGrandTimer();
+  renderGrandQuestion();
+}
+
+function startGrandTimer() {
+  if (geTimerId) clearInterval(geTimerId);
+  geTimerId = setInterval(function () {
+    geRemainingSecs--;
+    document.getElementById('geTimer').textContent = '⏱️ ' + formatHMS(geRemainingSecs);
+    if (geRemainingSecs <= 0) {
+      clearInterval(geTimerId);
+      geTimerId = null;
+      finishGrandExam(true);
+    }
+  }, 1000);
+}
+
+function pauseGrandTimer() {
+  if (geTimerId) { clearInterval(geTimerId); geTimerId = null; }
+}
+
+function renderGrandQuestion() {
+  const q = geQueue[geIndex];
+  document.getElementById('geDomain').textContent = '🎓 ' + ecoDomain(q.domain);
+  document.getElementById('geDiff').textContent = '⚔️ ' + q.difficulty;
+  document.getElementById('geProgress').textContent = 'Question ' + (geIndex + 1) + ' of ' + geQueue.length;
+  document.getElementById('geStem').textContent = q.stem;
+
+  const optsWrap = document.getElementById('geOptions');
+  optsWrap.innerHTML = '';
+  const letters = ['A', 'B', 'C', 'D', 'E', 'F'];
+  q.options.forEach(function (opt, i) {
+    const b = document.createElement('button');
+    b.className = 'opt';
+    b.innerHTML = '<strong>' + letters[i] + '.</strong> ' + escapeHtml(opt);
+    b.addEventListener('click', function () { answerGrandQuestion(i); });
+    optsWrap.appendChild(b);
+  });
+  document.getElementById('geNextBtn').classList.add('hide');
+}
+
+function answerGrandQuestion(chosen) {
+  const q = geQueue[geIndex];
+  const correct = chosen === q.answer;
+  geResults.push({ question: q, chosenIndex: chosen, correct: correct });
+  recordAnswerHistory(q.id, correct);
+
+  document.querySelectorAll('#geOptions .opt').forEach(function (b, i) {
+    b.disabled = true;
+    if (i === chosen) b.classList.add('selected');
+  });
+
+  const nextBtn = document.getElementById('geNextBtn');
+  nextBtn.classList.remove('hide');
+  const isLast = (geIndex + 1 >= geQueue.length);
+  const atBreak = (geIndex + 1 === GRAND_EXAM_BREAK_AT);
+  nextBtn.textContent = isLast ? 'Finish Examination 🏁' : (atBreak ? 'Take Your Recess →' : 'Next Question →');
+}
+
+function nextGrandQuestion() {
+  geIndex++;
+  if (geIndex === GRAND_EXAM_BREAK_AT) {
+    showBreakInterstitial();
+  } else if (geIndex < geQueue.length) {
+    renderGrandQuestion();
+  } else {
+    finishGrandExam(false);
+  }
+}
+
+function showBreakInterstitial() {
+  pauseGrandTimer();
+  document.getElementById('geQuestion').classList.add('hide');
+  document.getElementById('geBreak').classList.remove('hide');
+  geBreakRemainingSecs = GRAND_EXAM_BREAK_SECONDS;
+  document.getElementById('geBreakTimer').textContent = formatHMS(geBreakRemainingSecs).slice(3);
+  if (geBreakTimerId) clearInterval(geBreakTimerId);
+  geBreakTimerId = setInterval(function () {
+    geBreakRemainingSecs--;
+    document.getElementById('geBreakTimer').textContent = formatHMS(Math.max(0, geBreakRemainingSecs)).slice(3);
+    if (geBreakRemainingSecs <= 0) { clearInterval(geBreakTimerId); geBreakTimerId = null; }
+  }, 1000);
+}
+
+function resumeGrandExam() {
+  if (geBreakTimerId) { clearInterval(geBreakTimerId); geBreakTimerId = null; }
+  document.getElementById('geBreak').classList.add('hide');
+  document.getElementById('geQuestion').classList.remove('hide');
+  startGrandTimer();
+  renderGrandQuestion();
+}
+
+function finishGrandExam(timedOut) {
+  pauseGrandTimer();
+  if (geBreakTimerId) { clearInterval(geBreakTimerId); geBreakTimerId = null; }
+  document.getElementById('geQuestion').classList.add('hide');
+  document.getElementById('geBreak').classList.add('hide');
+  document.getElementById('geResults').classList.remove('hide');
+
+  const total = geQueue.length;
+  const correctCount = geResults.filter(function (r) { return r.correct; }).length;
+  const pct = total ? Math.round((correctCount / total) * 100) : 0;
+
+  const domains = {};
+  Object.keys(GRAND_EXAM_WEIGHTS).forEach(function (d) { domains[d] = { correct: 0, total: 0 }; });
+  geResults.forEach(function (r) {
+    const d = ecoDomain(r.question.domain);
+    if (!domains[d]) domains[d] = { correct: 0, total: 0 };
+    domains[d].total++;
+    if (r.correct) domains[d].correct++;
+  });
+  // unanswered questions (e.g. from a timeout) still count against their domain's denominator
+  for (let i = geResults.length; i < geQueue.length; i++) {
+    const d = ecoDomain(geQueue[i].domain);
+    if (!domains[d]) domains[d] = { correct: 0, total: 0 };
+    domains[d].total++;
+  }
+
+  const passed = pct >= GRAND_EXAM_PASS_PCT;
+  const readinessText = (passed ? 'PASS' : 'BELOW TARGET') + ' — ' + pct + '%';
+
+  state.grandExam.attempts++;
+  if (state.grandExam.bestPercent === null || pct > state.grandExam.bestPercent) state.grandExam.bestPercent = pct;
+  state.grandExam.lastPercent = pct;
+  state.grandExam.lastDomainScores = domains;
+  state.grandExam.lastReadiness = readinessText;
+  saveState();
+
+  document.getElementById('geFinalScore').textContent = correctCount + ' / ' + total + '  (' + pct + '%)' +
+    (timedOut ? ' — time expired' : '');
+  const verdictEl = document.getElementById('geFinalVerdict');
+  if (passed) verdictEl.textContent = '“You have earned the right to sit for the real trial, Mr. Gomez.” 🎓 (benchmark: ' + GRAND_EXAM_PASS_PCT + '%)';
+  else verdictEl.textContent = '“Below target. The dojo is not finished with you yet.” 📖 (benchmark: ' + GRAND_EXAM_PASS_PCT + '%)';
+
+  function domainRating(p) {
+    if (p >= 80) return 'Above Target';
+    if (p >= 60) return 'Target';
+    return 'Below Target';
+  }
+  let tbl = '<tr><th>ECO Domain</th><th>Correct</th><th>Result</th><th>Rating</th></tr>';
+  Object.keys(domains).forEach(function (d) {
+    const dd = domains[d];
+    const dpct = dd.total ? Math.round((dd.correct / dd.total) * 100) : 0;
+    tbl += '<tr><td>' + escapeHtml(d) + '</td><td>' + dd.correct + ' / ' + dd.total +
+      '</td><td>' + dpct + '%</td><td>' + domainRating(dpct) + '</td></tr>';
+  });
+  document.getElementById('geDomainTable').innerHTML = tbl +
+    (geRepeats > 0 ? '<caption style="caption-side:bottom;font-style:italic;color:var(--ink-soft);">' +
+      'Note: the question bank was not yet deep enough in every domain, so some questions repeated.</caption>' : '');
+
+  const misses = geResults.filter(function (r) { return !r.correct; });
+  const missWrap = document.getElementById('geMissReviewWrap');
+  const missList = document.getElementById('geMissReview');
   if (!misses.length) {
     missWrap.classList.add('hide');
   } else {

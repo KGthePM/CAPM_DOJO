@@ -1,0 +1,272 @@
+[
+  {
+    "id": "D3-001",
+    "domain": "Agile",
+    "difficulty": "medium",
+    "stem": "A compliance team is building a system whose requirements are fixed by statute, must be exhaustively documented before a single line of code is written, and cannot legally change mid-project without a formal amendment. A junior PM proposes running the work in two-week sprints anyway, arguing agile is 'just better.' What is the strongest argument against her proposal?",
+    "options": [
+      "Adaptive approaches cannot produce any documentation at all, which regulators require",
+      "Adaptive approaches trade formal upfront control and thin documentation for fast feedback — a poor exchange when scope is already fixed and documentation must satisfy a regulator, not a customer",
+      "Sprints are always longer than a month, which regulators forbid",
+      "Scrum Masters are not legally permitted to work on regulated projects"
+    ],
+    "answer": 1,
+    "explanation": "Adaptive's honest weaknesses are thin governance/documentation and reliance on scope flexing through the backlog. When scope is already fixed by law and documentation must satisfy an external regulator rather than a paying customer, agile's core advantages (fast feedback, flexible scope) buy nothing while its weaknesses (lighter formal control) become liabilities. It is a fit argument, not a legal or procedural fabrication.",
+    "objective": "D3T1-1"
+  },
+  {
+    "id": "D3-002",
+    "domain": "Agile",
+    "difficulty": "medium",
+    "stem": "A startup is building a consumer app where the founders openly admit they don't yet know which features customers will actually use, the market shifts monthly, and the team can ship a usable slice every two weeks. A board member insists on a comprehensive requirements document and a fixed baseline before any coding starts. What is the strongest argument against the board member's approach?",
+    "options": [
+      "A predictive baseline built on genuinely unknowable requirements locks in guesses early and defers discovery of errors to the point where they are most expensive to fix",
+      "Predictive approaches are illegal for consumer software",
+      "A requirements document always takes longer to write than the entire project",
+      "Board members are never permitted to set project constraints"
+    ],
+    "answer": 0,
+    "explanation": "Predictive's honest weakness is that feedback arrives late and change is expensive once baselined. When requirements are genuinely unknowable up front — the startup's actual situation — a predictive baseline is a guess dressed as certainty, and errors in that guess surface only after the expensive commitment is made. This is the textbook profile for an adaptive approach instead.",
+    "objective": "D3T1-1"
+  },
+  {
+    "id": "D3-003",
+    "domain": "Agile",
+    "difficulty": "easy",
+    "stem": "A team is fully distributed across three time zones with no shared office. For this virtual team to run Scrum successfully, what must the organization deliberately supply that a colocated team gets for free?",
+    "options": [
+      "Nothing — virtual teams cannot practice agile under any circumstances",
+      "Modern collaboration tooling and explicit working agreements about communication and overlap hours",
+      "A single scrum master physically present with each subgroup at all times",
+      "A predictive baseline to compensate for the lack of face-to-face contact"
+    ],
+    "answer": 1,
+    "explanation": "Virtual teams can run agile well, but the organization must deliberately build what colocation provides automatically: collaboration technology and disciplined working agreements about availability and communication. Virtual is not inherently agile-hostile — it is agile-hostile only without that scaffolding.",
+    "objective": "D3T1-2"
+  },
+  {
+    "id": "D3-004",
+    "domain": "Agile",
+    "difficulty": "medium",
+    "stem": "A Scrum team routinely fails to complete its sprint commitments because two of its five developers are functional employees who get pulled onto other departmental priorities mid-sprint by their functional manager. Which organizational-structure factor best explains this recurring failure?",
+    "options": [
+      "A weak matrix structure, where functional managers retain authority over people's time and undermine the dedicated, stable membership adaptive teams require",
+      "A strong project-oriented structure, which is ideal for agile delivery",
+      "A hierarchical structure, which has no bearing on team staffing",
+      "A virtual team structure, which always causes missed commitments"
+    ],
+    "answer": 0,
+    "explanation": "In a weak matrix, functional managers hold the real authority over resource time, so team members get pulled onto competing priorities — exactly the decentralized-portfolio problem that poisons sprint commitments. A strong matrix or dedicated project structure would grant the team real authority over its own members' time instead.",
+    "objective": "D3T1-2"
+  },
+  {
+    "id": "D3-005",
+    "domain": "Agile",
+    "difficulty": "easy",
+    "stem": "Which enterprise environmental factor (EEF) most directly facilitates an organization's adoption of adaptive approaches?",
+    "options": [
+      "A culture of trust and safety that tolerates failure as a source of learning",
+      "A change-control board that requires six weeks to approve any adjustment",
+      "Documentation standards written exclusively for predictive projects",
+      "Departmental silos that keep specialists reporting through separate chains"
+    ],
+    "answer": 0,
+    "explanation": "A culture of trust and safety, with tolerance for failure as learning, is a facilitative EEF that lets teams experiment, inspect, and adapt without fear of blame. The other three options are the hostile versions of organizational assets — the kind a servant leader has to reform, not lean on.",
+    "objective": "D3T1-3"
+  },
+  {
+    "id": "D3-006",
+    "domain": "Agile",
+    "difficulty": "medium",
+    "stem": "Which organizational process asset (OPA) actively suppresses an organization's ability to adopt adaptive approaches?",
+    "options": [
+      "An agile-friendly PMO offering coaching, training, and tool templates",
+      "A library of existing team charters and working agreements",
+      "A formal change-control process built for predictive baselines that takes six weeks to approve any adjustment",
+      "Escalation paths designed for rapid impediment removal"
+    ],
+    "answer": 2,
+    "explanation": "A change-control process designed for a fixed predictive baseline is exactly the kind of hostile OPA that blocks agility — it forces the fast feedback loops of an adaptive project through a process built for the opposite cadence. The other three are facilitative OPAs the Practice Guide names explicitly.",
+    "objective": "D3T1-3"
+  },
+  {
+    "id": "D3-007",
+    "domain": "Agile",
+    "difficulty": "easy",
+    "stem": "Ordering the logical units of adaptive work from LARGEST to SMALLEST, which sequence is correct?",
+    "options": [
+      "Task, story, iteration, epic, release",
+      "Release, epic, iteration, story, task",
+      "Epic, release, task, story, iteration",
+      "Story, task, release, epic, iteration"
+    ],
+    "answer": 1,
+    "explanation": "A release bundles multiple iterations (sprints); a large epic is bigger than any single iteration because it takes several iterations' worth of stories to complete; within one iteration, the team finishes user stories sized to fit that timebox, and each story decomposes further into technical tasks. Release > epic > iteration > story > task.",
+    "objective": "D3T2-1"
+  },
+  {
+    "id": "D3-008",
+    "domain": "Agile",
+    "difficulty": "medium",
+    "stem": "During backlog refinement, the team discovers that a single backlog item is far too large to realistically finish within one two-week sprint. What is the correct response?",
+    "options": [
+      "Extend the sprint's timebox until the item can be finished",
+      "Split the oversized item (the epic) into smaller user stories that each fit within the fixed iteration",
+      "Assign the entire item to one developer to work on across several sprints without splitting it",
+      "Remove the item from the backlog permanently since it cannot be estimated"
+    ],
+    "answer": 1,
+    "explanation": "The iteration's timebox is fixed and does not stretch to accommodate oversized work; instead the unit of work is split — an epic becomes smaller stories that fit inside the sprint. Bending the timebox to the work item, rather than the reverse, is the recurring exam trap here.",
+    "objective": "D3T2-1"
+  },
+  {
+    "id": "D3-009",
+    "domain": "Agile",
+    "difficulty": "medium",
+    "stem": "Which statement correctly identifies a genuine trade-off of using a fixed iteration (timebox) rather than an open-ended work period?",
+    "options": [
+      "Timeboxes guarantee that every planned item will be finished by the deadline",
+      "A timebox creates a regular cadence for feedback and forecasting, but work that doesn't fit must be deferred or split rather than let the box grow",
+      "Timeboxes eliminate the need for backlog refinement entirely",
+      "Timeboxes are only usable by teams larger than fifty people"
+    ],
+    "answer": 1,
+    "explanation": "The benefit of a fixed timebox is a predictable cadence for planning, delivery, and feedback (and it enables velocity as a forecasting tool); the cost is that scope, not time, must flex — unfinished or oversized work is deferred or split, never used as a reason to lengthen the iteration.",
+    "objective": "D3T2-2"
+  },
+  {
+    "id": "D3-010",
+    "domain": "Agile",
+    "difficulty": "medium",
+    "stem": "A predictive WBS contains the work package 'Design and build customer login module,' estimated at six weeks of effort. The team is moving to two-week sprints. What is the correct way to translate this work package into the adaptive plan?",
+    "options": [
+      "Keep it as a single six-week work package and pause sprints until it's finished",
+      "Split it into multiple smaller user stories (e.g., password reset, social sign-in, session timeout) that each fit inside a single sprint, ordered in the backlog by value",
+      "Convert it directly into one Daily Scrum agenda item",
+      "Discard it, since WBS work packages have no adaptive equivalent"
+    ],
+    "answer": 1,
+    "explanation": "Translating a WBS to an adaptive plan means work packages become backlog items or user stories, split until each fits inside one iteration, then ordered in the backlog by value. A six-week package cannot become a single sprint's story — it must be decomposed.",
+    "objective": "D3T2-3"
+  },
+  {
+    "id": "D3-011",
+    "domain": "Agile",
+    "difficulty": "hard",
+    "stem": "While translating a WBS into backlog items, the team encounters a work package whose technical approach is genuinely unknown — nobody can estimate it with any confidence. What is the appropriate adaptive technique for handling it?",
+    "options": [
+      "Assign it the same story-point estimate as a similar-looking, well-understood item",
+      "Create a spike: a short, timeboxed investigation whose output is the knowledge needed to estimate and split the real work",
+      "Escalate it to the sponsor to be removed from scope permanently",
+      "Skip estimation and add it directly to the current sprint at full size"
+    ],
+    "answer": 1,
+    "explanation": "A spike is a timeboxed investigation used specifically when a backlog item hides unknowns that block confident estimation or splitting. Its output is information, not a shippable increment, and it converts an unknown into stories the team can actually plan.",
+    "objective": "D3T2-3"
+  },
+  {
+    "id": "D3-012",
+    "domain": "Agile",
+    "difficulty": "easy",
+    "stem": "In adaptive planning, scope for the release is continuously assembled from which set of living inputs?",
+    "options": [
+      "A single signed-off requirements specification and nothing else",
+      "The project charter/vision, the product roadmap, personas and customer voice, and previously refined backlog items",
+      "Only the sprint backlog from the immediately prior sprint",
+      "The organization's annual budget document"
+    ],
+    "answer": 1,
+    "explanation": "Unlike predictive planning's single requirements baseline, adaptive scope is re-derived every cycle from several living sources: the charter/vision, the roadmap, personas/customer voice, and backlog items carried forward from prior refinement — continuously converted into ready stories.",
+    "objective": "D3T2-4"
+  },
+  {
+    "id": "D3-013",
+    "domain": "Agile",
+    "difficulty": "medium",
+    "stem": "A new Product Owner skips writing a product vision or roadmap and jumps straight to drafting sprint backlogs from scratch each sprint. What problem does this create?",
+    "options": [
+      "None — sprint backlogs are the only scope input an adaptive team needs",
+      "Without a vision and roadmap feeding backlog refinement, the team loses the directional inputs that let it prioritize consistently across sprints, risking a backlog that reacts to whichever request is loudest rather than what delivers the most value",
+      "It violates PMI's rule that all projects must use a WBS",
+      "It automatically converts the project to a predictive life cycle"
+    ],
+    "answer": 1,
+    "explanation": "The sprint backlog is refinement's output, not scope's input. Skipping the vision and roadmap removes the directional inputs that anchor consistent, value-based prioritization, leaving the team to react to noise rather than pursue a coherent release direction.",
+    "objective": "D3T2-4"
+  },
+  {
+    "id": "D3-014",
+    "domain": "Agile",
+    "difficulty": "easy",
+    "stem": "Which of the following is an ARTIFACT used on an adaptive project, as opposed to an event or a role?",
+    "options": [
+      "The Daily Scrum",
+      "The Sprint Retrospective",
+      "The Product Backlog",
+      "The Scrum Master"
+    ],
+    "answer": 2,
+    "explanation": "The Product Backlog is one of Scrum's three artifacts (with the Sprint Backlog and the Increment). The Daily Scrum and Sprint Retrospective are timeboxed events; the Scrum Master is a role, not an artifact.",
+    "objective": "D3T3-1"
+  },
+  {
+    "id": "D3-015",
+    "domain": "Agile",
+    "difficulty": "medium",
+    "stem": "A team disagrees at the end of a sprint about whether a story is truly finished — one developer says it's done because the code compiles, another says testing and documentation are still outstanding. Which artifact exists specifically to prevent this disagreement?",
+    "options": [
+      "The product roadmap",
+      "The Definition of Done — a shared quality checklist every increment must satisfy",
+      "The sprint burndown chart",
+      "The team's velocity history"
+    ],
+    "answer": 1,
+    "explanation": "The Definition of Done is the adaptive artifact that establishes an agreed, shared checklist for what 'finished' means at the story/increment level, precisely to prevent exactly this kind of disagreement between team members.",
+    "objective": "D3T3-1"
+  },
+  {
+    "id": "D3-016",
+    "domain": "Agile",
+    "difficulty": "medium",
+    "stem": "A team wants to determine whether a completed backlog item can be counted as truly finished. Which criterion correctly answers that question on an adaptive project?",
+    "options": [
+      "Whether the item was completed on the day originally forecast",
+      "Whether the item satisfies its acceptance criteria and the team's Definition of Done",
+      "Whether the item's actual cost matched its budgeted cost",
+      "Whether the item appears on the original project charter"
+    ],
+    "answer": 1,
+    "explanation": "Success at the task/story level in an adaptive project is defined empirically: acceptance criteria plus the team's Definition of Done, not adherence to a predictive date or cost baseline that adaptive projects don't fix the same way.",
+    "objective": "D3T5-1"
+  },
+  {
+    "id": "D3-017",
+    "domain": "Agile",
+    "difficulty": "easy",
+    "stem": "How does adaptive project success differ from predictive project success?",
+    "options": [
+      "Adaptive success is measured only by finishing exactly on the original baseline date",
+      "Adaptive success is redefined around value delivered — working increments, satisfied customers, sustainable pace, and improving flow — rather than on-time/on-budget/in-scope",
+      "There is no way to measure success on an adaptive project",
+      "Adaptive and predictive success criteria are identical in every respect"
+    ],
+    "answer": 1,
+    "explanation": "Predictive success is the classic triple-constraint (on time, on budget, in scope). Adaptive success is redefined around delivered value: working increments, customer satisfaction, sustainable pace, improving flow, and demonstrable quality — evidence-based rather than baseline-based.",
+    "objective": "D3T5-1"
+  },
+  {
+    "id": "D3-018",
+    "domain": "Agile",
+    "difficulty": "hard",
+    "stem": "A Product Owner is prioritizing a backlog and wants to identify which features will genuinely delight customers versus which are baseline expectations that cause dissatisfaction only if missing. Which prioritization technique should she use?",
+    "options": [
+      "MoSCoW (Must/Should/Could/Won't)",
+      "Weighted Shortest Job First (WSJF)",
+      "The Kano model, which classifies features as delighters, performance features, and must-be basics",
+      "A simple first-in-first-out queue"
+    ],
+    "answer": 2,
+    "explanation": "The Kano model is built exactly for this judgment: it classifies features by their effect on customer satisfaction — delighters, linear performance features, and must-be basics whose absence causes dissatisfaction. MoSCoW sorts by necessity and WSJF sequences by economic cost of delay, neither of which targets the delight-versus-basic distinction.",
+    "objective": "D3T5-2"
+  }
+]

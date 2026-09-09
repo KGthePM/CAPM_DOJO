@@ -1,0 +1,632 @@
+[
+  {
+    "id": "D1-001",
+    "domain": "Fundamentals",
+    "difficulty": "medium",
+    "stem": "An organization groups a new CRM initiative, a facility upgrade, and an unrelated marketing campaign under one executive umbrella purely because all three compete for the same strategic investment dollars. What is this grouping called?",
+    "options": [
+      "A program, because the initiatives are coordinated for shared benefits",
+      "A portfolio, because the organizing logic is strategic objectives rather than relatedness of the work",
+      "A project, because each initiative is temporary and unique",
+      "Operations, because the initiatives run continuously"
+    ],
+    "answer": 1,
+    "explanation": "A portfolio groups projects, programs, and operations to achieve strategic objectives; the work inside it need not be related, only united by a shared claim on strategy and funding. A program requires related work managed for benefits unavailable individually.",
+    "objective": "D1T1-1"
+  },
+  {
+    "id": "D1-002",
+    "domain": "Fundamentals",
+    "difficulty": "medium",
+    "stem": "Three separate but related initiatives share integrated schedules, common infrastructure, and one voice to stakeholders, producing benefits none of the three could achieve if managed on its own. This is best described as:",
+    "options": [
+      "A portfolio",
+      "A program",
+      "A single large project with three phases",
+      "An operational function"
+    ],
+    "answer": 1,
+    "explanation": "A program is a group of related projects, subsidiary programs, and program activities managed in a coordinated way to obtain benefits not available from managing them individually. A portfolio's organizing logic is strategy, not relatedness.",
+    "objective": "D1T1-1"
+  },
+  {
+    "id": "D1-003",
+    "domain": "Fundamentals",
+    "difficulty": "easy",
+    "stem": "A help desk team resolves incoming customer tickets every day, following the same procedure indefinitely with no planned end date. Is this work a project?",
+    "options": [
+      "Yes, because it produces a unique result for each ticket",
+      "No, because it is ongoing and repetitive rather than temporary and unique — this is operations",
+      "Yes, because it requires a dedicated team and a budget",
+      "No, because operations never require skilled resources"
+    ],
+    "answer": 1,
+    "explanation": "A project is a temporary endeavor with a defined beginning and end that creates a unique product, service, or result. Ongoing, repetitive work that keeps the organization running — like routine ticket handling — is operations, not a project, regardless of skill or budget involved.",
+    "objective": "D1T1-2"
+  },
+  {
+    "id": "D1-004",
+    "domain": "Fundamentals",
+    "difficulty": "easy",
+    "stem": "Which of the following is a project rather than operations?",
+    "options": [
+      "Generating the monthly payroll run",
+      "Migrating the organization's ticketing system to a new platform",
+      "Performing routine server maintenance every weekend",
+      "Answering incoming customer support tickets"
+    ],
+    "answer": 1,
+    "explanation": "Migrating to a new platform is temporary (it ends once the migration completes) and unique (a one-time changeover), which are the two defining characteristics of a project. Payroll runs, routine maintenance, and ticket handling are all ongoing, repetitive operations.",
+    "objective": "D1T1-2"
+  },
+  {
+    "id": "D1-005",
+    "domain": "Fundamentals",
+    "difficulty": "medium",
+    "stem": "A construction project has stable, well-documented requirements and a technology (standard building methods) that is thoroughly understood. A separate software component of the same initiative has requirements that are expected to evolve as users see working functionality. Which development approaches best fit each piece?",
+    "options": [
+      "Predictive for the construction; adaptive for the software",
+      "Adaptive for the construction; predictive for the software",
+      "Predictive for both, since they belong to the same initiative",
+      "Adaptive for both, since all modern projects should iterate"
+    ],
+    "answer": 0,
+    "explanation": "Predictive approaches suit stable, well-understood requirements and mature technology, as in the construction work. Adaptive approaches suit high uncertainty and evolving requirements with frequent feedback, as in the software component — and running both together makes the overall initiative a hybrid.",
+    "objective": "D1T1-3"
+  },
+  {
+    "id": "D1-006",
+    "domain": "Fundamentals",
+    "difficulty": "medium",
+    "stem": "A project manager reviews a draft scope statement and finds that two engineers on the team have each interpreted the same requirement differently. Which quality of a well-formed scope statement has failed?",
+    "options": [
+      "Feasibility",
+      "Traceability",
+      "Unambiguity — a requirement that reads two ways is effectively two requirements sharing one number",
+      "Completeness"
+    ],
+    "answer": 2,
+    "explanation": "A well-formed scope statement is complete, unambiguous, traceable, and feasible. A requirement that two competent engineers can read two different ways has failed the unambiguity test, even if every deliverable is otherwise present and achievable.",
+    "objective": "D1T1-5"
+  },
+  {
+    "id": "D1-007",
+    "domain": "Fundamentals",
+    "difficulty": "hard",
+    "stem": "During a scope review, the project manager discovers the team quietly added extra features beyond what the customer specified, believing the customer would appreciate the extra generosity. What is this called, and what does it indicate?",
+    "options": [
+      "Scope creep caused by an uncontrolled change request — the change control board failed",
+      "Gold-plating — a defect of scope discipline even though no formal change request was involved",
+      "Rolling-wave planning applied correctly to unclear requirements",
+      "Tailoring the deliverable to better fit customer needs, which is always acceptable"
+    ],
+    "answer": 1,
+    "explanation": "Gold-plating is the team deliberately exceeding the specification without being asked, effectively spending someone else's money and time on unrequested work. It is still a defect the scope review should catch, distinct from scope creep, which arrives through uncontrolled expansion rather than deliberate team choice.",
+    "objective": "D1T1-5"
+  },
+  {
+    "id": "D1-008",
+    "domain": "Fundamentals",
+    "difficulty": "hard",
+    "stem": "A project manager discovers that a colleague falsified quality test results to meet a deadline and is pressuring her to stay quiet. Per the PMI Code of Ethics and Professional Conduct, what is the correct action, and which value governs it?",
+    "options": [
+      "Say nothing to preserve team harmony — this is a matter of Respect",
+      "Report the unethical conduct to appropriate management or another body capable of addressing it — this is a mandatory standard under Responsibility",
+      "Quietly redo the tests herself without telling anyone, satisfying Fairness",
+      "Wait until the project closes to raise the issue, satisfying Honesty"
+    ],
+    "answer": 1,
+    "explanation": "Responsibility's mandatory standards require reporting unethical or illegal conduct to appropriate management or, if necessary, to bodies affected by the deception, and bringing violations to the attention of a body able to resolve them. Silence, delay, or unilaterally fixing the problem without disclosure are the incorrect, career-protecting answers the exam is designed to catch.",
+    "objective": "D1T1-6"
+  },
+  {
+    "id": "D1-009",
+    "domain": "Fundamentals",
+    "difficulty": "hard",
+    "stem": "A vendor competing for a contract sends the project manager an expensive vacation package while she sits on the vendor selection panel. What should she do, and which Code of Ethics value is in tension?",
+    "options": [
+      "Accept the gift privately since it does not affect her judgment, satisfying Honesty",
+      "Fully disclose the situation to stakeholders and recuse herself from the selection decision, per Fairness",
+      "Report the vendor to a regulator immediately, per Respect",
+      "Split the gift with the rest of the panel to keep things equitable, per Responsibility"
+    ],
+    "answer": 1,
+    "explanation": "Fairness requires disclosing any real or potential conflict of interest and letting stakeholders decide how to proceed, and refraining from decision making when objectivity is compromised. Accepting an inappropriate gift for professional advantage is itself a Fairness violation, so the only defensible path is disclosure and recusal.",
+    "objective": "D1T1-6"
+  },
+  {
+    "id": "D1-010",
+    "domain": "Fundamentals",
+    "difficulty": "medium",
+    "stem": "A project ships its final deliverable on schedule and under budget, but six months later almost none of the intended users have adopted the new system. What does this best illustrate?",
+    "options": [
+      "The project was successful because scope, schedule, and cost targets were met",
+      "A project is a vehicle for change; deliverables that are not adopted produce no outcomes, benefits, or value regardless of on-time delivery",
+      "The project team should have gold-plated the deliverable to encourage adoption",
+      "Success should be measured solely by the performance measurement baseline"
+    ],
+    "answer": 1,
+    "explanation": "A project exists to move an organization from a current state to a desired future state; the transition, not the deliverable alone, is the point. Enabling change requires structures, strategies, and stakeholder engagement — without adoption, deliverables produce no outcomes, benefits, or value, no matter how well they were built.",
+    "objective": "D1T1-7"
+  },
+  {
+    "id": "D1-011",
+    "domain": "Fundamentals",
+    "difficulty": "medium",
+    "stem": "An organization launches its fourth major transformation initiative in six months, and employees are exhausted and disengaged despite each initiative being individually well planned. What concept explains this, and what should the project manager consider?",
+    "options": [
+      "Change fatigue — too much change too fast exhausts the organization, so pacing and sequencing change matters as much as executing it well",
+      "Scope creep — the initiatives have expanded beyond their charters",
+      "Resistance is unpredictable and cannot be planned for",
+      "The Cynefin framework's chaotic domain, requiring the team to act first and sense later"
+    ],
+    "answer": 0,
+    "explanation": "Projects act as vehicles for change, but too much change too quickly produces change fatigue, while too little leaves value unrealized. The skill is pacing change so the organization can absorb it — resistance itself is a design input to plan for, not an unpredictable surprise.",
+    "objective": "D1T1-7"
+  },
+  {
+    "id": "D1-012",
+    "domain": "Fundamentals",
+    "difficulty": "easy",
+    "stem": "What is the primary purpose of a risk management plan within the project management plan?",
+    "options": [
+      "To document the approved scope, schedule, and cost baselines",
+      "To describe how risk identification, analysis, and response activities will be structured and performed throughout the project",
+      "To record every stakeholder's power and interest in the project",
+      "To authorize the project and grant the project manager authority over resources"
+    ],
+    "answer": 1,
+    "explanation": "Each subsidiary plan answers 'how will we manage X.' The risk management plan describes how risk-related activities will be structured and performed — not the risks themselves, which live in the risk register, and not project authorization, which belongs to the charter.",
+    "objective": "D1T2-1"
+  },
+  {
+    "id": "D1-013",
+    "domain": "Fundamentals",
+    "difficulty": "medium",
+    "stem": "Why does the quality management plan matter to a project even before any deliverable is produced?",
+    "options": [
+      "Because quality is only relevant during final inspection of the completed deliverable",
+      "Because it describes how quality policies, procedures, and activities will be implemented so that quality is built into the work rather than inspected in afterward",
+      "Because it replaces the need for acceptance criteria",
+      "Because it is identical in purpose to the schedule management plan"
+    ],
+    "answer": 1,
+    "explanation": "The quality management plan describes how quality requirements and standards will be implemented throughout the project. Consistent with the principle that quality is built in rather than inspected in at the end, the plan's purpose is proactive, not a late-stage inspection checklist.",
+    "objective": "D1T2-1"
+  },
+  {
+    "id": "D1-014",
+    "domain": "Fundamentals",
+    "difficulty": "medium",
+    "stem": "How does the project management plan differ in scope and duration from a product management plan for the same initiative?",
+    "options": [
+      "They are identical documents with different titles",
+      "The project management plan describes how the project will be executed, monitored and controlled, and closed; a product management orientation instead shepherds the product across a longer life span from concept through retirement",
+      "The product management plan ends at project closure while the project management plan continues indefinitely",
+      "Only the product management plan addresses cost and schedule"
+    ],
+    "answer": 1,
+    "explanation": "The project management plan's scope ends at project closure — the work of delivery. Product management takes a longer view, following the product through concept, delivery, growth, maturity, and retirement, well beyond any single project's boundaries.",
+    "objective": "D1T2-2"
+  },
+  {
+    "id": "D1-015",
+    "domain": "Fundamentals",
+    "difficulty": "medium",
+    "stem": "A sponsor asks who will track the software's evolution, adoption, and eventual retirement years after the delivery project ends. Which type of plan addresses this concern?",
+    "options": [
+      "The project management plan, since it governs all execution activities",
+      "The scope management plan, since it defines what was built",
+      "A product management plan, since it follows the product across a life cycle that outlasts any one project",
+      "The milestone schedule, since it lists significant dates"
+    ],
+    "answer": 2,
+    "explanation": "The telltale sign of product territory is a concern about post-project evolution and benefits realized over years. The project management plan describes only how the delivery project itself will be executed, monitored, and closed; it has nothing to say about the product's life after that.",
+    "objective": "D1T2-2"
+  },
+  {
+    "id": "D1-016",
+    "domain": "Fundamentals",
+    "difficulty": "easy",
+    "stem": "A schedule entry reads 'Obtain building permit — 15 days' and is followed by an entry reading 'Permit granted.' Which of these two entries is the milestone?",
+    "options": [
+      "'Obtain building permit — 15 days,' because it consumes schedule time",
+      "'Permit granted,' because a milestone is a zero-duration marker signifying a significant point or event",
+      "Both are milestones because they both relate to the permit",
+      "Neither — milestones only apply to final project acceptance"
+    ],
+    "answer": 1,
+    "explanation": "A milestone is a significant point or event with zero duration; a task duration is the number of work periods required to perform an activity. 'Obtain building permit' has a duration because work occurs during it; 'Permit granted' is the zero-duration marker that ends it.",
+    "objective": "D1T2-3"
+  },
+  {
+    "id": "D1-017",
+    "domain": "Fundamentals",
+    "difficulty": "medium",
+    "stem": "Why does a milestone schedule list only milestones with their planned dates, and never durations?",
+    "options": [
+      "Because milestones serve as control points — approval gates, phase completions, hand-offs — and have no duration of their own to roll up",
+      "Because durations are always confidential information restricted from sponsors",
+      "Because a milestone schedule replaces the need for a full project schedule",
+      "Because milestones are estimated using parametric estimating, which produces no duration"
+    ],
+    "answer": 0,
+    "explanation": "Milestones are zero-duration control points, so a milestone schedule — unlike a full project schedule or a summary task, which rolls up durations beneath it — presents only planned dates with nothing to roll up.",
+    "objective": "D1T2-3"
+  },
+  {
+    "id": "D1-018",
+    "domain": "Fundamentals",
+    "difficulty": "medium",
+    "stem": "Midway through execution, the team discovers that no one on the project has the specialized security-testing skill the work requires. What process failure does this most directly reflect?",
+    "options": [
+      "A failure to decompose the scope (WBS) and map required skills and quantities against availability and constraints when determining resources",
+      "A failure of the change control board to approve new resources",
+      "A failure of the communications management plan",
+      "An unavoidable outcome that no planning process could have caught"
+    ],
+    "answer": 0,
+    "explanation": "Determining the number and type of resources means decomposing the scope of work, identifying the skills and quantities each work package demands, and checking them against availability and constraints. A missing skill nobody enumerated is a failure of this mapping, not an unavoidable surprise.",
+    "objective": "D1T2-4"
+  },
+  {
+    "id": "D1-019",
+    "domain": "Fundamentals",
+    "difficulty": "medium",
+    "stem": "Which pair of tools most directly supports determining the number and type of resources a project needs?",
+    "options": [
+      "The risk register and the issue log",
+      "The RACI chart, mapping who is responsible for what work, and the resource breakdown structure, organizing resources by category and type",
+      "The business case and the project charter",
+      "The Gantt chart and the S-curve"
+    ],
+    "answer": 1,
+    "explanation": "The RACI chart maps who is responsible for which work, while the resource breakdown structure organizes resources by category and type so gaps and surpluses become visible — together the working instruments for determining resource number and type from the decomposed scope.",
+    "objective": "D1T2-4"
+  },
+  {
+    "id": "D1-020",
+    "domain": "Fundamentals",
+    "difficulty": "medium",
+    "stem": "A team member identifies a new uncertain event that could delay a supplier shipment. What is the correct next step using the risk register?",
+    "options": [
+      "Ignore it until it becomes an actual issue",
+      "Add it to the risk register with an assigned owner, probability, impact, and score, and let the planned response govern any action",
+      "Escalate it immediately to the sponsor without documenting it",
+      "Record it in the issue log since it already affects the schedule"
+    ],
+    "answer": 1,
+    "explanation": "The risk register stores each risk with its owner, probability, impact, score, and planned response. A newly identified uncertain event — not yet a current condition — should be added or updated in the register with an owner assigned, rather than acted on impulsively or logged as an issue, which is reserved for conditions already affecting objectives.",
+    "objective": "D1T2-5"
+  },
+  {
+    "id": "D1-021",
+    "domain": "Fundamentals",
+    "difficulty": "medium",
+    "stem": "A project manager wants to know which risk response to trigger now that a previously identified threat has begun to materialize. Where should she look first?",
+    "options": [
+      "The stakeholder register, since stakeholders may be affected",
+      "The risk register, which records the planned response tied to each identified risk's owner, probability, and impact",
+      "The lessons learned register from a previous project",
+      "The project charter, since it authorized the project"
+    ],
+    "answer": 1,
+    "explanation": "The risk register is the living artifact holding each risk's owner, probability, impact, score, and planned response — precisely the information needed to know which response to trigger as a threat begins to materialize.",
+    "objective": "D1T2-5"
+  },
+  {
+    "id": "D1-022",
+    "domain": "Fundamentals",
+    "difficulty": "medium",
+    "stem": "Midway through a project, a previously neutral stakeholder gains significant influence after a reorganization. What is the correct use of the stakeholder register in this situation?",
+    "options": [
+      "Leave the register as originally recorded, since stakeholder information is a strategy artifact that should not change",
+      "Update the register's assessment and classification for that stakeholder and re-plan engagement accordingly",
+      "Remove the stakeholder from the register since their role has changed",
+      "Escalate to the PMO to reissue the project charter"
+    ],
+    "answer": 1,
+    "explanation": "The stakeholder register holds each stakeholder's identification, assessment, and classification and is a living artifact updated throughout the project, unlike frozen strategy artifacts. When a stakeholder's power or interest shifts, the correct action is to update the register and adjust engagement plans.",
+    "objective": "D1T2-6"
+  },
+  {
+    "id": "D1-023",
+    "domain": "Fundamentals",
+    "difficulty": "easy",
+    "stem": "What information does a stakeholder register typically hold for each stakeholder?",
+    "options": [
+      "Only their contact information and job title",
+      "Identification, assessment, and classification, used to plan and adjust engagement over the life of the project",
+      "The financial value they represent to the project's business case",
+      "A permanent record that never changes once initially populated"
+    ],
+    "answer": 1,
+    "explanation": "The stakeholder register captures each stakeholder's identification, assessment, and classification. Like the risk register, it is a living artifact updated throughout the project as influence and interest shift — never a one-time, unchanging record.",
+    "objective": "D1T2-6"
+  },
+  {
+    "id": "D1-024",
+    "domain": "Fundamentals",
+    "difficulty": "medium",
+    "stem": "A project's final software release ships on Friday, and the team celebrates the project as complete. Is the project actually closed?",
+    "options": [
+      "Yes, once the code ships, the project is closed by definition",
+      "No — closure requires formal acceptance of deliverables against acceptance criteria and transition to the operating group, among other steps not yet performed",
+      "Yes, provided the sponsor was informed by email",
+      "No, because closure requires the original project team to remain in place permanently"
+    ],
+    "answer": 1,
+    "explanation": "Closure is a process, not a shipping event: it requires verification and formal acceptance of deliverables, transition to operations with training and support arrangements, financial and administrative close, lessons learned capture, and agreement on who will monitor benefits afterward. Shipping code satisfies none of these on its own.",
+    "objective": "D1T2-7"
+  },
+  {
+    "id": "D1-025",
+    "domain": "Fundamentals",
+    "difficulty": "medium",
+    "stem": "A year after a project closes, who is responsible for confirming that the promised 15% cost savings actually materialized?",
+    "options": [
+      "The departed project manager, who must return to verify results",
+      "The sponsor, whose accountability for benefits realization extends beyond the project's closure",
+      "The project team, since they built the deliverable",
+      "No one — benefits tracking ends when the project closes"
+    ],
+    "answer": 1,
+    "explanation": "Benefits realization does not end at closure; the sponsor monitors project outcomes after the team disperses to confirm the intended business benefits actually arrive. This is a sponsor function, not something that falls to the departed project manager or an ended team.",
+    "objective": "D1T2-7"
+  },
+  {
+    "id": "D1-026",
+    "domain": "Fundamentals",
+    "difficulty": "medium",
+    "stem": "A resource conflict arises between two departments, both claiming the same senior engineer, and neither the project manager nor the team has the authority to resolve it. Whose role and responsibility is this to resolve, and why?",
+    "options": [
+      "The project team's, because they know the engineer's skills best",
+      "The project sponsor's, because the sponsor provides decision leadership and position power outside the authority of the project manager and team",
+      "The project manager's, because escalation always resolves within the team's own authority",
+      "No one's — the conflict must resolve itself organically"
+    ],
+    "answer": 1,
+    "explanation": "The sponsor provides decision leadership outside the authority and position power of the project manager and project team, including facilitating executive-level decisions and addressing issues, like cross-department resource conflicts, beyond the team's authority to resolve.",
+    "objective": "D1T3-1"
+  },
+  {
+    "id": "D1-027",
+    "domain": "Fundamentals",
+    "difficulty": "medium",
+    "stem": "Which statement correctly distinguishes the project team's responsibilities from the sponsor's?",
+    "options": [
+      "The team is accountable for organization-wide strategic alignment; the sponsor performs the daily work",
+      "The team performs the project work within the authority the charter grants the project manager; the sponsor authorizes, resources, and shields that work using position power the team lacks",
+      "Both roles are functionally identical and interchangeable on any project",
+      "The sponsor is responsible for building and testing deliverables while the team makes funding decisions"
+    ],
+    "answer": 1,
+    "explanation": "The project team does the work — planning, building, testing, delivering — inside the authority granted by the charter. The sponsor authorizes, resources, and shields that work through position power the team does not hold, such as securing funding or resolving cross-department conflicts.",
+    "objective": "D1T3-2"
+  },
+  {
+    "id": "D1-028",
+    "domain": "Fundamentals",
+    "difficulty": "medium",
+    "stem": "A stem states, 'the team should formally accept the revised business case on the organization's behalf.' What is wrong with this statement?",
+    "options": [
+      "Nothing — the team routinely accepts business cases",
+      "It hands the team a sponsor's function; accepting deliverables and business decisions on the organization's behalf is a sponsor accountability, not a team one",
+      "The business case cannot be revised once written",
+      "Only the PMO may accept business cases"
+    ],
+    "answer": 1,
+    "explanation": "Each role stays inside its own lane. Accepting or rejecting deliverables and business decisions on the organization's behalf is a sponsor accountability under Appendix X2; a team member performing that role would be handed a function that does not belong to them.",
+    "objective": "D1T3-2"
+  },
+  {
+    "id": "D1-029",
+    "domain": "Fundamentals",
+    "difficulty": "medium",
+    "stem": "A project manager notices that a needed capability has never been proposed to leadership, so she frames the problem herself and proposes the initiative before being asked. Which of the project manager's role facets is she demonstrating?",
+    "options": [
+      "Facilitator",
+      "Initiator",
+      "Listener",
+      "Working member"
+    ],
+    "answer": 1,
+    "explanation": "The initiator champions the work: proposing a project or improvement, framing the problem, and getting things moving rather than waiting to be told. This is distinct from facilitating a meeting, listening to concerns, or personally performing project tasks.",
+    "objective": "D1T3-3"
+  },
+  {
+    "id": "D1-030",
+    "domain": "Fundamentals",
+    "difficulty": "medium",
+    "stem": "Two department heads disagree over which team should own a shared deliverable. The project manager works with both to reach a resource and scope trade-off that both sides can accept. Which role facet is she exercising?",
+    "options": [
+      "Coach",
+      "Negotiator",
+      "Facilitator",
+      "Initiator"
+    ],
+    "answer": 1,
+    "explanation": "The negotiator negotiates for resources, scope trade-offs, and agreements with functional managers, vendors, and stakeholders, aiming for a win-win outcome. A facilitator instead makes collaboration easy without steering toward a particular resolution, and a coach develops individual capability rather than mediating a dispute.",
+    "objective": "D1T3-3"
+  },
+  {
+    "id": "D1-031",
+    "domain": "Fundamentals",
+    "difficulty": "easy",
+    "stem": "Which statement correctly distinguishes leadership from management?",
+    "options": [
+      "Management establishes vision and inspires change; leadership plans, budgets, and controls to produce predictability",
+      "Management — planning, budgeting, organizing, staffing, controlling — produces predictability and order; leadership — establishing vision, aligning people, motivating and inspiring — produces change",
+      "Leadership and management are synonyms used interchangeably by PMI",
+      "Only people with the project manager title may exercise leadership"
+    ],
+    "answer": 1,
+    "explanation": "Management activities (planning, budgeting, organizing, staffing, controlling) exist to produce predictability and order; leadership activities (vision, alignment, motivation) exist to produce change. A project manager practices both, and per Principle 6, leadership may be demonstrated by any team member, not only the person holding the title.",
+    "objective": "D1T3-4"
+  },
+  {
+    "id": "D1-032",
+    "domain": "Fundamentals",
+    "difficulty": "medium",
+    "stem": "A junior team member, without any formal authority, notices the team is stalled and proposes a new way of organizing the work that the team adopts enthusiastically. Is this leadership or management, and why?",
+    "options": [
+      "Management, because organizing work is a management activity by definition",
+      "Leadership, because leadership is earned and demonstrated by anyone on the team, not granted only by an org-chart title or position",
+      "Neither, because only the project manager can demonstrate leadership",
+      "Management, because the team member lacks position authority"
+    ],
+    "answer": 1,
+    "explanation": "Authority is granted by the org chart, but leadership is earned and demonstrated — and per Principle 6, anyone on the team can exercise it. A junior member motivating the team toward a new direction with no formal authority is a textbook example of leadership independent of position.",
+    "objective": "D1T3-4"
+  },
+  {
+    "id": "D1-033",
+    "domain": "Fundamentals",
+    "difficulty": "medium",
+    "stem": "A project manager feels the urge to fire back angrily at a stakeholder's harsh email but pauses, thinks it through, and responds calmly the next morning. Which area of emotional intelligence is she demonstrating?",
+    "options": [
+      "Social awareness",
+      "Self-management (self-regulation) — controlling and redirecting disruptive impulses",
+      "Social skill",
+      "Self-awareness"
+    ],
+    "answer": 1,
+    "explanation": "Self-management, or self-regulation, is the ability to control and redirect disruptive impulses, thinking before acting and suspending snap judgment. Pausing before responding to provocation is the signature behavior of this EQ area, distinct from self-awareness (assessing one's own emotions and motivations) or social awareness (reading others).",
+    "objective": "D1T3-5"
+  },
+  {
+    "id": "D1-034",
+    "domain": "Fundamentals",
+    "difficulty": "medium",
+    "stem": "During a status meeting, a project manager notices a team member's crossed arms and clipped answers and senses growing frustration before anyone says a word. Which emotional intelligence area, and why does it matter to project management?",
+    "options": [
+      "Social awareness — empathy and reading nonverbal cues — because EQ is described as the basis of all forms of leadership, and social areas build the bonds needed with the team",
+      "Self-management, because it concerns controlling one's own impulses",
+      "Motivation, because it concerns what drives and inspires the observer",
+      "It is irrelevant to project management, which concerns only technical delivery"
+    ],
+    "answer": 0,
+    "explanation": "Social awareness is empathy: considering others' feelings and reading nonverbal cues and body language. EQ matters to project management because it is described as the basis of all forms of leadership — the social areas build the bonds with the team that self-directed areas alone cannot.",
+    "objective": "D1T3-5"
+  },
+  {
+    "id": "D1-035",
+    "domain": "Fundamentals",
+    "difficulty": "medium",
+    "stem": "A previously identified risk trigger fires mid-project exactly as anticipated in the risk management plan. What is the appropriate response?",
+    "options": [
+      "Improvise a new response on the spot since circumstances always differ from the plan",
+      "Execute the planned response as documented, since the framework anticipated this exact situation",
+      "Escalate to the sponsor before taking any action, regardless of the plan",
+      "Ignore the plan since risk triggers rarely occur as predicted"
+    ],
+    "answer": 1,
+    "explanation": "A planned strategy or framework is a promise about behavior; the correct response when a risk trigger fires as anticipated is to execute the planned response, following the plan's own procedures rather than improvising or defaulting to escalation.",
+    "objective": "D1T4-1"
+  },
+  {
+    "id": "D1-036",
+    "domain": "Fundamentals",
+    "difficulty": "medium",
+    "stem": "A stakeholder is blindsided by project news that should have reached them under the communications management plan. What does this scenario actually reveal, and what is the correct fix?",
+    "options": [
+      "The stakeholder is simply too demanding; no fix is needed",
+      "The communications plan was not followed; the remedy is to follow the plan as written, or deliberately revise it through its own change procedures if it no longer suits the situation",
+      "Communications plans are optional guidance and can be freely improvised",
+      "The project should immediately cancel all future stakeholder communications"
+    ],
+    "answer": 1,
+    "explanation": "A scenario where a stakeholder is blindsided is really about a communications plan not being followed. The correct response is to follow the plan's cadence and channels, and if reality has diverged, to revise the plan deliberately through its own procedures — not to abandon planning or improvise indefinitely.",
+    "objective": "D1T4-1"
+  },
+  {
+    "id": "D1-037",
+    "domain": "Fundamentals",
+    "difficulty": "medium",
+    "stem": "In the proper sequence of project initiation, which document justifies whether and why a project should be undertaken, and which document formally authorizes it once that decision is made?",
+    "options": [
+      "The project charter justifies; the business case authorizes",
+      "The business case justifies; the project charter, issued by the sponsor, formally authorizes the project and names the project manager's authority",
+      "The stakeholder register justifies; the risk register authorizes",
+      "Both documents perform the same function and may be issued in either order"
+    ],
+    "answer": 1,
+    "explanation": "The business case argues whether and why to undertake a project, documenting economic and non-economic benefits and the recommendation. The project charter, issued by the sponsor, then formally authorizes the project and grants the project manager authority. The charter never precedes the business case in a correctly ordered sequence.",
+    "objective": "D1T4-2"
+  },
+  {
+    "id": "D1-038",
+    "domain": "Fundamentals",
+    "difficulty": "medium",
+    "stem": "For benefits identified in the business case to be tracked meaningfully after the project delivers, what must be true of those benefits, and who typically maintains the plan for measuring them?",
+    "options": [
+      "Benefits need only be described in general terms; the project manager tracks them indefinitely",
+      "Benefits must be measurable and assigned ownership, with a benefits management plan governing how and when they are measured, and the sponsor's watch continuing after closure",
+      "Benefits are tracked exclusively by the PMO using the performance measurement baseline",
+      "Benefits tracking is optional once the charter is signed"
+    ],
+    "answer": 1,
+    "explanation": "Benefits named in the business case must be measurable and assigned ownership, because realization is verified over time via a benefits management plan describing the how-and-when of measurement — and the sponsor, not the departed project manager, monitors outcomes after closure.",
+    "objective": "D1T4-2"
+  },
+  {
+    "id": "D1-039",
+    "domain": "Fundamentals",
+    "difficulty": "medium",
+    "stem": "A recurring weekly steering committee meeting runs 90 minutes with no stated agenda and ends with no decisions or assigned action items. What does this reveal about the meeting's effectiveness, and what would fix it?",
+    "options": [
+      "The meeting is fine; steering committees do not require agendas",
+      "The meeting is ineffective — it lacks a stated purpose and agenda and produces no documented decisions with owners; the fix is to establish an agenda, invite only the right people, time-box discussion, and document decisions and action items",
+      "The correct fix is to cancel all future meetings entirely",
+      "The meeting's cost is irrelevant to its evaluation"
+    ],
+    "answer": 1,
+    "explanation": "A meeting is effective when it achieves its objective at a cost proportionate to the outcome, evaluated by a stated agenda, the right people present, time-boxed discussion, and documented decisions with owners and due dates. The exam rejects the zealot's answer of cancelling meetings outright in favor of fixing their structure.",
+    "objective": "D1T5-1"
+  },
+  {
+    "id": "D1-040",
+    "domain": "Fundamentals",
+    "difficulty": "easy",
+    "stem": "What calculation helps a project manager judge whether a recurring meeting is worth its cost?",
+    "options": [
+      "Story points assigned to the meeting's topic",
+      "Attendees multiplied by duration multiplied by hourly rate, compared against the value the meeting produces",
+      "The earned value schedule performance index (SPI) of the project",
+      "The number of agenda items regardless of attendee count"
+    ],
+    "answer": 1,
+    "explanation": "One evaluable dimension of meeting effectiveness is a cost check: attendees times duration times rate, weighed against the value produced. A meeting that costs more in aggregate salary time than the decisions it produces are worth fails this check even if it otherwise runs smoothly.",
+    "objective": "D1T5-1"
+  },
+  {
+    "id": "D1-041",
+    "domain": "Fundamentals",
+    "difficulty": "medium",
+    "stem": "A product team wants qualitative insight into how a small group of prequalified customers feel about a proposed feature, capturing how their reactions build on one another in conversation. Which technique fits best, and why not a survey instead?",
+    "options": [
+      "A survey, because it reaches more people",
+      "A focus group, because the interaction between prequalified participants captures perceptions and attitudes a survey's broad-but-shallow format cannot",
+      "A retrospective, because it improves team process",
+      "A standup, because it surfaces daily obstacles"
+    ],
+    "answer": 1,
+    "explanation": "A focus group is a moderator-led session with prequalified stakeholders and subject matter experts interacting to elicit expectations and attitudes; the interaction itself, where participants build on one another's reactions, is the point — something a survey's breadth-over-depth format cannot replicate.",
+    "objective": "D1T5-2"
+  },
+  {
+    "id": "D1-042",
+    "domain": "Fundamentals",
+    "difficulty": "medium",
+    "stem": "During a brainstorming session, the facilitator interrupts each new idea to critique its feasibility before the next idea is offered. What is wrong with this facilitation, and what should a standup meeting's facilitation look like by contrast?",
+    "options": [
+      "Nothing is wrong; critiquing ideas as they arrive is standard brainstorming practice",
+      "Brainstorming should be non-judgmental during idea generation, with evaluation deferred until afterward; a standup, by contrast, is a short, time-boxed daily sync covering yesterday, today, and obstacles, with blockers removed after the meeting by the right owner",
+      "Brainstorming and standups follow identical facilitation rules",
+      "The facilitator should instead extend the brainstorming session indefinitely until consensus is reached"
+    ],
+    "answer": 1,
+    "explanation": "Brainstorming is a rapid, non-judgmental idea-generation technique; critiquing ideas mid-stream is brainstorming done wrong, since evaluation is meant to happen only after generation. A standup is a different instrument entirely — short, daily, and time-boxed, covering yesterday, today, and obstacles, with blockers resolved afterward by the appropriate owner rather than litigated in the meeting.",
+    "objective": "D1T5-2"
+  }
+]

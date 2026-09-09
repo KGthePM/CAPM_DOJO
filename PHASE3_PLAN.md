@@ -1,5 +1,5 @@
 # CAPM Dojo — Phase 3 Plan (ECO Task Mastery)
-Status: PLANNED · Created 2026-09-09 · Run in a future session (say "run phase 3")
+Status: DONE (superseded — see COVERAGE_MAP.md 2026-09-09 "PHASE 3 complete" entry) · Created 2026-09-09 · Executed 2026-09-09
 Skill: `capm-training-dojo` (read it first — layout, build pipeline, verification drill)
 
 ## Premise

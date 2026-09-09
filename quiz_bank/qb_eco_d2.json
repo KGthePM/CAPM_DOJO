@@ -1,0 +1,257 @@
+[
+  {
+    "id": "D2-001",
+    "domain": "Predictive, Plan-Based",
+    "difficulty": "easy",
+    "stem": "Which process group includes 'collect performance data and compare it against baselines' as one of its core activities?",
+    "options": [
+      "Initiating",
+      "Planning",
+      "Monitoring & Controlling",
+      "Closing"
+    ],
+    "answer": 2,
+    "explanation": "Monitoring & Controlling is built around comparing performance data to the scope, schedule, and cost baselines and routing variances through integrated change control. Initiating authorizes the project; Planning builds the baselines; Closing finalizes the project or phase.",
+    "objective": "D2T1-2"
+  },
+  {
+    "id": "D2-002",
+    "domain": "Predictive, Plan-Based",
+    "difficulty": "medium",
+    "stem": "During which process group are approved change requests actually implemented, procurements conducted, and the project team developed?",
+    "options": [
+      "Planning",
+      "Executing",
+      "Monitoring & Controlling",
+      "Closing"
+    ],
+    "answer": 1,
+    "explanation": "Executing (Direct and Manage Project Work) is where approved changes are carried out, procurements are conducted, and the team is developed. Monitoring & Controlling only approves or rejects the change through integrated change control; it does not perform the work.",
+    "objective": "D2T1-2"
+  },
+  {
+    "id": "D2-003",
+    "domain": "Predictive, Plan-Based",
+    "difficulty": "easy",
+    "stem": "Which of the following is a typical Planning process group activity?",
+    "options": [
+      "Develop the project charter",
+      "Define activities and estimate their durations",
+      "Direct and manage the project work",
+      "Close the project or phase"
+    ],
+    "answer": 1,
+    "explanation": "Defining activities and estimating durations are Planning processes feeding Develop Schedule. Developing the charter is Initiating; directing and managing work is Executing; closing is its own process group.",
+    "objective": "D2T1-3"
+  },
+  {
+    "id": "D2-004",
+    "domain": "Predictive, Plan-Based",
+    "difficulty": "medium",
+    "stem": "A project manager identifies stakeholders and drafts a charter for Phase 3 of a five-phase project already well underway. In which process group do these activities occur, and what is the common misconception the exam targets here?",
+    "options": [
+      "Initiating, since Initiating recurs at the start of every phase, not only at the project's outset",
+      "Planning, because stakeholders must be understood before any plan is written",
+      "Executing, since stakeholder engagement is continuous throughout the project",
+      "Closing, since Phase 2 must be formally closed before Phase 3 activities count"
+    ],
+    "answer": 0,
+    "explanation": "Process groups repeat within every phase. Identifying stakeholders and chartering work are Initiating activities regardless of how far along the overall project's calendar is — the trap is assuming Initiating only happens once, at the very beginning.",
+    "objective": "D2T1-3"
+  },
+  {
+    "id": "D2-005",
+    "domain": "Predictive, Plan-Based",
+    "difficulty": "medium",
+    "stem": "Per the WBS's '100% rule,' which statement is correct?",
+    "options": [
+      "The WBS must include every deliverable defined in the scope statement, and nothing outside that scope",
+      "Each work package must represent at least 100 hours of effort",
+      "100% of project activities must fall on the critical path",
+      "The WBS dictionary must be fully complete before Planning can end"
+    ],
+    "answer": 0,
+    "explanation": "The 100% rule means the WBS captures all of the scope statement's defined work and no work beyond it. The 8/80 heuristic (not '100 hours') is the common guidance for work package sizing, and neither the critical path nor dictionary completeness relates to this rule.",
+    "objective": "D2T1-4"
+  },
+  {
+    "id": "D2-006",
+    "domain": "Predictive, Plan-Based",
+    "difficulty": "medium",
+    "stem": "A control account sits between which two WBS elements, and what is the defining rule about its contents?",
+    "options": [
+      "Between the project charter and the WBS; it contains exactly one work package",
+      "Between a deliverable and one or more work packages; it must contain two or more work packages",
+      "Between a work package and a schedule activity; it contains no work packages at all",
+      "Between the scope baseline and the WBS dictionary; it contains all planning packages"
+    ],
+    "answer": 1,
+    "explanation": "A control account is the management control point where scope, budget, and schedule integrate for earned value measurement; it always contains two or more work packages, each of which belongs to exactly one control account.",
+    "objective": "D2T1-4"
+  },
+  {
+    "id": "D2-007",
+    "domain": "Predictive, Plan-Based",
+    "difficulty": "hard",
+    "stem": "A finish-to-start network has Activity A = 6 days (starts the project); B = 4 days (follows A); C = 8 days (follows A); D = 5 days (follows both B and C). What is the total project duration, and what is B's total float?",
+    "options": [
+      "19 days; B has 4 days of float",
+      "18 days; B has 3 days of float",
+      "19 days; B has 0 days of float",
+      "23 days; B has 4 days of float"
+    ],
+    "answer": 0,
+    "explanation": "Forward pass: A(0-6), B(6-10), C(6-14), D starts at max(10,14)=14, finishes at 19 — duration 19 days. Backward pass: D(LS 14), C(LS 6, since its only successor D has LS 14 minus C's duration 8), B(LS 10). A's LS = min(10,6) - 6 = 0. Critical path A-C-D (float 0 each); B's float = LS 10 - ES 6 = 4 days.",
+    "objective": "D2T2-1"
+  },
+  {
+    "id": "D2-008",
+    "domain": "Predictive, Plan-Based",
+    "difficulty": "medium",
+    "stem": "At the status date, PV = $80,000 and EV = $72,000. What are the schedule variance and schedule performance index, and what do they indicate?",
+    "options": [
+      "SV = -$8,000, SPI = 0.90 — behind schedule",
+      "SV = +$8,000, SPI = 1.11 — ahead of schedule",
+      "SV = -$8,000, SPI = 1.11 — behind schedule but earning value faster than planned",
+      "SV = $0, SPI = 0.90 — on schedule"
+    ],
+    "answer": 0,
+    "explanation": "SV = EV - PV = 72,000 - 80,000 = -$8,000 (behind schedule). SPI = EV/PV = 72,000/80,000 = 0.90, below 1.0, confirming behind-schedule status. SV and SPI must agree in direction; an option pairing a negative SV with SPI above 1.0 is internally contradictory.",
+    "objective": "D2T2-2"
+  },
+  {
+    "id": "D2-009",
+    "domain": "Predictive, Plan-Based",
+    "difficulty": "easy",
+    "stem": "The work breakdown structure is best described as:",
+    "options": [
+      "A hierarchical, deliverable-oriented decomposition of the total scope of work",
+      "A sequential list of project activities in calendar order",
+      "A network diagram showing activity dependencies",
+      "A breakdown of the budget by cost category"
+    ],
+    "answer": 0,
+    "explanation": "The WBS decomposes the total project scope into deliverables/work products hierarchically; it is not a schedule, network diagram, or cost breakdown — those are separate artifacts built from or alongside it.",
+    "objective": "D2T2-3"
+  },
+  {
+    "id": "D2-010",
+    "domain": "Predictive, Plan-Based",
+    "difficulty": "medium",
+    "stem": "Which statement about the WBS is FALSE?",
+    "options": [
+      "It decomposes work products/deliverables, not schedule activities",
+      "Every element of the approved scope statement must appear somewhere in the WBS",
+      "The WBS by itself, without the WBS dictionary, constitutes the complete scope baseline",
+      "Each descending level represents a more detailed definition of the project work"
+    ],
+    "answer": 2,
+    "explanation": "The scope baseline is the approved scope statement PLUS the WBS PLUS the WBS dictionary — the WBS alone is not the full scope baseline. The other three statements correctly describe WBS properties.",
+    "objective": "D2T2-3"
+  },
+  {
+    "id": "D2-011",
+    "domain": "Predictive, Plan-Based",
+    "difficulty": "easy",
+    "stem": "Each work package in a WBS is uniquely identified by its:",
+    "options": [
+      "Control account name",
+      "Code of accounts identifier",
+      "Risk register entry",
+      "Network diagram node number"
+    ],
+    "answer": 1,
+    "explanation": "Every work package carries a unique identifier from the code of accounts, linking it to the organization's chart of accounts for cost tracking. Control accounts sit above work packages and aggregate several of them.",
+    "objective": "D2T2-4"
+  },
+  {
+    "id": "D2-012",
+    "domain": "Predictive, Plan-Based",
+    "difficulty": "medium",
+    "stem": "The quality management plan emphasizes 'prevention over inspection.' Which activity best exemplifies this principle?",
+    "options": [
+      "Auditing the design-review process before manufacturing begins",
+      "Inspecting a batch of finished units to catch defects",
+      "Logging a defect after a customer complaint arrives",
+      "Calculating rework costs after a failed final test"
+    ],
+    "answer": 0,
+    "explanation": "Auditing a process before defects can occur is prevention (quality assurance); inspecting finished goods, logging post-delivery defects, and tallying rework costs are all after-the-fact detection — the costlier, inspection-driven approach the plan tries to minimize.",
+    "objective": "D2T2-5"
+  },
+  {
+    "id": "D2-013",
+    "domain": "Predictive, Plan-Based",
+    "difficulty": "medium",
+    "stem": "The integration management plan's core purpose is best described as:",
+    "options": [
+      "Coordinating all subsidiary plans and change control so the knowledge areas function as one coherent whole",
+      "Managing only the project's budget and cost baseline",
+      "Documenting stakeholder communication preferences exclusively",
+      "Assigning work packages to individual team members"
+    ],
+    "answer": 0,
+    "explanation": "Integration is the 'conductor' knowledge area: it binds scope, schedule, cost, quality, resource, communications, risk, procurement, and stakeholder plans together and governs how changes to any of them are evaluated as a whole through integrated change control.",
+    "objective": "D2T2-6"
+  },
+  {
+    "id": "D2-014",
+    "domain": "Predictive, Plan-Based",
+    "difficulty": "easy",
+    "stem": "Which document combines the approved scope statement, the WBS, and the WBS dictionary?",
+    "options": [
+      "The project charter",
+      "The scope baseline",
+      "Requirements documentation",
+      "The basis of estimates"
+    ],
+    "answer": 1,
+    "explanation": "The scope baseline is defined as the approved scope statement plus the WBS plus the WBS dictionary, and it can only be changed through formal change control.",
+    "objective": "D2T3-1"
+  },
+  {
+    "id": "D2-015",
+    "domain": "Predictive, Plan-Based",
+    "difficulty": "medium",
+    "stem": "Raw measurements collected during project execution — such as percent complete or actual hours worked — are first captured as:",
+    "options": [
+      "Work performance reports",
+      "Work performance information",
+      "Work performance data",
+      "The performance measurement baseline"
+    ],
+    "answer": 2,
+    "explanation": "The guide's data-to-information pipeline runs work performance data (raw measurements) to work performance information (data analyzed in context) to work performance reports (packaged for stakeholders). The performance measurement baseline is the integrated scope-schedule-cost target, not a stage in this pipeline.",
+    "objective": "D2T3-1"
+  },
+  {
+    "id": "D2-016",
+    "domain": "Predictive, Plan-Based",
+    "difficulty": "hard",
+    "stem": "At the status date, PV = $90,000, EV = $75,000, and AC = $70,000. What is the cost variance, and what does it indicate?",
+    "options": [
+      "+$5,000 — under budget",
+      "-$15,000 — behind schedule",
+      "+$20,000 — under budget",
+      "-$5,000 — over budget"
+    ],
+    "answer": 0,
+    "explanation": "CV = EV - AC = 75,000 - 70,000 = +$5,000, a favorable variance meaning the project is under budget. The -$15,000 figure is the schedule variance (EV - PV), a distractor testing whether the candidate confuses the two formulas.",
+    "objective": "D2T3-2"
+  },
+  {
+    "id": "D2-017",
+    "domain": "Predictive, Plan-Based",
+    "difficulty": "hard",
+    "stem": "PV = $120,000, EV = $100,000, AC = $125,000. Which statement correctly characterizes project performance?",
+    "options": [
+      "SV = -$20,000 and CV = -$25,000: behind schedule and over budget",
+      "SV = +$20,000 and CV = +$25,000: ahead of schedule and under budget",
+      "SV = -$20,000 and CV = +$25,000: behind schedule but under budget",
+      "SPI = 1.2 and CPI = 1.25: ahead of schedule and under budget"
+    ],
+    "answer": 0,
+    "explanation": "SV = EV - PV = 100,000 - 120,000 = -$20,000 (behind schedule). CV = EV - AC = 100,000 - 125,000 = -$25,000 (over budget). SPI = 100,000/120,000 = 0.83 and CPI = 100,000/125,000 = 0.80, both below 1.0 — confirming behind and over, not the inverted figures in option D.",
+    "objective": "D2T3-2"
+  }
+]

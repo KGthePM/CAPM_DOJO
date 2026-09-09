@@ -83,5 +83,9 @@ grepping megabyte files blindly. `session/NOTES_*.md` hold the Phase 2 research 
 
 ## Current state
 
-13 lectures on disk but `web/index.html` still has 12 injected (LEC-13 was written after the last
-build) and 98 questions. Rebuild before assuming the app matches the sources.
+13 lectures, 205-question bank, `web/index.html` rebuilt and in sync (Phase 3 complete — see
+`COVERAGE_MAP.md`'s 2026-09-09 log entry). Every one of the 60 official ECO objectives
+(`session/ECO_OBJECTIVES.md`) has ≥1 lecture section and ≥2 quiz questions; the ledger is
+`session/COVERAGE_AUDIT.md`. The app also has a "Grand Examination" mode (150Q/3hr, domain-weighted
+draw, break-lockout at Q75, ~70% benchmark) and a weak-area drill mode (per-question history in
+`state.history`, "Drill My Misses" on the Practice Exam screen, a weak-domain callout on Home).

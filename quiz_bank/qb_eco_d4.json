@@ -1,0 +1,452 @@
+[
+  {
+    "id": "D4-001",
+    "domain": "Business Analysis",
+    "difficulty": "medium",
+    "stem": "A business analyst builds the stakeholder register early but never revisits it after a downstream distribution partner joins the initiative mid-project. At acceptance, the partner's labeling requirements surface for the first time and force rework. What does this scenario most directly illustrate about stakeholder identification?",
+    "options": [
+      "Stakeholder registers should only be built once, at project initiation, to avoid scope creep",
+      "Omitting or failing to update a stakeholder can mean the loss of critical product requirements",
+      "External stakeholders never need to be tracked in the register",
+      "The RTM, not the stakeholder register, is responsible for catching this kind of gap"
+    ],
+    "answer": 1,
+    "explanation": "The Guide is explicit that overlooking any one stakeholder risks losing critical requirements entirely \u2014 which is why the register must be refined continuously as new stakeholders and influence emerge, not treated as a one-time deliverable.",
+    "objective": "D4T1-2"
+  },
+  {
+    "id": "D4-002",
+    "domain": "Business Analysis",
+    "difficulty": "easy",
+    "stem": "Why does a business analyst bother formally identifying stakeholders and their roles at all, rather than simply gathering requirements from whoever is in the room?",
+    "options": [
+      "Formal identification is a documentation formality with no bearing on requirements quality",
+      "It ensures no affected individual, group, or organization is overlooked, since a missed stakeholder means missed requirements",
+      "It is required only on adaptive projects, never on predictive ones",
+      "It replaces the need for a communication plan"
+    ],
+    "answer": 1,
+    "explanation": "Identifying roles and responsibilities exists precisely to prevent the loss of requirements that comes from overlooking a stakeholder who may affect, be affected by, or perceive itself affected by the initiative.",
+    "objective": "D4T1-2"
+  },
+  {
+    "id": "D4-003",
+    "domain": "Business Analysis",
+    "difficulty": "medium",
+    "stem": "A project team is corresponding with an outside regulatory agency about a compliance requirement. To keep messaging consistent across the organizational boundary, what approach does the Guide recommend for this kind of external-stakeholder communication?",
+    "options": [
+      "Allow any team member on either side to respond directly to keep things fast",
+      "Route communications through single points of contact at both ends",
+      "Restrict all communication to push channels such as email only",
+      "Treat the regulator the same as an internal stakeholder since both are affected parties"
+    ],
+    "answer": 1,
+    "explanation": "External stakeholders sit outside the organization's shared norms and repositories, so the Guide recommends single points of contact on both sides to keep external messaging consistent \u2014 unlike internal stakeholders, who already share common channels.",
+    "objective": "D4T1-3"
+  },
+  {
+    "id": "D4-004",
+    "domain": "Business Analysis",
+    "difficulty": "medium",
+    "stem": "A business analyst needs to make an approved backlog visible to a large, globally distributed set of stakeholders who will check it at their own convenience rather than needing it pushed to them. Which communication approach fits, and which tool is a natural fit for it?",
+    "options": [
+      "Push communication, via a mass email to every stakeholder",
+      "Interactive communication, via a scheduled video call with all stakeholders",
+      "Pull communication, via a shared dashboard or repository stakeholders can retrieve on demand",
+      "Interactive communication, via one-on-one interviews with each stakeholder"
+    ],
+    "answer": 2,
+    "explanation": "Pull communication lets large, dispersed audiences retrieve information as needed \u2014 a published dashboard or repository is the textbook example. Push sends to specific recipients without confirming uptake; interactive channels do not scale to a large distributed audience for routine visibility.",
+    "objective": "D4T2-1"
+  },
+  {
+    "id": "D4-005",
+    "domain": "Business Analysis",
+    "difficulty": "medium",
+    "stem": "Developers build a feature strictly from a requirements email the product owner sent them, but the QA team \u2014 which was never copied \u2014 writes test cases from an older specification and the two disagree at release. What does this scenario illustrate about business analysis communication?",
+    "options": [
+      "QA should not be involved in requirements at all, only development",
+      "There is rarely a one-size-fits-all way to communicate product information to all stakeholders, and gaps in the structured, maintained information channel cause exactly this kind of mismatch",
+      "The product owner should have used an interactive channel instead of email for a routine requirement",
+      "This is a defect-tracking problem, not a communication-planning problem"
+    ],
+    "answer": 1,
+    "explanation": "Requirements cross team boundaries constantly, and the Guide's own reasoning is that no single communication approach fits everyone. When one team builds from information another never received, the failure lies in how product information was structured, stored, and shared across teams.",
+    "objective": "D4T2-2"
+  },
+  {
+    "id": "D4-006",
+    "domain": "Business Analysis",
+    "difficulty": "easy",
+    "stem": "Why is deliberate communication planning by the business analyst important between separate teams working on the same product, such as development and testing?",
+    "options": [
+      "Because requirements and features must move consistently across team boundaries, and without a structured approach some teams end up working from stale or incomplete information",
+      "Because PMI requires a documented communication plan for certification purposes only",
+      "Because interactive communication is always superior to push or pull communication",
+      "Because only the product owner is permitted to communicate requirements to any team"
+    ],
+    "answer": 0,
+    "explanation": "BA communication planning matters because requirements and features must flow consistently across team boundaries; without a deliberate approach, teams can end up acting on different or outdated information, producing exactly the kind of mismatch the exam likes to test.",
+    "objective": "D4T2-2"
+  },
+  {
+    "id": "D4-007",
+    "domain": "Business Analysis",
+    "difficulty": "medium",
+    "stem": "A product owner wants to capture a single, small capability \u2014 \"As a returning customer, I want my saved address to pre-fill at checkout, so that I can order faster\" \u2014 for placement in the backlog. Which requirements format is this, and why would a use case be the wrong choice here?",
+    "options": [
+      "A use case, because it involves a customer interacting with the checkout system",
+      "A user story, because it is a small, backlog-sized capability from one user's perspective, not a multi-actor branching workflow",
+      "A business requirement, because it states organizational value",
+      "A nonfunctional requirement, because it describes a quality attribute"
+    ],
+    "answer": 1,
+    "explanation": "This is a classic user story: single perspective, small and conversational, backlog-ready. A use case is reserved for processes with multiple actors and branching main/alternate/exception flows, which this simple pre-fill capability does not have.",
+    "objective": "D4T3-1"
+  },
+  {
+    "id": "D4-008",
+    "domain": "Business Analysis",
+    "difficulty": "medium",
+    "stem": "A team using Scrum wants to know, at any moment, exactly which requirements are still outstanding, roughly how they are ordered, and which have been refined enough to build. Which artifact serves this purpose, and how does it relate to the predictive-world RTM?",
+    "options": [
+      "The product roadmap, which plays the identical role as the RTM in both worlds",
+      "The product backlog, which serves as the adaptive world's living, continuously updated equivalent of tracing and managing requirements that the RTM provides in the predictive world",
+      "The stakeholder register, since it lists everyone who submitted a requirement",
+      "The release plan, since it is updated every sprint"
+    ],
+    "answer": 1,
+    "explanation": "The product backlog is the adaptive-world requirements repository \u2014 ordered and continuously refined \u2014 performing the same essential tracking duty that the RTM performs on a predictive project, though without the RTM's formal source-to-test-case columns.",
+    "objective": "D4T3-3"
+  },
+  {
+    "id": "D4-009",
+    "domain": "Business Analysis",
+    "difficulty": "easy",
+    "stem": "A sponsor asks what the product roadmap is actually for, since it isn't a locked schedule and features on it sometimes shift. What is the roadmap's key benefit according to the Guide?",
+    "options": [
+      "It legally commits the team to specific delivery dates",
+      "It creates shared expectations among stakeholders about what will be delivered and in what general order",
+      "It replaces the product backlog for day-to-day work sequencing",
+      "It is used only for external marketing materials and has no internal planning value"
+    ],
+    "answer": 1,
+    "explanation": "The roadmap's stated key benefit is creating shared expectations among stakeholders for deliverables and their sequence. It is a strategic, high-level direction-setter, not a binding schedule \u2014 mistaking it for one is a common exam trap.",
+    "objective": "D4T4-1"
+  },
+  {
+    "id": "D4-010",
+    "domain": "Business Analysis",
+    "difficulty": "medium",
+    "stem": "A stakeholder mixes up three artifacts: one shows the long-range strategic evolution of the product with themes per release, one shows which specific components are allocated to the very next release, and one shows the near-term, continuously re-ordered work the team will pull from next. In order from longest-range to nearest-term, how does the exam expect you to name these three?",
+    "options": [
+      "Backlog, release plan, roadmap",
+      "Roadmap, release plan, backlog",
+      "Release plan, roadmap, backlog",
+      "Roadmap, backlog, release plan"
+    ],
+    "answer": 1,
+    "explanation": "The hierarchy runs roadmap (long-range strategic) to release plan (medium-range, components allocated to releases) to backlog (near-term, continuously re-ordered). Crossing these purposes is the exam's favorite distractor pattern.",
+    "objective": "D4T4-1"
+  },
+  {
+    "id": "D4-011",
+    "domain": "Business Analysis",
+    "difficulty": "hard",
+    "stem": "A roadmap lists four components for the next release window: one is low-value and unrelated to strategy, one is high-risk and poorly understood, one depends on a component not yet built, and one is high-value, independent, and well understood. Given standard release-planning logic, which component is the strongest candidate to ship in the earliest release?",
+    "options": [
+      "The low-value, unrelated component, since it clears the backlog quickly",
+      "The component that depends on an unbuilt prerequisite, to get the hard part out of the way",
+      "The high-value, independent, well-understood component, since it delivers clear value with no blocking dependency",
+      "The high-risk, poorly understood component, because risk should always be deferred to the last release"
+    ],
+    "answer": 2,
+    "explanation": "Release sequencing favors high-value, low-effort, dependency-free components early. The dependent component must wait for its prerequisite, the low-value item does not justify early placement, and risky-but-poorly-understood work is actually a candidate for early attention (to fail cheaply), not automatic deferral \u2014 but it is not the strongest early candidate here compared to a ready, high-value, independent item.",
+    "objective": "D4T4-2"
+  },
+  {
+    "id": "D4-012",
+    "domain": "Business Analysis",
+    "difficulty": "medium",
+    "stem": "How does the business analyst's core work differ between a predictive, plan-based project and an adaptive one?",
+    "options": [
+      "On adaptive projects the BA no longer elicits, analyzes, traces, or validates requirements at all",
+      "The core activities of elicit, analyze, trace, and validate remain the same, but timing, level of detail, documentation formality, and collaboration cadence shift \u2014 up-front baselining and change control versus continuous refinement and feedback loops",
+      "On predictive projects the BA has no role once the RTM is baselined",
+      "The BA role is identical in both approaches, since PMI does not distinguish methodologies for business analysis"
+    ],
+    "answer": 1,
+    "explanation": "The BA's fundamental activities never disappear; what changes across predictive and adaptive approaches is when work happens, how much detail is captured up front, how formally it is documented, and whether approval happens through gates or loops.",
+    "objective": "D4T5-1"
+  },
+  {
+    "id": "D4-013",
+    "domain": "Business Analysis",
+    "difficulty": "easy",
+    "stem": "A stakeholder proposes \"the new dashboard should feel modern and be easy to use\" as an acceptance criterion. What is the primary problem with this criterion?",
+    "options": [
+      "It is too short to be a valid requirement",
+      "It is not objective or testable, so pass/fail cannot be determined at the demo",
+      "It should have been written as a use case instead",
+      "It belongs in the product roadmap, not the backlog"
+    ],
+    "answer": 1,
+    "explanation": "Well-formed acceptance criteria are objective and checkable. \"Feel modern\" and \"easy to use\" cannot be verified pass/fail, which is exactly the trap the exam sets with vague, subjective criteria.",
+    "objective": "D4T6-1"
+  },
+  {
+    "id": "D4-014",
+    "domain": "Business Analysis",
+    "difficulty": "medium",
+    "stem": "A team confirms that a delivered feature exactly matches its written specification, yet the customer says it still doesn't solve their actual problem. Which concept explains the gap, and what role do acceptance criteria play here?",
+    "options": [
+      "This is a transition requirement failure; acceptance criteria are irrelevant to it",
+      "The team achieved verification (built it right) but not validation (built the right thing); well-formed acceptance criteria are meant to serve both, so criteria tied only to the spec missed validating actual need",
+      "This shows the RTM was never created; acceptance criteria only matter in adaptive projects",
+      "This is a product roadmap problem, since roadmaps define customer needs"
+    ],
+    "answer": 1,
+    "explanation": "Verification asks whether the deliverable conforms to spec; validation asks whether it meets the actual need \u2014 the higher bar. Acceptance criteria are meant to serve both, so criteria that only check spec conformance can pass verification while validation still fails.",
+    "objective": "D4T6-1"
+  },
+  {
+    "id": "D4-015",
+    "domain": "Business Analysis",
+    "difficulty": "hard",
+    "stem": "On an adaptive project, the team says a release is ready to ship because the sprint burndown hit zero and everyone \"feels good\" about the demo. What should a business analyst point to instead to determine delivery readiness?",
+    "options": [
+      "The burndown chart reaching zero, since that is objective evidence of completion",
+      "Evidence that every release-scope backlog item has met its defined acceptance criteria, not team sentiment or a completed burndown",
+      "A verbal sign-off from the product owner at the sprint review",
+      "The product roadmap, since it lists the features intended for this release"
+    ],
+    "answer": 1,
+    "explanation": "Delivery readiness is an evidence-based judgment. In the adaptive world that evidence is a backlog showing all release-scope items traced and meeting their acceptance criteria \u2014 not a burndown chart, verbal optimism, or the roadmap, which sets direction rather than proving completion.",
+    "objective": "D4T6-2"
+  },
+  {
+    "id": "D4-016",
+    "domain": "Business Analysis",
+    "difficulty": "easy",
+    "stem": "A Scrum team's stakeholders disagree about who has final say over the order of items in the sprint backlog versus who is accountable for the product's multi-year market positioning. Which pairing resolves the confusion?",
+    "options": [
+      "The product owner orders the backlog; the product manager owns strategy and positioning",
+      "The product manager orders the backlog; the product owner owns strategy and positioning",
+      "The scrum master owns both, since Scrum has no room for two separate roles",
+      "Both roles are interchangeable titles for the same accountability"
+    ],
+    "answer": 0,
+    "explanation": "The product owner is the single person accountable for ordering the backlog and maximizing value on a Scrum team; the product manager owns broader product strategy, market positioning, and lifecycle. Swapping these accountabilities is the exam's classic trap.",
+    "objective": "D4T1-1"
+  },
+  {
+    "id": "D4-017",
+    "domain": "Business Analysis",
+    "difficulty": "medium",
+    "stem": "A logistics company builds a new scanning app without including warehouse floor staff in the stakeholder register, relying instead on management's description of the workflow. After launch, floor staff reveal a workaround they've used for years that would have changed the scanner's required input method entirely. What does this scenario most directly demonstrate?",
+    "options": [
+      "Stakeholder registers should be limited to management to avoid conflicting requirements",
+      "Omitting a stakeholder group from identification can mean the requirements they hold are never captured at all",
+      "Floor staff are not true stakeholders since they did not commission the project",
+      "This is purely a training failure, unrelated to stakeholder identification"
+    ],
+    "answer": 1,
+    "explanation": "Anyone who affects or is affected by an initiative is a stakeholder whose requirements matter. Skipping the people who actually do the work \u2014 in favor of secondhand description \u2014 is exactly how critical requirements get lost until the expensive post-launch discovery.",
+    "objective": "D4T1-2"
+  },
+  {
+    "id": "D4-018",
+    "domain": "Business Analysis",
+    "difficulty": "medium",
+    "stem": "A hospital's project involves nursing staff who work inside the organization every day and a device manufacturer supplying an external interface specification. Which classification is correct, and what does it predict about how the team should coordinate with each group?",
+    "options": [
+      "Both are internal stakeholders, since both are essential to the project's success",
+      "Nursing staff are internal stakeholders sharing the organization's norms and tools; the manufacturer is external, so communication should route through a single point of contact on each side",
+      "Nursing staff are external because they don't control the budget; the manufacturer is internal because it is contractually bound",
+      "Classification as internal or external has no bearing on how communication should be structured"
+    ],
+    "answer": 1,
+    "explanation": "Internal stakeholders share the organization's repositories and norms; external stakeholders sit outside them, so coordination benefits from designated single points of contact to keep messaging consistent across the boundary.",
+    "objective": "D4T1-3"
+  },
+  {
+    "id": "D4-019",
+    "domain": "Business Analysis",
+    "difficulty": "easy",
+    "stem": "A business analyst needs to formally notify forty stakeholders that a requirements document has received sign-off. No real-time discussion is needed, and there is a clear, specific recipient list. Which type of communication and channel fits best?",
+    "options": [
+      "Interactive communication, via a live conference call",
+      "Push communication, via an email or memo to the recipient list",
+      "Pull communication, via a shared portal stakeholders check on their own",
+      "Interactive communication, via one-on-one meetings with all forty stakeholders"
+    ],
+    "answer": 1,
+    "explanation": "A specific, known recipient list receiving a one-way status update is the textbook use for push communication \u2014 email or a memo. Interactive channels are overkill for a routine sign-off notice, and pull is better suited to large, undefined audiences retrieving information at will.",
+    "objective": "D4T2-1"
+  },
+  {
+    "id": "D4-020",
+    "domain": "Business Analysis",
+    "difficulty": "hard",
+    "stem": "A mobile team builds a checkout feature against version 3 of a requirements document, while the backend team \u2014 never notified of the update \u2014 builds against version 2. The two features fail to integrate at release. What is the underlying cause the business analyst should address?",
+    "options": [
+      "The backend team should have guessed that a newer version existed",
+      "There was no structured, maintained approach for how product information is stored and shared across teams, so a change reached one team but not the other",
+      "This is strictly a version-control tooling problem outside the scope of business analysis",
+      "Interactive communication should have been banned in favor of document-only updates"
+    ],
+    "answer": 1,
+    "explanation": "Requirements cross team boundaries constantly, and there is rarely one channel that reaches everyone automatically. The root failure is the absence of a deliberate, structured way of maintaining and distributing product information \u2014 precisely the communication-planning responsibility of the BA.",
+    "objective": "D4T2-2"
+  },
+  {
+    "id": "D4-021",
+    "domain": "Business Analysis",
+    "difficulty": "medium",
+    "stem": "A business analyst must document how a customer, an internal warehouse system, and a third-party shipping carrier's API interact when an order is placed \u2014 including what happens when the carrier's API times out. Which requirements format is the correct fit?",
+    "options": [
+      "A user story, since it starts with a single customer's request",
+      "A use case, since it involves multiple actors and a branching exception path",
+      "A nonfunctional requirement, since timeouts describe system performance",
+      "A transition requirement, since the carrier interface is temporary"
+    ],
+    "answer": 1,
+    "explanation": "Multiple actors (customer, internal system, external API) and an explicit exception flow (timeout) are the signature of a use case, not the single-perspective, backlog-sized shape of a user story.",
+    "objective": "D4T3-1"
+  },
+  {
+    "id": "D4-022",
+    "domain": "Business Analysis",
+    "difficulty": "easy",
+    "stem": "Before scoping a new ERP rollout, leadership wants to understand what went wrong in three previous failed system implementations at the company. Which elicitation technique best surfaces this?",
+    "options": [
+      "A large-scale survey of current employees",
+      "Document analysis of past project records and lessons learned",
+      "Observation of employees using the current ERP system",
+      "A facilitated workshop with the new project's stakeholders"
+    ],
+    "answer": 1,
+    "explanation": "Reviewing existing documentation \u2014 prior project records, retrospectives, lessons learned \u2014 is the natural technique for mining historical experience before a project even starts eliciting new requirements.",
+    "objective": "D4T3-2"
+  },
+  {
+    "id": "D4-023",
+    "domain": "Business Analysis",
+    "difficulty": "hard",
+    "stem": "A business analyst needs candid input from a VP of Operations about a politically sensitive reorganization, but the VP has stayed guarded in every group setting so far. Which elicitation technique is most likely to get an honest answer, and why?",
+    "options": [
+      "A companywide survey, because anonymity encourages candor",
+      "A one-on-one interview, because the private, in-depth setting suits a sensitive topic and a key individual whose perspective must be probed carefully",
+      "A facilitated workshop with peer executives present, to build consensus",
+      "Passive observation of the VP's daily meetings"
+    ],
+    "answer": 1,
+    "explanation": "Interviews are suited exactly to this profile: a sensitive topic and a key stakeholder who needs a private, probing conversation rather than a group setting where guardedness is likely to persist.",
+    "objective": "D4T3-2"
+  },
+  {
+    "id": "D4-024",
+    "domain": "Business Analysis",
+    "difficulty": "medium",
+    "stem": "A new data-privacy regulation forces a mid-project change to an existing requirement on a predictive initiative. The project manager needs a complete list of every design element, coded component, and test case that must be revisited as a result. Which artifact answers this, and what characteristic of it makes that possible?",
+    "options": [
+      "The stakeholder register, because it lists who is affected by the regulation",
+      "The requirements traceability matrix, because it links each requirement forward to design, implementation, and test evidence",
+      "The product roadmap, because it shows the release timeline",
+      "The communication plan, because it shows who must be informed"
+    ],
+    "answer": 1,
+    "explanation": "The RTM's row-by-row links from requirement to design, build, and test artifacts are exactly what enables this kind of downstream impact analysis when a single requirement changes.",
+    "objective": "D4T3-3"
+  },
+  {
+    "id": "D4-025",
+    "domain": "Business Analysis",
+    "difficulty": "easy",
+    "stem": "Internal product managers receive a roadmap version with detailed feature names and target sprint numbers, while external customers see the same roadmap with only broad quarterly windows and no confidential initiatives. Why does the Guide consider this appropriate?",
+    "options": [
+      "Roadmaps must legally be identical for every audience",
+      "Roadmaps are audience-tailored documents, and external audiences typically receive broader time ranges with sensitive or strategic detail removed",
+      "External customers are not real stakeholders and should not see a roadmap at all",
+      "This indicates the roadmap has not been properly baselined"
+    ],
+    "answer": 1,
+    "explanation": "The roadmap sets shared expectations, but the level of detail is deliberately tailored: internal audiences like product managers get the fullest detail, while external customers get broad time ranges without confidential or strategy-sensitive content.",
+    "objective": "D4T4-1"
+  },
+  {
+    "id": "D4-026",
+    "domain": "Business Analysis",
+    "difficulty": "hard",
+    "stem": "A roadmap lists four candidate components for the next two releases: Component W requires Component X to exist first; Component X is independent, moderate-value, and ready to build; Component Y is high-value but requires extensive rework of legacy code with unclear scope; Component Z is a minor cosmetic tweak with negligible value. If the team can ship only two components in the first release, which pairing best reflects sound release-planning logic?",
+    "options": [
+      "W and Z, to clear the highest-effort and lowest-effort items simultaneously",
+      "X and Y, since X unblocks future work and Y is the highest stated value regardless of its uncertainty",
+      "X first because it unblocks W and is ready now; Y is a strong second choice only if its scope can be clarified soon, ahead of the low-value Z",
+      "Z and Y, since cosmetic polish should ship alongside the most valuable feature"
+    ],
+    "answer": 2,
+    "explanation": "X should ship early because it is ready, independent, and unblocks W downstream. Y carries real value but its unclear scope and rework risk argue for scoping it further before committing it to release one; either way it outranks the negligible-value Z. W must wait for X, and Z does not deserve an early release slot on value alone.",
+    "objective": "D4T4-2"
+  },
+  {
+    "id": "D4-027",
+    "domain": "Business Analysis",
+    "difficulty": "medium",
+    "stem": "A team debates whether a risky, poorly understood component should be pushed to the very last release, on the theory that better-understood work should go first. What does sound release-sequencing logic actually suggest?",
+    "options": [
+      "Risky, poorly understood work should generally be tackled early, so problems surface while there is still time and budget to respond",
+      "Risky work should always be deferred to the final release regardless of context",
+      "Risk has no bearing on release sequencing, only value and effort do",
+      "Risky components should be removed from the roadmap entirely until fully understood"
+    ],
+    "answer": 0,
+    "explanation": "A shrewd approach front-loads risky, poorly understood components so the team can fail cheaply and adjust while time remains, rather than discovering the risk has become unmanageable in the final release.",
+    "objective": "D4T4-2"
+  },
+  {
+    "id": "D4-028",
+    "domain": "Business Analysis",
+    "difficulty": "medium",
+    "stem": "A hybrid initiative documents hardware requirements up front with formal change control, while the accompanying software team captures requirements as user stories refined sprint by sprint. A stakeholder asks whether the business analyst's fundamental job differs between the two halves of the project. What is the accurate answer?",
+    "options": [
+      "Yes \u2014 on the adaptive software side, the BA no longer elicits or validates requirements at all",
+      "No fundamental difference in core activities \u2014 elicit, analyze, trace, and validate remain the same; what changes is timing, level of detail, documentation formality, and collaboration cadence",
+      "Yes \u2014 on the predictive hardware side, the BA's role ends once the requirements document is baselined",
+      "The BA role only exists on the predictive side; adaptive teams manage their own requirements without a BA"
+    ],
+    "answer": 1,
+    "explanation": "The BA's core activities persist across both approaches. What genuinely shifts is when the work happens, how much detail is captured up front, how formally it's documented, and whether approval runs through baselines and change control or through continuous refinement and feedback.",
+    "objective": "D4T5-1"
+  },
+  {
+    "id": "D4-029",
+    "domain": "Business Analysis",
+    "difficulty": "hard",
+    "stem": "Two proposed acceptance criteria are compared for a checkout feature: (1) \"The system should feel fast and responsive to users,\" and (2) \"95% of checkout requests complete in under two seconds under a load of 500 concurrent users.\" Why does only the second qualify as a well-formed acceptance criterion?",
+    "options": [
+      "The first is shorter, and acceptance criteria must be lengthy to be valid",
+      "The second is objective and testable with a clear pass/fail threshold, while the first is subjective and cannot be verified at the demo",
+      "The first belongs on the product roadmap and was miscategorized as a criterion",
+      "Acceptance criteria are only ever written for nonfunctional requirements, so both are invalid"
+    ],
+    "answer": 1,
+    "explanation": "Well-formed acceptance criteria must be objective and checkable. \"Feel fast and responsive\" cannot be adjudicated pass/fail, while the measurable percentile-and-load statement can be tested directly against evidence.",
+    "objective": "D4T6-1"
+  },
+  {
+    "id": "D4-030",
+    "domain": "Business Analysis",
+    "difficulty": "hard",
+    "stem": "On a predictive project, the RTM shows that 2 of 50 release-scope requirements remain untested as the planned release date arrives. The project manager wants to ship on schedule and address the two items in a fast-follow patch. What should the business analyst's evidence-based response be?",
+    "options": [
+      "Agree immediately, since 48 of 50 requirements passing is a strong completion rate",
+      "Point out that delivery readiness is determined by the RTM showing all release-scope requirements traced, tested, and accepted \u2014 the two untested items mean readiness has not yet been demonstrated, whatever the schedule pressure",
+      "Defer entirely to the sponsor's preference, since acceptance criteria are a business decision, not a BA concern",
+      "Recommend shipping because the burndown of remaining tasks is nearly at zero"
+    ],
+    "answer": 1,
+    "explanation": "Delivery readiness is an evidence-based judgment tied to the RTM (or backlog) showing every release-scope item traced and tested against its acceptance criteria \u2014 not a percentage that looks good enough, schedule pressure, or a burndown chart, none of which constitute that evidence.",
+    "objective": "D4T6-2"
+  }
+]
