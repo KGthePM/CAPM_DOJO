@@ -17,12 +17,41 @@ const UPDATE_REPO = 'KGthePM/CAPM_DOJO';
 const CONTENT_MARKER = 'CAPM Training Dojo'; // sanity string the download must contain
 let autoUpdateEnabled = true;
 
+// The repo is public, so unauthenticated API requests work. A token is optional:
+// DOJO_GITHUB_TOKEN env var, desktop/.github_token, or <userData>/github_token —
+// useful if the repo ever goes private again. Never commit a token to git.
+function githubToken() {
+  try {
+    if (process.env.DOJO_GITHUB_TOKEN && process.env.DOJO_GITHUB_TOKEN.length > 20) {
+      return process.env.DOJO_GITHUB_TOKEN.trim();
+    }
+    const candidates = [
+      path.join(__dirname, '.github_token'),
+      path.join(app.getPath('userData'), 'github_token'),
+    ];
+    for (const c of candidates) {
+      if (fs.existsSync(c)) {
+        const t = fs.readFileSync(c, 'utf8').trim();
+        if (t.length > 20) return t;
+      }
+    }
+  } catch (e) { /* no token available — public-mode request */ }
+  return null;
+}
+
+function authHeaders() {
+  const h = { 'User-Agent': 'capm-dojo-updater', Accept: 'application/vnd.github+json' };
+  const t = githubToken();
+  if (t) h.Authorization = `Bearer ${t}`;
+  return h;
+}
+
 function apiGet(pathStr, cb) {
   const req = net.request({
     method: 'GET',
     host: 'api.github.com',
     path: pathStr,
-    headers: { 'User-Agent': 'capm-dojo-updater', Accept: 'application/vnd.github+json' },
+    headers: authHeaders(),
   });
   let body = '';
   req.on('response', (res) => {
@@ -70,11 +99,13 @@ function applyUpdate(win, info, onProgress, cb) {
   const target = path.join(__dirname, 'app', 'index.html');
   const tmp = target + '.update-tmp';
   const prev = target + '.prev';
+  // The API asset endpoint (Accept: application/octet-stream) serves the bytes
+  // and works for both public and private repos.
   const req = net.request({
     method: 'GET',
-    host: 'github.com',
-    path: info.asset.browser_download_url.replace('https://github.com', ''),
-    headers: { 'User-Agent': 'capm-dojo-updater' },
+    host: 'api.github.com',
+    path: `/repos/${UPDATE_REPO}/releases/assets/${info.asset.id}`,
+    headers: Object.assign(authHeaders(), { Accept: 'application/octet-stream' }),
   });
   req.on('response', (res) => {
     if (res.statusCode !== 200) return cb(new Error(`asset download HTTP ${res.statusCode}`));

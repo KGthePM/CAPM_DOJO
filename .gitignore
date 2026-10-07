@@ -13,5 +13,6 @@ session/eco.pdf
 # Electron desktop wrapper
 desktop/node_modules/
 desktop/dist/
-desktop/app/index.html
+desktop/app/
 web/index.html.bak-*
+desktop/.github_token
