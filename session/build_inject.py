@@ -71,8 +71,26 @@ import glob
 lesson_files = sorted(glob.glob(f"{DOJO}/lessons/LEC-*.md"))
 lessons = [load_lesson(f"lec-{i+1:02d}", p) for i, p in enumerate(lesson_files)]
 quiz = []
+# qb_lec_check.json holds lecture-check questions (tagged with "lecture"):
+# excluded from the general QUIZ array — they only surface in Lecture Check mode.
+lec_check = []
 for qb in sorted(glob.glob(f"{DOJO}/quiz_bank/qb_*.json")):
-    quiz.extend(json.load(open(qb)))
+    if os.path.basename(qb) == "qb_lec_check.json":
+        lec_check.extend(json.load(open(qb)))
+    else:
+        quiz.extend(json.load(open(qb)))
+
+lec_check_by_lesson = {}
+for q in lec_check:
+    lec_check_by_lesson.setdefault(q["lecture"], []).append(q)
+
+# normalize each lesson's check to exactly 5 questions, ordered by id
+lec_check_js = {}
+for lid in [l["id"] for l in lessons]:
+    qs = sorted(lec_check_by_lesson.get(lid, []), key=lambda q: q["id"])
+    if len(qs) != 5:
+        print(f"WARNING: lecture check for {lid} has {len(qs)} questions (expected 5)", file=sys.stderr)
+    lec_check_js[lid] = qs
 
 def js_str(s):
     return json.dumps(s, ensure_ascii=False)
@@ -91,6 +109,17 @@ quiz_js = ",\n".join(
         q["answer"], js_str(q["explanation"]))
     for q in quiz)
 
+lec_check_body = ",\n".join(
+    "  {\n    id: %s,\n    questions: [\n%s\n    ]\n  }" % (
+        js_str(lid),
+        ",\n".join(
+            "      {\n        id: %s, domain: %s, difficulty: %s,\n        stem: %s,\n        options: %s,\n        answer: %d, explanation: %s\n      }" % (
+                js_str(q["id"]), js_str(q["domain"]), js_str(q["difficulty"]),
+                js_str(q["stem"]), json.dumps(q["options"], ensure_ascii=False, indent=10).replace("\n", "\n    "),
+                q["answer"], js_str(q["explanation"]))
+            for q in qs))
+    for lid, qs in lec_check_js.items())
+
 html = open(f"{DOJO}/web/index.html").read()
 
 def replace_block(html, varname, new_body):
@@ -99,7 +128,8 @@ def replace_block(html, varname, new_body):
     i = html.index("[", start)
     depth = 0
     for j in range(i, len(html)):
-        if html[j] == "[": depth += 1
+        if html[j] == "[":
+            depth += 1
         elif html[j] == "]":
             depth -= 1
             if depth == 0:
@@ -109,7 +139,9 @@ def replace_block(html, varname, new_body):
 
 html = replace_block(html, "LESSONS", lesson_js)
 html = replace_block(html, "QUIZ", quiz_js)
+html = replace_block(html, "LECTURE_CHECKS", lec_check_body)
 open(f"{DOJO}/web/index.html", "w").write(html)
 
 print(f"lessons injected: {[(l['id'], len(l['lectureHtml']), 'blocks', len(l['keyTerms']), 'terms') for l in lessons]}")
 print(f"quiz injected: {len(quiz)} questions")
+print(f"lecture checks injected: { {lid: len(qs) for lid, qs in lec_check_js.items()} }")

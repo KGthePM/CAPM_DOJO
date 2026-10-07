@@ -59,3 +59,14 @@ Exam-critical companions beyond the book (not in PMBOK; from ECO references):
   working). Also fixed a pre-existing UX issue the larger bank exposed: the practice-exam
   "number of questions" picker rendered one button per integer (204 buttons at 205 Qs) — replaced
   with a curated set (5/10/15/20/25/30/40/50/75/100/150/All).
+
+- 2026-10-06 — Lecture Check feature (Hermie). 65 fresh CAPM-style questions (5 per lecture,
+  LC01-1..LC13-5) in quiz_bank/qb_lec_check.json, scenario-style, grounded in each lecture's key
+  terms + EXAM_INTEL style notes (FIRST/NEXT/BEST qualifier usage, adjacent-tier distractors).
+  build_inject.py now routes qb_lec_check.json into a separate LECTURE_CHECKS array so the general
+  bank stays 205 and practice/Grand Exam never draw LC questions. In-lesson "📝 Take the Lecture
+  Check" button (optional, no pass gate): shuffled 5Q run with per-question explanations, Ainsworth
+  verdicts at 80/60, retakes reshuffle, best % on button label. Scores in state.lectureChecks
+  (separate ledger); misses feed shared history and Drill My Misses (missPool extended).
+  Verified: stub test (node) + full browser exercise — 100%/0%/80% runs, ledger separation,
+  retake-keeps-best, drill-pool surfacing, annotation guard, clean-state restore.

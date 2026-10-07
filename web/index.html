@@ -330,8 +330,33 @@
       <div class="keyterms" id="lessonKeyTerms"></div>
       <div style="margin-top:18px; display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
         <button class="btn ox" id="markCompleteBtn" onclick="markLessonComplete()">✅ Mark Lesson Complete</button>
+        <button class="btn" id="startLecCheckBtn" onclick="startLectureCheck()">📝 Take the Lecture Check</button>
         <span id="markCompleteStatus"></span>
       </div>
+
+      <div class="panel hide" id="lecCheckPanel" style="margin-top:16px;">
+        <div id="lcQuestion" class="hide">
+          <div style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:6px; margin-bottom:10px;">
+            <span id="lcProgress" style="color:var(--ink-soft);"></span>
+            <span><span class="badge done" id="lcDomain"></span> <span class="badge todo" id="lcDiff"></span></span>
+          </div>
+          <p id="lcStem" style="font-size:1.05em; font-weight:bold;"></p>
+          <div id="lcOptions"></div>
+          <div class="feedback" id="lcFeedback">
+            <p class="verdict" id="lcVerdict"></p>
+            <p id="lcExplanation"></p>
+            <button class="btn" id="lcNextBtn" onclick="lcNext()">Next Question →</button>
+          </div>
+        </div>
+        <div id="lcResult" class="hide">
+          <h3>📊 Lecture Check Result</h3>
+          <p id="lcScore" style="font-size:1.3em; font-weight:bold; color:var(--oxblood);"></p>
+          <p id="lcVerdictFinal" style="font-style:italic;"></p>
+          <div id="lcMissReview"></div>
+          <button class="btn ghost" onclick="lcExit()">← Back to the lecture</button>
+        </div>
+      </div>
+
       <p class="annot-hint">Select any passage to highlight, emphasize, or recolor it — your marks are saved on this device.</p>
     </div>
   </section>
@@ -4106,6 +4131,794 @@ const QUIZ = [
 ];
 
 /* ----------------------------------------------------------------
+ * LECTURE CHECKS — 5 CAPM-style questions per lecture, injected by
+ * session/build_inject.py from quiz_bank/qb_lec_check.json. Each entry
+ * carries its question set; the in-lesson quiz flow reads them by id.
+ * ---------------------------------------------------------------- */
+const LECTURE_CHECKS = [
+  {
+    id: "lec-01",
+    questions: [
+      {
+        id: "LC01-1", domain: "Fundamentals", difficulty: "medium",
+        stem: "A company runs a help desk that resets passwords, and separately launches a six-month effort to migrate all employees to a new collaboration platform. Which classification is correct?",
+        options: [
+              "Both are projects: each consumes resources and has a deadline.",
+              "The help desk is operations; the platform migration is a project.",
+              "The help desk is a project; the migration is operations.",
+              "Neither is a project, because neither produces a unique deliverable."
+    ],
+        answer: 1, explanation: "Operations is ongoing, repetitive organizational work; the help desk repeats the same service indefinitely. The platform migration is temporary, with a unique deliverable and an end date — the two defining characteristics of a project. Resource consumption and deadlines alone do not make a project."
+      },
+      {
+        id: "LC01-2", domain: "Fundamentals", difficulty: "medium",
+        stem: "A program delivers a working data-migration system, but eighteen months later no one has measured whether customer retention actually improved. Which part of the value chain was neglected?",
+        options: [
+              "Outputs — the deliverable was never produced.",
+              "Outcomes — the capabilities were never delivered.",
+              "Benefits and value — the realized business gain was never verified.",
+              "The project charter — it omitted a deliverables list."
+    ],
+        answer: 2, explanation: "The chain runs Outputs → Outcomes → Benefits → Value. A working system is an output; the outcome delivered capability; but benefits (measurable improvement) and value were never verified. The exam repeatedly punishes stopping the chain at the deliverable."
+      },
+      {
+        id: "LC01-3", domain: "Fundamentals", difficulty: "easy",
+        stem: "A portfolio contains a fintech app program, a factory-safety project, and the ongoing customer-support operation. What unites these dissimilar endeavors under one roof?",
+        options: [
+              "Shared technical dependencies that demand coordinated schedules.",
+              "Their combined claim on strategic objectives and organizational investment.",
+              "A common product life cycle from concept through retirement.",
+              "A single program manager coordinating all three for shared benefits."
+    ],
+        answer: 1, explanation: "Portfolio organizing logic is strategy: unrelated work may be grouped because each advances strategic objectives and draws on the same budget and attention. Shared dependencies and coordinated benefit describe a program — and operations sit inside portfolios precisely to stay wired into the value delivery system."
+      },
+      {
+        id: "LC01-4", domain: "Fundamentals", difficulty: "medium",
+        stem: "Two related projects — network upgrade and workstation rollout — could gain shared procurement leverage and one integrated stakeholder message if managed together. Which structure fits, and why?",
+        options: [
+              "A portfolio, because both projects serve strategic objectives.",
+              "A program, because coordinated management yields benefits unavailable from managing them individually.",
+              "A projectized structure, because the PM should hold near-total authority.",
+              "A PMO, because it standardizes governance across all company projects."
+    ],
+        answer: 1, explanation: "The exam's signature phrase — 'related projects managed in a coordinated way to obtain benefits not available from managing them individually' — defines a program. Shared vendors and one voice to stakeholders are exactly those coordination benefits. A portfolio would group them by strategy without requiring relatedness or coordination."
+      },
+      {
+        id: "LC01-5", domain: "Fundamentals", difficulty: "hard",
+        stem: "Mid-project, a team abandons a documented estimation procedure because the regulatory landscape shifted and the old assumptions no longer hold. Which principle justifies the change, and what governs it?",
+        options: [
+              "Tailoring — deliberate adaptation, bounded by the organization's policies and governance.",
+              "Stewardship — the PM's personal duty of care overrides documented process.",
+              "Systems thinking — any process may change if one domain is affected.",
+              "Recognition of complexity — unpredictable work exempts the team from process."
+    ],
+        answer: 0, explanation: "Tailoring is the deliberate adaptation of approach, governance, and processes to context — and it is not license: it operates within the organization's policies and governance. Stewardship concerns trusteeship and integrity, not process change. Principles-based standards guide behavior across approaches, but the adaptation itself is tailoring."
+      }
+    ]
+  },
+  {
+    id: "lec-02",
+    questions: [
+      {
+        id: "LC02-1", domain: "Performance Domains", difficulty: "medium",
+        stem: "A project failed. At the review, the team argues: 'We followed every methodology artifact exactly as prescribed.' Under PMBOK 7's outcomes-over-processes orientation, what is wrong with this defense?",
+        options: [
+              "Nothing — adherence to artifacts is the primary measure of the performance domains.",
+              "The domains are evaluated by whether outcomes were achieved, not by process adherence.",
+              "The defense fails only if the team skipped Monitoring and Controlling work.",
+              "Methodology adherence matters solely in predictive life cycles."
+    ],
+        answer: 1, explanation: "The performance domains are an interactive, interdependent system evaluated by outcomes, not by fidelity to processes or artifacts. 'We followed the method exactly' is precisely the defense PMBOK 7 was written to retire. The domains apply across predictive, adaptive, and hybrid delivery."
+      },
+      {
+        id: "LC02-2", domain: "Performance Domains", difficulty: "hard",
+        stem: "A regulator publishes new rules that invalidate half a project's assumptions. Which sequence of domain responses is most defensible?",
+        options: [
+              "Planning domain revises estimates; all other domains continue unchanged until the revision lands.",
+              "Uncertainty domain navigates the volatility; Planning and Work domains re-plan; Stakeholder and Delivery domains re-confirm expectations before value is delivered.",
+              "The team should escalate to the sponsor and halt work, since risk elimination comes first.",
+              "Measurement domain records the variance; the project proceeds to closure as originally planned."
+    ],
+        answer: 1, explanation: "The domains operate as a system: regulatory volatility lands first in the Uncertainty domain (navigated, not eliminated), radiates into Planning and Work, and forces Stakeholder and Delivery to re-confirm expectations — at least four domains respond, which is the lecture's exact exercise. Halting work or proceeding as planned ignores the systems view."
+      },
+      {
+        id: "LC02-3", domain: "Performance Domains", difficulty: "easy",
+        stem: "A dashboard shows last quarter's defect rate. The team wants a companion metric that predicts next quarter's outcome. Which pairing names these two kinds of measure?",
+        options: [
+              "Leading indicator (predictive) and lagging indicator (after the fact).",
+              "Qualitative and quantitative measures.",
+              "Output metrics and outcome metrics.",
+              "SPI and CPI — schedule and cost efficiency indices."
+    ],
+        answer: 0, explanation: "Lagging indicators report what already happened (the defect rate); leading indicators predict what will happen and enable course correction. A plan built only on lagging measures is driving by the rearview mirror. SPI and CPI are specific earned value indices, not the general measure taxonomy."
+      },
+      {
+        id: "LC02-4", domain: "Performance Domains", difficulty: "medium",
+        stem: "Early in a project, a change is cheap; the same correction discovered after release costs a fortune. Which concept explains this, and what practice does it argue for?",
+        options: [
+              "Rolling-wave planning — therefore plan all details upfront.",
+              "Cost of change rising over time — therefore seek early, frequent feedback.",
+              "Systems view — therefore add more monitoring artifacts.",
+              "Hygiene factors — therefore improve the work environment first."
+    ],
+        answer: 1, explanation: "The rising cost of change is the economic argument for early feedback: the sooner an error surfaces, the cheaper the correction. This is also the core rationale for iterative and incremental delivery. Rolling-wave planning is about progressively elaborating near-term detail — a different concept."
+      },
+      {
+        id: "LC02-5", domain: "Performance Domains", difficulty: "medium",
+        stem: "A vendor's pricing becomes wildly unstable, a key requirement keeps shifting, and the team cannot agree on the system architecture. Which classification of these conditions is correct?",
+        options: [
+              "Three separate risks, each to be entered in the risk register and closed.",
+              "Volatility, ambiguity, and complexity — members of the uncertainty family, to be navigated rather than eliminated.",
+              "Three issues; the risk domain does not apply once work has started.",
+              "Ambiguity throughout — all three describe unclear requirements."
+    ],
+        answer: 1, explanation: "The uncertainty family comprises ambiguity, complexity, volatility, and risk — instability is volatility, shifting understanding is ambiguity, tangled interactions are complexity. The PMBOK position is that these are navigated, not eliminated, and unmanaged uncertainty is precisely how an issue is born."
+      }
+    ]
+  },
+  {
+    id: "lec-03",
+    questions: [
+      {
+        id: "LC03-1", domain: "Tailoring", difficulty: "medium",
+        stem: "A colleague applies the company's full enterprise methodology — unchanged — to a two-week project with three people. What is the professor's diagnosis?",
+        options: [
+              "Correct — organizational methodology must never be modified.",
+              "A tailoring failure: process rigor can become overhead that adds no value, and the approach should have been adapted to context.",
+              "A hybrid approach error — he should have blended agile ceremonies into the methodology.",
+              "A governance violation — only the PMO may scale a methodology down."
+    ],
+        answer: 1, explanation: "Tailoring is deliberate adaptation of approach, governance, and processes to the environment and work at hand. The PMBOK warns of two failure modes of process rigor: insufficient process causes unacceptable risk, and excessive process causes cost and overhead that outweigh the benefit. A three-person, two-week project wrapped in enterprise ceremony is the textbook second failure."
+      },
+      {
+        id: "LC03-2", domain: "Tailoring", difficulty: "medium",
+        stem: "Place the tailoring process steps in the correct order.",
+        options: [
+              "Tailor for the project → tailor for the organization → select the development approach → implement ongoing improvement.",
+              "Select the initial development approach → tailor for the organization → tailor for the project → implement ongoing improvement.",
+              "Run the suitability filter → implement → review diagnostics → tailor for the organization.",
+              "Implement ongoing improvement → select the approach → tailor for the organization and project together."
+    ],
+        answer: 1, explanation: "The four steps run: select the initial development approach, tailor for the organization, tailor for the project, then implement ongoing improvement. The approach decision comes first because every later tailoring decision depends on it — and ongoing improvement keeps the tailoring honest as conditions shift."
+      },
+      {
+        id: "LC03-3", domain: "Tailoring", difficulty: "hard",
+        stem: "A suitability filter scores culture, team, and project factors and plots them on a radar chart, landing mid-chart. What may be concluded?",
+        options: [
+              "The organization should adopt a hybrid approach immediately — the filter has made the decision.",
+              "The filter is an informational diagnostic suggesting hybrid may fit; the development-approach decision still requires human judgment.",
+              "The mid-chart result is invalid; filters must land at the center or periphery.",
+              "The organization should postpone the project until culture scores improve."
+    ],
+        answer: 1, explanation: "The suitability filter is explicitly an informational tool: it generates a diagnostic visual — center suggesting agile, periphery predictive, middle hybrid — but it cannot make the decision by itself. Judgment, context, and stakeholder input complete the choice. A filter that decides is a filter that has overstepped its office."
+      },
+      {
+        id: "LC03-4", domain: "Tailoring", difficulty: "medium",
+        stem: "A retrospective reveals stakeholders receiving stale information, and defect escapes to customers are climbing. Using the tailoring diagnostics, which responses fit each symptom?",
+        options: [
+              "Add a change control board for information; double the testing budget for defects.",
+              "Tailor communication flows and artifacts for fresher information; adjust quality processes and checkpoints for the defect escapes.",
+              "Escalate both to the sponsor; tailoring only applies at project initiation.",
+              "Replace the methodology wholesale — both symptoms prove the approach has failed."
+    ],
+        answer: 1, explanation: "Diagnostics — retrospectives, issues, QA statistics, stakeholder feedback — evaluate whether tailoring is working, and the tailoring responses follow the symptom: communication problems point to tailoring information flows and artifacts; quality escapes point to tailoring quality processes. Wholesale replacement is the opposite of deliberate, targeted adaptation."
+      },
+      {
+        id: "LC03-5", domain: "Tailoring", difficulty: "easy",
+        stem: "An organization replaces its command-and-control project office with a body that coaches teams and mentors sponsors and product owners rather than overseeing them. What is this body called?",
+        options: [
+              "An EPMO — enterprise portfolio management office.",
+              "A VDO — value delivery office.",
+              "A suitability filter board.",
+              "A strong matrix organization."
+    ],
+        answer: 1, explanation: "A value delivery office enables rather than oversees: it coaches adaptive teams and mentors sponsors and product owners. An EPMO links strategy implementation with portfolio investments at the enterprise level — still a governing structure, not a coaching one. Matrix organizations describe reporting structures, not enabling bodies."
+      }
+    ]
+  },
+  {
+    id: "lec-04",
+    questions: [
+      {
+        id: "LC04-1", domain: "Models & Methods", difficulty: "medium",
+        stem: "A team member is highly capable but visibly deflated after two failed sprints. Using Situational Leadership II, which leadership adjustment is indicated?",
+        options: [
+              "Delegate more — high competence always calls for a delegating style.",
+              "Move toward a supporting style — competence is high but commitment has dropped, so the leader emphasizes encouragement and shared decision-making.",
+              "Return to directing — failure means the basics must be re-imposed.",
+              "Escalate to HR — motivation is outside the leader's model."
+    ],
+        answer: 1, explanation: "SLII matches leadership style to two variables: competence and commitment. This team member has competence but sagging commitment — the signature of the supporting style, where the leader facilitates and encourages rather than directs. Delegating suits high competence with high commitment; directing would compound the discouragement."
+      },
+      {
+        id: "LC04-2", domain: "Models & Methods", difficulty: "medium",
+        stem: "The company raises salaries ten percent across the board; six weeks later, its best engineers are still disengaged. Which model explains this, and what should the organization appeal to instead?",
+        options: [
+              "Tuckman — the team has regressed to storming; run a team charter workshop.",
+              "Herzberg and Pink — pay is a hygiene factor; beyond fair compensation, appeal to autonomy, mastery, and purpose.",
+              "ADKAR — engineers lack Awareness of the raise; reinforce the message.",
+              "Media richness — announce the raises in a face-to-face town hall next time."
+    ],
+        answer: 1, explanation: "Herzberg's hygiene factors — salary, policy, environment — can only remove dissatisfaction; their presence never creates satisfaction. Once pay is fair, Pink's three intrinsic motivators (autonomy, mastery, purpose) are what endure. ADKAR is an individual change model and media richness a communication-channel concept — neither addresses motivation."
+      },
+      {
+        id: "LC04-3", domain: "Models & Methods", difficulty: "medium",
+        stem: "A team of three months' standing has settled its role arguments; disagreements now resolve quickly and throughput is climbing, though performance is not yet synergistic. Which Tuckman stage is current, and which caveats does PMI attach to the model?",
+        options: [
+              "Norming; teams progress linearly, so performing is guaranteed next.",
+              "Norming; teams may regress under change, and not all teams reach performing.",
+              "Performing; throughput proves the team has arrived, so no caveats apply.",
+              "Storming; disagreements still occur, so the team has not moved on."
+    ],
+        answer: 1, explanation: "Conflict fading into quick, low-friction resolution is classic norming; performing — genuine synergy — has not yet arrived. The two PMI caveats: the ladder is traversed nonlinearly (new members or scope changes can knock a team back to storming), and not every team reaches performing. Rapid resolution of disagreements is norming, not the absence of disagreement that would mark performing."
+      },
+      {
+        id: "LC04-4", domain: "Models & Methods", difficulty: "hard",
+        stem: "A city's traffic network collapses in an unprecedented flooding event with no playbook available. In Cynefin terms, which context and response pattern apply?",
+        options: [
+              "Complicated — engage experts to analyze and apply good practice.",
+              "Complex — probe with safe-to-fail experiments and let emergent order reveal the path.",
+              "Chaotic — act immediately to stabilize; sense and respond afterward.",
+              "Obvious — apply the standard best practice from the playbook."
+    ],
+        answer: 2, explanation: "Chaotic contexts offer no time to analyze or probe: the response pattern is act, then sense, then respond — stabilize first. Complicated suits expert analysis, complex suits safe-to-fail probing, and obvious suits standard practice. There is no playbook in chaos — that is what makes it chaos."
+      },
+      {
+        id: "LC04-5", domain: "Models & Methods", difficulty: "medium",
+        stem: "A PM must tell a stakeholder that their department's launch date will slip. The stakeholder is upset and the message is nuanced. Which channel does media richness counsel, and which stakeholder-prioritization model applies to deciding how much attention this stakeholder merits?",
+        options: [
+              "A detailed email; the salience model, weighing power, legitimacy, and urgency.",
+              "A face-to-face meeting; the salience model, weighing power, legitimacy, and urgency.",
+              "A town-hall broadcast; the OSCAR coaching model.",
+              "A recorded video; Tuckman's ladder."
+    ],
+        answer: 1, explanation: "Media richness ranks channels by capacity for multiple cues, rapid feedback, personal focus, and natural language — nuanced, high-affect news belongs in the richest channel: a face-to-face conversation. The salience model prioritizes stakeholders by power, legitimacy, and urgency. Broadcasting a nuanced, individual disappointment is the classic misuse of a lean channel."
+      }
+    ]
+  },
+  {
+    id: "lec-05",
+    questions: [
+      {
+        id: "LC05-1", domain: "Methods & Artifacts", difficulty: "easy",
+        stem: "Which statement correctly distinguishes methods from artifacts?",
+        options: [
+              "Methods are the deliverables; artifacts are the techniques that produce them.",
+              "Methods are ways of doing the work (e.g., estimation, retrospectives); artifacts are the documents and outputs the work produces (e.g., charters, registers, backlogs).",
+              "Methods apply only to predictive projects; artifacts apply only to agile ones.",
+              "The terms are interchangeable names for project documentation."
+    ],
+        answer: 1, explanation: "Methods are how the work gets done — processes, techniques, practices; artifacts are what the work produces — documents, registers, charts, backlogs. Both families cut across predictive, adaptive, and hybrid delivery; PMBOK 7 catalogs them precisely because no approach owns them."
+      },
+      {
+        id: "LC05-2", domain: "Methods & Artifacts", difficulty: "medium",
+        stem: "A team needs stakeholders to build shared understanding through real-time dialogue with immediate clarification. Which communication method fits, and which artifact records who needs what information?",
+        options: [
+              "Push communication; the stakeholder register.",
+              "Interactive communication; the stakeholder engagement / communication plan artifacts.",
+              "Pull communication; the project charter.",
+              "Interactive communication; the requirements traceability matrix."
+    ],
+        answer: 1, explanation: "Interactive communication is the two-way, real-time exchange — meetings, conversations — suited to shared understanding and immediate clarification. The communication and stakeholder engagement plan artifacts record who receives what, when, and how. The RTM traces requirements to verification evidence, not communication needs."
+      },
+      {
+        id: "LC05-3", domain: "Methods & Artifacts", difficulty: "medium",
+        stem: "A project charter is being drafted. Which items belong in it, per PMBOK 7's artifact guidance?",
+        options: [
+              "Detailed work-package estimates, the full risk register, and the WBS dictionary.",
+              "Project purpose and objectives, high-level requirements, key stakeholders, the appointed PM, and success criteria.",
+              "The complete sprint backlog and definition of done.",
+              "Signed acceptance criteria for every deliverable and the final benefits report."
+    ],
+        answer: 1, explanation: "The charter authorizes the project and names its manager — carrying purpose, objectives, high-level requirements, key stakeholders, and success criteria. Detailed estimates, the WBS dictionary, and the risk register come later in planning; final acceptance and benefits reporting come at and after closure. A charter bloated with planning detail is a charter written in the wrong phase."
+      },
+      {
+        id: "LC05-4", domain: "Methods & Artifacts", difficulty: "hard",
+        stem: "A team using a hybrid approach maintains a prioritized backlog while also publishing a formal milestone schedule. Which principle of artifact selection does this exercise?",
+        options: [
+              "Artifacts must never be mixed across development approaches.",
+              "Artifacts are tailored to the work and context — components from different approaches are blended deliberately, as the hybrid approach requires.",
+              "The milestone schedule supersedes the backlog; a project may hold only one planning artifact per domain.",
+              "This violates PMBOK 7, which requires artifacts to match the selected life cycle exactly."
+    ],
+        answer: 1, explanation: "PMBOK 7 treats artifacts as a toolbox, not a uniform: the approach is tailored, and artifact selection follows the tailoring. Hybrid delivery routinely pairs adaptive artifacts (backlog) with predictive ones (milestone schedules). Nothing in PMBOK 7 forbids blending — it prescribes it where the context warrants."
+      },
+      {
+        id: "LC05-5", domain: "Methods & Artifacts", difficulty: "easy",
+        stem: "During planning, the team lists every identified risk with its probability, impact, and assigned response owner. Which artifact is this?",
+        options: [
+              "The issue log.",
+              "The risk register.",
+              "The assumptions log.",
+              "The lessons learned register."
+    ],
+        answer: 1, explanation: "The risk register is the artifact of identified risks — their assessments, planned responses, and owners. The issue log records problems that have already occurred; the assumptions log tracks what is being taken for granted; the lessons learned register captures experience. A risk is a potential event — until it fires, it lives in the register, not the issue log."
+      }
+    ]
+  },
+  {
+    id: "lec-06",
+    questions: [
+      {
+        id: "LC06-1", domain: "Sponsor, PMO & Product", difficulty: "medium",
+        stem: "A project team cannot get a decision from a department that controls the budget for a key resource. Per the sponsor-behavior model, who resolves this and why?",
+        options: [
+              "The project manager, through position power granted by the team charter.",
+              "The sponsor, whose authority and position power extend beyond the PM's and who links the team to executive strategy.",
+              "The PMO, which standardizes governance for all cross-department decisions.",
+              "The process owner of the department's budget process."
+    ],
+        answer: 1, explanation: "The sponsor is the decision leader whose authority exceeds the PM's; unblocking decisions and resources — the 'Unblock' and 'Check' behaviors — is sponsor work precisely because the PM lacks the position power to resolve cross-department conflicts. The PMO facilitates and standardizes but does not wield executive decision power for a single project."
+      },
+      {
+        id: "LC06-2", domain: "Sponsor, PMO & Product", difficulty: "easy",
+        stem: "Which statement distinguishes a PMO from an EPMO?",
+        options: [
+              "A PMO manages product life cycles; an EPMO manages project life cycles.",
+              "A PMO standardizes governance and facilitates resource and methodology sharing at the organizational level; an EPMO additionally links strategy implementation with portfolio investments in programs and projects.",
+              "They are synonyms; EPMO is simply the agile-era renaming of the PMO.",
+              "A PMO coaches adaptive teams; an EPMO coaches predictive teams."
+    ],
+        answer: 1, explanation: "Both standardize project governance and facilitate sharing of resources, methodologies, and tools; the EPMO adds the enterprise dimension — tying strategy implementation to portfolio investments. The coaching-and-mentoring body is the ACoE/VDO, a different creature entirely."
+      },
+      {
+        id: "LC06-3", domain: "Sponsor, PMO & Product", difficulty: "medium",
+        stem: "A PMO begins demanding post-project benefits reports from sponsors — not just on-time, on-budget closures. What pressure is driving this evolution, and which sponsor accountability does it exercise?",
+        options: [
+              "Scope creep; the sponsor must approve all requirement changes post-closure.",
+              "Benefits realization — verifying that intended business value actually materializes; the sponsor watches benefits after the project ends.",
+              "Regulatory compliance; sponsors are legally liable for project outcomes.",
+              "Tailoring; the PMO is adapting governance to agile methods."
+    ],
+        answer: 1, explanation: "Benefits realization — verifying that promised business value actually materializes after delivery — is the pressure reshaping modern PMOs from process police to value stewards. The sponsor owns that post-closure watch. Compliance and scope governance are real PMO functions, but the post-project benefits report is squarely a value question."
+      },
+      {
+        id: "LC06-4", domain: "Sponsor, PMO & Product", difficulty: "medium",
+        stem: "A company funds its flagship product in quarterly review-and-fund cycles, canceling a planned feature set that the last quarter's usage data showed nobody wanted. Which concepts are at work?",
+        options: [
+              "Phase gates and rolling-wave planning, from predictive schedule management.",
+              "Incremental funding and the product life cycle — frequent funding reviews steer investment toward value-delivering products and can retire work before maturity.",
+              "Fast-tracking and crashing, applied to the funding schedule.",
+              "Bottom-up estimating; the usage data refined the feature estimates."
+    ],
+        answer: 1, explanation: "Incremental funding — frequent review-and-fund cycles, often quarterly — is a product-management practice that directs investment toward demonstrated value and away from work nobody uses. The product life cycle frames the product from concept through growth, maturity, and retirement; quarterly steering is how products avoid funding their own obsolescence."
+      },
+      {
+        id: "LC06-5", domain: "Sponsor, PMO & Product", difficulty: "hard",
+        stem: "A long-standing team has supported the same online banking product for six years, accumulating deep tacit knowledge of customer behavior. Why does PMBOK 7 prize this arrangement?",
+        options: [
+              "Stable teams eliminate the need for documentation, since knowledge lives in the team.",
+              "Stable teams sustain and evolve a product across its life cycle, preserving tacit knowledge and customer focus that team churn destroys.",
+              "Stable teams are required for incremental funding to function.",
+              "Stability guarantees the team reaches Tuckman's performing stage and stays there."
+    ],
+        answer: 1, explanation: "PMBOK 7 highlights stable, long-standing teams because products outlive projects: continuity preserves tacit knowledge and keeps the team close to the customer across the product life cycle. Documentation still matters, funding practices are independent of team structure, and the Tuckman caveats apply — stability helps, but nothing guarantees permanent performing."
+      }
+    ]
+  },
+  {
+    id: "lec-07",
+    questions: [
+      {
+        id: "LC07-1", domain: "Agile", difficulty: "easy",
+        stem: "A project has fixed scope, fixed schedule, and fixed cost agreed at the outset, with changes handled through formal control. Which life cycle is this, and what kind of work suits it?",
+        options: [
+              "Adaptive — high-uncertainty, exploratory work.",
+              "Predictive — definable, low-uncertainty work with proven procedures.",
+              "Hybrid — work that is half certain and half uncertain.",
+              "Iterative — work requiring repeated refinement toward correctness."
+    ],
+        answer: 1, explanation: "Early fixation of scope, schedule, and cost with formally controlled change is the predictive life cycle — the home of definable work: low uncertainty, proven procedures, stable requirements. High-uncertainty, exploratory work calls for adaptive delivery instead."
+      },
+      {
+        id: "LC07-2", domain: "Agile", difficulty: "medium",
+        stem: "A team delivers a usable, tested slice of the product every two weeks, and stakeholder feedback reshapes what gets built next. Which two characteristics of the adaptive life cycle does this illustrate?",
+        options: [
+              "Iterative and incremental — repeated cycles refine the product, and each timebox delivers a usable piece.",
+              "Definable and temporary — scope is fixed and the team disbands after each delivery.",
+              "Predictive and rolling-wave — the plan is elaborated ahead of execution.",
+              "Sequential and phase-gated — each slice must pass a gate before the next begins."
+    ],
+        answer: 0, explanation: "Adaptive life cycles are iterative plus incremental: iterations refine the product toward what stakeholders actually need, and each timeboxed iteration ends with a usable, tested increment. The feedback loop — not a phase gate — is what steers the work."
+      },
+      {
+        id: "LC07-3", domain: "Agile", difficulty: "medium",
+        stem: "Mid-sprint, the product owner asks the team to pull two extra stories into the current iteration. The team declines but adds them to the backlog for the next iteration. Which agile concept explains both the refusal and the placement?",
+        options: [
+              "The timebox — scope flexes inside a fixed duration, so new work waits for the next iteration; the backlog is the single ordered list of all known work.",
+              "The definition of done — unfinished stories cannot be named until a sprint review approves them.",
+              "A WIP limit — Kanban caps forbid adding work mid-stream.",
+              "Rolling-wave planning — near-term detail is elaborated only at sprint boundaries."
+    ],
+        answer: 0, explanation: "The timebox fixes duration; when new work appears, scope flexes — new stories are ordered into the backlog and pulled in a future iteration. The backlog is the adaptive replacement for the scope baseline: everything known lives in one ordered list. WIP limits are a Kanban concept, and no ceremony 'approves' a story into existence."
+      },
+      {
+        id: "LC07-4", domain: "Agile", difficulty: "hard",
+        stem: "An organization scores low on requirements certainty but high on culture and team agility in the X3 suitability filter. What does the radar chart suggest, and what actually decides the approach?",
+        options: [
+              "Center of the chart (agile-leaning); the filter alone authorizes the switch.",
+              "Center of the chart (agile-leaning); the filter informs, but leadership and stakeholders make the tailored decision.",
+              "Periphery of the chart (predictive); the low requirements certainty dominates all other factors.",
+              "The chart is inapplicable — suitability filters only rate culture and team."
+    ],
+        answer: 1, explanation: "Appendix X3's suitability filter scores Culture, Team, and Project attributes on a radar chart: center suggests agile, periphery predictive, middle hybrid. Low requirements certainty pulls toward the center — but the filter is an informational diagnostic; the decision itself is tailoring, made with judgment and stakeholder input."
+      },
+      {
+        id: "LC07-5", domain: "Agile", difficulty: "medium",
+        stem: "A hybrid project runs predictive procurement alongside adaptive product development. Per the Agile Practice Guide, what justifies this combination?",
+        options: [
+              "Hybrid is a transitional stage all organizations must pass through before full agile adoption.",
+              "Tailoring: hybrid deliberately combines predictive and adaptive elements where different parts of the work suit different approaches.",
+              "Hybrid is mandated when the project budget exceeds a defined threshold.",
+              "Hybrid exists to let the PM retain schedule control while appearing agile."
+    ],
+        answer: 1, explanation: "Hybrid is a deliberate, tailoring-driven combination — not a way station, not a threshold rule, and not a face-saving device. Work elements are matched to the approach that fits them: predictable, definable work (procurement contracts) may run predictive while exploratory product work runs adaptive, all inside one project."
+      }
+    ]
+  },
+  {
+    id: "lec-08",
+    questions: [
+      {
+        id: "LC08-1", domain: "Agile", difficulty: "easy",
+        stem: "In Scrum, who is accountable for the content and ordering of the product backlog, and who facilitates events and removes impediments?",
+        options: [
+              "The Scrum Master orders the backlog; the Product Owner removes impediments.",
+              "The Product Owner orders the backlog; the Scrum Master is the servant leader who facilitates and removes impediments.",
+              "The development team orders the backlog; the project manager removes impediments.",
+              "The Product Owner does both; the Scrum Master assigns tasks."
+    ],
+        answer: 1, explanation: "Scrum's three roles: the Product Owner maximizes product value and owns backlog content and ordering; the Scrum Master is the servant leader who facilitates events and clears impediments — explicitly not a task-assigning project manager. The team self-organizes its own work."
+      },
+      {
+        id: "LC08-2", domain: "Agile", difficulty: "medium",
+        stem: "A stakeholder demands to see every requirement documented and signed off before any code is written. The team's product owner instead offers a single ordered list that will be refined continuously. Which concept is the product owner describing?",
+        options: [
+              "The WBS dictionary, progressively elaborated.",
+              "The product backlog — the single ordered list of all known work, refined continuously, replacing the fixed scope baseline in adaptive delivery.",
+              "The requirements traceability matrix.",
+              "A rolling-wave project schedule."
+    ],
+        answer: 1, explanation: "In adaptive delivery the backlog replaces the scope baseline: one ordered list of all known work, continuously refined (DEEP — detailed appropriately, estimated, emergent, prioritized) rather than frozen and signed. The RTM and WBS dictionary are predictive artifacts with different jobs."
+      },
+      {
+        id: "LC08-3", domain: "Agile", difficulty: "medium",
+        stem: "A Kanban board's 'In Progress' column is chronologically overloaded; work piles up and cycle times balloon. What is the prescribed remedy, and what does it expose?",
+        options: [
+              "Add team members so more items can run in parallel; the overload was a staffing problem.",
+              "Impose a WIP limit on the column — finish-before-start — which exposes the bottleneck forcing the queue.",
+              "Switch to Scrum so the timebox naturally flushes the column each sprint.",
+              "Move the excess items to 'Done' with a note; the board should reflect the backlog order."
+    ],
+        answer: 1, explanation: "The WIP limit caps work allowed in a workflow state and enforces finish-before-start: when the cap is hit, the team must finish or unblock existing work rather than start more. The friction that appears — the true bottleneck — is exactly what WIP limits exist to expose. Adding staff to a bottlenecked system worsens queueing, and falsifying the board is fraud against yourself."
+      },
+      {
+        id: "LC08-4", domain: "Agile", difficulty: "hard",
+        stem: "An enterprise program of 90 people across eight teams must deliver on a shared cadence with coordinated planning every quarter. Which framework fits, and what are its cadence structures called?",
+        options: [
+              "XP — pairing and continuous integration on a sustainable pace.",
+              "SAFe — an Agile Release Train of 50–125 people on shared cadence, planning in 8–12 week Program Increments opened by PI Planning.",
+              "Kanban — a pull system with WIP limits per team.",
+              "Scrum of Scrums — sprints of one to four weeks per team."
+    ],
+        answer: 1, explanation: "SAFe scales agile through the Agile Release Train — a long-lived team of agile teams (50–125 people) on a shared cadence — and the Program Increment: an 8–12 week timebox of iterations, opened by PI Planning. XP is an engineering-practice method, Kanban a flow method; neither defines multi-team cadence structures at this scale."
+      },
+      {
+        id: "LC08-5", domain: "Agile", difficulty: "medium",
+        stem: "Mid-release, the product owner adds a large new feature; the burn-up chart's 'total scope' line jumps while 'completed' holds steady. What does the burn-up format reveal that a burn-down would not?",
+        options: [
+              "Nothing — the two charts are interchangeable in all respects.",
+              "Scope change itself: burn-up plots completed against total work, so added scope is visible as a rising total line rather than being masked as slower burndown.",
+              "Team velocity, which burn-down charts cannot compute.",
+              "The definition of done compliance rate."
+    ],
+        answer: 1, explanation: "A burn-down chart only shows remaining work, so added scope is indistinguishable from slow progress. The burn-up chart plots completed work against total scope — when scope grows, the total line visibly jumps, making the change (and its schedule implication) honest and discussable. Velocity is computed from either chart's history."
+      }
+    ]
+  },
+  {
+    id: "lec-09",
+    questions: [
+      {
+        id: "LC09-1", domain: "Predictive, Plan-Based", difficulty: "easy",
+        stem: "Which process group authorizes the project and appoints the project manager, and which artifact does it produce?",
+        options: [
+              "Planning — the project management plan.",
+              "Initiating — the project charter.",
+              "Executing — the deliverable acceptance document.",
+              "Closing — the final report."
+    ],
+        answer: 1, explanation: "Initiating is where the project is authorized and the PM appointed, and the artifact of that authorization is the project charter (PG §4.1). Planning produces the management plan and baselines; executing produces the work; closing produces the handoff and final report — none of them appoint the PM."
+      },
+      {
+        id: "LC09-2", domain: "Predictive, Plan-Based", difficulty: "medium",
+        stem: "At the end of phase two, a review board compares delivered results against the business case and benefits plan, then decides whether to continue, modify, or end the project. What is this review called, and what is notable about how process groups relate to it?",
+        options: [
+              "A sprint review — all five process groups conclude at it.",
+              "A phase gate — each phase runs its own mini life cycle of all five process groups, ending in this deliverable handoff review.",
+              "A management reserve review — the board releases contingency here.",
+              "A control account assessment — earned value is measured against the account."
+    ],
+        answer: 1, explanation: "The phase gate (PG §1.7.3) compares phase performance to the business case, charter, plan, and benefits plan, with outcomes including continue, modify, end, remain, or repeat. Crucially, process groups are not phases: every phase runs all five groups within it — Initiating through Closing — as a mini life cycle."
+      },
+      {
+        id: "LC09-3", domain: "Predictive, Plan-Based", difficulty: "medium",
+        stem: "A WBS branch has a component with clearly known content but no detailed schedule activities yet, sitting beneath a management control point that integrates scope, budget, and schedule. Which two terms name these levels?",
+        options: [
+              "Work package and code of accounts.",
+              "Planning package and control account.",
+              "Control account and WBS dictionary.",
+              "Planning package and work package."
+    ],
+        answer: 1, explanation: "The planning package is the WBS component below a control account with known content but no detailed schedule activities yet; the control account is the management control point integrating scope, budget, and schedule against earned value, containing two or more work packages. The work package is the lowest level — it has estimates and control, which the planning package deliberately lacks for now."
+      },
+      {
+        id: "LC09-4", domain: "Predictive, Plan-Based", difficulty: "medium",
+        stem: "A PM in a functional organization needs a specialist from another department; the department head refuses to release them, and the PM has no authority to compel. Which organization types give the PM progressively more authority, in order?",
+        options: [
+              "Projectized → strong matrix → weak matrix → functional.",
+              "Functional → weak matrix → balanced/strong matrix → projectized.",
+              "Matrix → functional → projectized → virtual.",
+              "Authority is identical across structures; only reporting lines differ."
+    ],
+        answer: 1, explanation: "PM authority climbs from functional (silos by specialty; the PM is at best a coordinator or expediter) through weak and strong matrix (dual reporting; authority grows with the matrix's strength) to projectized (team reports to the PM; authority high to nearly total). The scenario is the classic functional-silo resource fight the exam loves."
+      },
+      {
+        id: "LC09-5", domain: "Predictive, Plan-Based", difficulty: "hard",
+        stem: "Field technicians record hours worked and units completed daily. The PMO converts these into schedule and cost performance figures, which are then packaged with analysis for the steering committee. Which three terms name this data as it moves through that pipeline?",
+        options: [
+              "Work performance data → work performance information → work performance reports.",
+              "Raw measurements → baselines → variance analysis.",
+              "Monitoring inputs → controlling outputs → closing reports.",
+              "Issue log entries → risk register updates → status dashboards."
+    ],
+        answer: 0, explanation: "PG §1.8's pipeline: work performance data are the raw measurements collected during execution; work performance information is that data analyzed in context (performance against plan); work performance reports are the packaged, stakeholder-ready artifacts — physical or electronic representations. The exam tests whether you know which stage of the pipeline a given artifact represents."
+      }
+    ]
+  },
+  {
+    id: "lec-10",
+    questions: [
+      {
+        id: "LC10-1", domain: "Predictive, Plan-Based", difficulty: "easy",
+        stem: "A network diagram shows one path from start to finish taking 22 days, and several others taking 14–19 days. Which statement is correct?",
+        options: [
+              "The 19-day path is the critical path, since it is the second longest.",
+              "The 22-day path is the critical path — the longest path, with zero float — and it determines the project duration.",
+              "Project duration is the average of all path lengths, about 17.5 days.",
+              "Any path can become the critical path if the team works faster on it."
+    ],
+        answer: 1, explanation: "The critical path is the longest path through the network; it carries zero float and its length is the minimum possible project duration — 22 days here. Shorter paths have float equal to the difference between their length and the critical path's. Speeding a non-critical path changes nothing about the project end date until it becomes critical."
+      },
+      {
+        id: "LC10-2", domain: "Predictive, Plan-Based", difficulty: "medium",
+        stem: "An activity has Early Start day 10, Early Finish day 18, Late Start day 14, Late Finish day 22. What is its total float, and can it slip without harming the project?",
+        options: [
+              "8 days (22 − 10) — it may slip up to 8 days.",
+              "4 days (LS − ES, equivalently LF − EF) — it may slip up to 4 days without delaying the project.",
+              "0 days — any activity off the critical path has zero float.",
+              "2 days (14 − 10 ÷ 2) — computed by halving the start spread."
+    ],
+        answer: 1, explanation: "Total float = LS − ES = 14 − 10 = 4, and identically LF − EF = 22 − 18 = 4. This activity may slip up to four days without delaying the project finish. Zero float belongs to the critical path alone — this activity is off it."
+      },
+      {
+        id: "LC10-3", domain: "Predictive, Plan-Based", difficulty: "medium",
+        stem: "A project is three weeks behind. The PM proposes staffing the critical-path activities more heavily to compress the schedule, rejecting a plan to run two sequential design phases in parallel. Which techniques are being chosen and refused, and at what cost?",
+        options: [
+              "Chosen: fast-tracking (added risk). Refused: crashing (added cost).",
+              "Chosen: crashing (added cost). Refused: fast-tracking (added risk).",
+              "Chosen: scope creep. Refused: gold plating.",
+              "Chosen: resource leveling (added duration). Refused: resource smoothing (no change)."
+    ],
+        answer: 1, explanation: "Crashing adds resources to critical activities — buying time at added cost; fast-tracking runs sequential activities in parallel — buying time at added risk. The PM chose crashing and refused fast-tracking. Scope creep and gold plating are uncontrolled scope changes, not schedule-compression techniques."
+      },
+      {
+        id: "LC10-4", domain: "Predictive, Plan-Based", difficulty: "hard",
+        stem: "A project has BAC $500,000, PV $250,000, EV $200,000, AC $260,000. Compute SV and CV, and state the project's schedule and cost health.",
+        options: [
+              "SV = −$50,000 (behind schedule); CV = −$60,000 (over budget).",
+              "SV = −$50,000 (behind schedule); CV = +$60,000 (under budget).",
+              "SV = −$60,000 (behind schedule); CV = −$50,000 (over budget).",
+              "SV = +$50,000 (ahead of schedule); CV = −$60,000 (over budget)."
+    ],
+        answer: 0, explanation: "SV = EV − PV = 200,000 − 250,000 = −$50,000 → behind schedule. CV = EV − AC = 200,000 − 260,000 = −$60,000 → over budget. The companion indices confirm: SPI = 200/250 = 0.80, CPI = 200/260 ≈ 0.77 — both below 1.0, both unfavorable. Negative variance means the wrong kind of news on both axes."
+      },
+      {
+        id: "LC10-5", domain: "Predictive, Plan-Based", difficulty: "hard",
+        stem: "A project shows CPI 0.80 and SPI 0.90, and the variance is expected to persist for the remainder of the work. Which EAC formula applies, and what does its use imply?",
+        options: [
+              "EAC = AC + (BAC − EV): the variance was one-time and will not recur.",
+              "EAC = BAC / CPI: the cost variance will continue at the same rate through the rest of the project.",
+              "EAC = AC + (BAC − EV) / (CPI × SPI): both cost and schedule efficiency will persist — the right choice when the variance is typical, as stated.",
+              "EAC = AC + ETC: a fresh bottom-up estimate replaces all earned value arithmetic."
+    ],
+        answer: 2, explanation: "Four EAC formulas, four stories: BAC/CPI assumes typical cost variance continuing; AC + (BAC − EV) assumes a one-time variance; AC + (BAC − EV)/(CPI × SPI) assumes both cost and schedule inefficiency persist to the end; AC + ETC is a ground-up re-estimate. The stem's 'variance is expected to persist' on both axes selects the CPI × SPI form."
+      }
+    ]
+  },
+  {
+    id: "lec-11",
+    questions: [
+      {
+        id: "LC11-1", domain: "Business Analysis", difficulty: "easy",
+        stem: "Which statement correctly distinguishes a process owner from a process manager?",
+        options: [
+              "The process owner executes the process daily; the process manager designs it.",
+              "The process owner is accountable for the process's design, performance, and continuous improvement; the process manager is accountable for day-to-day execution and monitoring.",
+              "The roles are synonyms used in different industries.",
+              "The process owner is always external to the organization; the process manager is internal."
+    ],
+        answer: 1, explanation: "Ownership is accountability for the whole — design, performance, improvement; management is accountability for the day-to-day — execution and monitoring. The exam separates accountability for 'is this the right process?' from accountability for 'is the process being run properly today?'"
+      },
+      {
+        id: "LC11-2", domain: "Business Analysis", difficulty: "medium",
+        stem: "A BA needs candid, detailed views from twelve stakeholders and schedules individual hour-long sessions with prepared questions. Meanwhile, a colleague wants quick quantitative reads from 400 users. Which elicitation methods fit each need?",
+        options: [
+              "Workshops for the twelve; observation for the 400.",
+              "Interviews for the twelve; surveys for the 400.",
+              "Document analysis for the twelve; workshops for the 400.",
+              "Surveys for the twelve; interviews for the 400."
+    ],
+        answer: 1, explanation: "Interviews — one-on-one, prepared, conversational — draw candid depth from few stakeholders; surveys reach many respondents cheaply and quantify attitudes. Workshops gather groups to reconcile conflicting views; observation watches work as performed. Matching method to audience size and depth-of-need is the tested skill."
+      },
+      {
+        id: "LC11-3", domain: "Business Analysis", difficulty: "medium",
+        stem: "Requirements arrive as: 'The system shall respond to search queries in under two seconds,' and 'The portal shall allow customers to reset their password.' Classify both.",
+        options: [
+              "Both functional — each describes what the product does.",
+              "The first is nonfunctional (a quality-of-service condition: performance); the second is functional (a behavior of the product).",
+              "The first is functional; the second is a transition requirement.",
+              "Both nonfunctional — both are technical conditions on the system."
+    ],
+        answer: 1, explanation: "Functional requirements describe behaviors — what the product does (password reset). Nonfunctional requirements describe qualities and conditions for effectiveness — reliability, security, performance, safety, supportability — and the two-second response bound is a performance requirement. Transition requirements are temporary capabilities like data conversion or training, needed only until the future state arrives."
+      },
+      {
+        id: "LC11-4", domain: "Business Analysis", difficulty: "medium",
+        stem: "Six months into the project, a requirement surfaces that clearly traces back to a stakeholder who was never recorded anywhere. Which artifact failed, and what is the likely downstream cost?",
+        options: [
+              "The RTM failed; the requirement will be built twice.",
+              "The stakeholder register failed — the stakeholder was never identified — and the predictable cost is lost or late product requirements and rework.",
+              "The business case failed; the project should be re-chartered.",
+              "The product roadmap failed; the requirement falls outside all planned releases."
+    ],
+        answer: 1, explanation: "The stakeholder register records stakeholder names and characteristics; an oversight there means the BA never elicited from that source — so requirements are discovered late, when they are most expensive. The register is the front door of business analysis: miss a stakeholder and everything downstream inherits the gap."
+      },
+      {
+        id: "LC11-5", domain: "Business Analysis", difficulty: "hard",
+        stem: "A directive says 'the organization must reduce payment-processing costs by 20% within two years,' while a cashier asks for 'a screen that flags expired loyalty cards at checkout.' Classify both requirements.",
+        options: [
+              "Both stakeholder requirements at different levels of detail.",
+              "The first is a business requirement (organization-wide need justifying the initiative); the second is a stakeholder requirement (a specific need of an affected user).",
+              "The first is functional; the second is nonfunctional.",
+              "The first is a transition requirement; the second is a business requirement."
+    ],
+        answer: 1, explanation: "Business requirements are organization-wide needs and goals that justify the project — the cost-reduction mandate. Stakeholder requirements are the needs of an individual, group, or organization affected by the initiative — the cashier's screen. Functional/nonfunctional classify product behaviors and qualities, a different axis than the source-of-need hierarchy."
+      }
+    ]
+  },
+  {
+    id: "lec-12",
+    questions: [
+      {
+        id: "LC12-1", domain: "Business Analysis", difficulty: "easy",
+        stem: "Which requirement format follows 'As a [role], I want [capability], so that [benefit],' and which traces each requirement to its source, design, implementation, and verification evidence?",
+        options: [
+              "Use case; product roadmap.",
+              "User story; requirements traceability matrix (RTM).",
+              "User story; product backlog.",
+              "Use case; acceptance criteria."
+    ],
+        answer: 1, explanation: "The user story is the small, backlog-sized requirement told from one user's perspective in the as-a/I-want/so-that form. The RTM is the table linking each requirement through its life — source, design, implementation, verification. The backlog orders work; the roadmap plots product evolution; neither traces anything."
+      },
+      {
+        id: "LC12-2", domain: "Business Analysis", difficulty: "medium",
+        stem: "A BA must document a login feature's normal behavior, its behavior when the password is wrong, and its behavior when the account is locked. Which artifact captures all three natively?",
+        options: [
+              "A user story, with three acceptance criteria.",
+              "A use case, with main, alternate, and exception flows.",
+              "A product roadmap entry with three themes.",
+              "A DEEP backlog item with three priority levels."
+    ],
+        answer: 1, explanation: "The use case is the narrative of actor–system interactions structured into main flow (normal login), alternate flows (wrong password), and exception flows (locked account). User stories are deliberately small and don't carry flow structure; the roadmap is strategic. When the exam describes interactions-with-branches, it is describing a use case."
+      },
+      {
+        id: "LC12-3", domain: "Business Analysis", difficulty: "medium",
+        stem: "A backlog passes review: items are broken down enough to estimate the next two iterations, every item carries an estimate, new items appear as learning arrives, and the highest-value items sit on top. Which acronym summarizes this, and what are its letters?",
+        options: [
+              "SMART — Specific, Measurable, Achievable, Relevant, Time-bound.",
+              "DEEP — Detailed appropriately, Estimated, Emergent, Prioritized.",
+              "ADKAR — Awareness, Desire, Knowledge, Ability, Reinforcement.",
+              "OSCAR — Outcome, Situation, Choices, Actions, Review."
+    ],
+        answer: 1, explanation: "DEEP is the healthy backlog test: Detailed appropriately (near-term items finer than distant ones), Estimated, Emergent (the backlog grows and changes as the team learns), Prioritized (value on top). SMART tests goal statements, ADKAR models individual change, OSCAR coaches — adjacent models placed to catch the over-eager acronym-matcher."
+      },
+      {
+        id: "LC12-4", domain: "Business Analysis", difficulty: "hard",
+        stem: "A testing lead reports the shipment conforms perfectly to its specification; a customer interview reveals the specification solved the wrong problem. In verification-and-validation terms, what happened?",
+        options: [
+              "Both verification and validation passed; the interview was anecdotal.",
+              "Verification passed — the thing was built right — but validation failed: it was not the right thing, since it did not meet the actual need.",
+              "Validation passed; verification failed, since the need was met but the spec was not.",
+              "Neither applies; the failure is a requirements traceability defect."
+    ],
+        answer: 1, explanation: "Verification asks 'did we build the thing right?' — conformance to specification, which passed. Validation asks 'did we build the right thing?' — does it meet the need — which failed. The RTM may have traced everything faithfully to a wrong requirement; traceability is faithful, not wise."
+      },
+      {
+        id: "LC12-5", domain: "Business Analysis", difficulty: "medium",
+        stem: "Before declaring a release ready, a team points to its RTM showing every requirement traced to passed tests and signed acceptance. What is this judgment called, and on what is it based?",
+        options: [
+              "Benefits realization, based on the business case.",
+              "Delivery readiness, based on evidence from the RTM and backlog that all scope is traced, tested, and accepted.",
+              "Verification, based on conformance to specification.",
+              "A phase gate, based on the benefits plan."
+    ],
+        answer: 1, explanation: "Delivery readiness is the evidence-based judgment that everything traced, tested, and accepted — read directly from the RTM and backlog, not asserted from optimism. Benefits realization is the sponsor's later, post-closure question about value; delivery readiness is the pre-release question about completeness."
+      }
+    ]
+  },
+  {
+    id: "lec-13",
+    questions: [
+      {
+        id: "LC13-1", domain: "Fundamentals", difficulty: "medium",
+        stem: "A vendor offers a project manager an all-expenses conference pass while bidding on the PM's project. The PM accepts, reasoning the vendor's bid will be judged fairly anyway. Which Code of Ethics value is in play, and what does it require?",
+        options: [
+              "Respect — the PM must inform the vendor of customs around gift-giving.",
+              "Fairness — the PM must fully disclose the conflict of interest and refrain from decisions where objectivity is compromised; inappropriate gifts must not be accepted.",
+              "Honesty — the PM must publish the acceptance in the project newsletter.",
+              "Responsibility — the PM must comply with organizational policy only if a written policy exists."
+    ],
+        answer: 1, explanation: "Fairness carries the duty to disclose real or potential conflicts of interest, to refrain from decision-making where objectivity is compromised, and not to grant or accept inappropriate gifts tied to professional influence. Accepting a vendor's perks mid-bid violates the mandatory standard even if the PM's judging intentions are pure. Disclosure — not publication, not policy-hunting — is the required act."
+      },
+      {
+        id: "LC13-2", domain: "Fundamentals", difficulty: "medium",
+        stem: "A status report states that 'the schedule variance is within the modeled contingency range' — technically true, but written to obscure that the project is three weeks late and the contingency is nearly gone. Which ethical value does this violate, and by what mechanism?",
+        options: [
+              "Responsibility — the report was not escalated to the sponsor.",
+              "Honesty — the half-truth: a technically accurate statement arranged to mislead is a violation, the same as a false statement.",
+              "Fairness — stakeholders were denied equal access to information.",
+              "Respect — the PM failed to listen to the team's point of view."
+    ],
+        answer: 1, explanation: "The Code's honesty value does not merely prohibit lying; the half-truth — a technically accurate arrangement of facts designed to deceive — violates it equally. 'Within the modeled range' while the range is exhausted is the canonical half-truth. The exam expects you to name the mechanism, not just condemn the sentence."
+      },
+      {
+        id: "LC13-3", domain: "Fundamentals", difficulty: "medium",
+        stem: "A project's deliverable has passed all internal reviews, but the sponsor has not yet signed the acceptance document, and the operations team is asking to begin handover. What must happen first, and why?",
+        options: [
+              "Handover may begin — internal review satisfies verification.",
+              "Formal acceptance must occur first: the sponsor or designated approver confirms deliverables meet acceptance criteria, which is the prerequisite to closure and transition.",
+              "Benefits realization must be measured before handover can start.",
+              "The phase gate outcome 'remain in phase' applies until the next fiscal year."
+    ],
+        answer: 1, explanation: "Formal acceptance — the sponsor or designated approver confirming deliverables meet acceptance criteria — is the prerequisite to closure and to transitioning deliverables to operations. Internal reviews verify; only the empowered approver accepts. Benefits realization is watched after closure by the sponsor, not before handover."
+      },
+      {
+        id: "LC13-4", domain: "Fundamentals", difficulty: "easy",
+        stem: "A newly promoted PM prepares a project kickoff and wants it to meet the tested standard for an effective meeting. Which ingredient list matches?",
+        options: [
+              "Catering, a slide deck, senior-executive attendance, and a printed agenda.",
+              "A clear purpose, the right participants, a time-boxed agenda, and documented decisions with owners.",
+              "An open floor with no agenda, encouraging maximum creativity.",
+              "Minutes recorded after the meeting, circulated when convenient."
+    ],
+        answer: 1, explanation: "The exam's checklist for an effective meeting: clear purpose, right participants, time-boxed agenda, and documented decisions and owners. Decisions without owners are wishes; agendas without timeboxes are wishes with bullet points. Attendance and catering make a meeting pleasant — none of it makes it effective."
+      },
+      {
+        id: "LC13-5", domain: "Fundamentals", difficulty: "hard",
+        stem: "A PM discovers that a contracted testing lab falsified results on a component already installed in twelve buildings. Per the Code's mandatory standards, what is the PM required to do?",
+        options: [
+              "Note the finding in the lessons learned register for future projects.",
+              "Report the unethical conduct to appropriate management or the bodies affected by the deception, and bring the violation to the appropriate body for resolution.",
+              "Quietly re-test the component and say nothing if the new results pass.",
+              "Negotiate a settlement with the lab, since publicizing the matter would harm the project's reputation."
+    ],
+        answer: 1, explanation: "Responsibility's mandatory standards require reporting unethical or illegal conduct to appropriate management or the bodies affected by the deception, and bringing violations to the appropriate body for resolution. Re-testing quietly, logging it for posterity, or settling privately all leave the deception unreported — each a violation in its own right. Safety of the public and integrity of the record outrank the project's reputation."
+      }
+    ]
+  }
+];
+
+/* ----------------------------------------------------------------
  * ECO DOMAIN MAPPING — buckets the bank's legacy PMBOK-section domain
  * strings into the 4 official ECO domains for Grand Exam weighting and
  * dashboard analysis. Display/bucketing only — never rewrites a
@@ -4161,6 +4974,7 @@ function defaultState() {
     },
     history: {}                    // { [questionId]: {correct, miss, lastSeen} } across all sessions
   , annotations: {}                // { ['lessonId:blockIndex']: [ {s, e, k} ] } text marks in lecture bodies
+  , lectureChecks: {}              // { [lessonId]: {attempts, bestPercent, lastPercent} } — Lecture Check ledger
   };
 }
 
@@ -4178,7 +4992,9 @@ function loadState() {
       history: (parsed.history && typeof parsed.history === 'object' && !Array.isArray(parsed.history))
         ? parsed.history : {},
       annotations: (parsed.annotations && typeof parsed.annotations === 'object' && !Array.isArray(parsed.annotations))
-        ? parsed.annotations : {}
+        ? parsed.annotations : {},
+      lectureChecks: (parsed.lectureChecks && typeof parsed.lectureChecks === 'object' && !Array.isArray(parsed.lectureChecks))
+        ? parsed.lectureChecks : {}
     };
   } catch (e) {
     return defaultState();
@@ -4985,7 +5801,9 @@ function loadStateFromObject(parsed) {
     history: (parsed.history && typeof parsed.history === 'object' && !Array.isArray(parsed.history))
       ? parsed.history : {},
     annotations: (parsed.annotations && typeof parsed.annotations === 'object' && !Array.isArray(parsed.annotations))
-      ? parsed.annotations : {}
+      ? parsed.annotations : {},
+    lectureChecks: (parsed.lectureChecks && typeof parsed.lectureChecks === 'object' && !Array.isArray(parsed.lectureChecks))
+      ? parsed.lectureChecks : {}
   };
 }
 
@@ -5046,6 +5864,14 @@ function openLesson(id) {
   btn.disabled = already;
   btn.textContent = already ? '✅ Lesson Recorded' : '✅ Mark Lesson Complete';
   document.getElementById('markCompleteStatus').textContent = already ? 'Well done. The ledger remembers.' : '';
+
+  // lecture check button label reflects this lecture's check history
+  const lcBtn = document.getElementById('startLecCheckBtn');
+  const lcStat = (state.lectureChecks || {})[id];
+  lcBtn.textContent = lcStat
+    ? '📝 Retake the Lecture Check (best ' + lcStat.bestPercent + '%)'
+    : '📝 Take the Lecture Check';
+  lcResetPanel();
 }
 
 function backToLessonList() {
@@ -5064,6 +5890,160 @@ function markLessonComplete() {
   btn.disabled = true;
   btn.textContent = '✅ Lesson Recorded';
   document.getElementById('markCompleteStatus').textContent = 'Recorded in the ledger. Onward. 🫡';
+}
+
+/* ----------------------------------------------------------------
+ * LECTURE CHECK — optional 5-question CAPM-style quiz at the end of
+ * each lecture. Questions come from LECTURE_CHECKS (injected from
+ * quiz_bank/qb_lec_check.json). Answers are recorded in per-question
+ * history (so misses surface in Drill My Misses) but attempt scores
+ * live in state.lectureChecks — the general exam ledger is untouched.
+ * ---------------------------------------------------------------- */
+let lcQueue = [];   // the 5 questions for this run
+let lcIndex = 0;
+let lcCorrect = 0;
+let lcResults = [];     // [{ question, chosenIndex, correct }]
+let lcActive = false;   // annotation engine yields to the check while it runs
+
+function lcSet(lessonId) {
+  const entry = (typeof LECTURE_CHECKS !== 'undefined')
+    ? LECTURE_CHECKS.find(function (c) { return c.id === lessonId; }) : null;
+  return entry ? entry.questions : [];
+}
+
+function lcResetPanel() {
+  lcActive = false;
+  lcQueue = []; lcIndex = 0; lcCorrect = 0; lcResults = [];
+  document.getElementById('lecCheckPanel').classList.add('hide');
+  document.getElementById('lcQuestion').classList.add('hide');
+  document.getElementById('lcResult').classList.add('hide');
+  document.getElementById('lcFeedback').classList.remove('show');
+}
+
+function startLectureCheck() {
+  const qs = lcSet(currentLessonId);
+  if (!qs.length) { alert('No Lecture Check has been written for this lecture yet.'); return; }
+  lcQueue = shuffle(qs.slice());
+  lcIndex = 0;
+  lcCorrect = 0;
+  lcResults = [];
+  lcActive = true;
+  document.getElementById('lecCheckPanel').classList.remove('hide');
+  document.getElementById('lcResult').classList.add('hide');
+  document.getElementById('lcQuestion').classList.remove('hide');
+  hideAnnotBar();
+  lcRender();
+}
+
+function lcRender() {
+  const q = lcQueue[lcIndex];
+  document.getElementById('lcProgress').textContent = 'Question ' + (lcIndex + 1) + ' of ' + lcQueue.length;
+  document.getElementById('lcDomain').textContent = '🎓 ' + q.domain;
+  document.getElementById('lcDiff').textContent = '⚔️ ' + q.difficulty;
+  document.getElementById('lcStem').textContent = q.stem;
+
+  const wrap = document.getElementById('lcOptions');
+  wrap.innerHTML = '';
+  const letters = ['A', 'B', 'C', 'D', 'E', 'F'];
+  q.options.forEach(function (opt, i) {
+    const b = document.createElement('button');
+    b.className = 'opt';
+    b.innerHTML = '<strong>' + letters[i] + '.</strong> ' + escapeHtml(opt);
+    b.addEventListener('click', function () { lcAnswer(i); });
+    wrap.appendChild(b);
+  });
+
+  document.getElementById('lcFeedback').classList.remove('show');
+  document.getElementById('lcNextBtn').classList.add('hide');
+}
+
+function lcAnswer(chosen) {
+  const q = lcQueue[lcIndex];
+  const correct = chosen === q.answer;
+  if (correct) lcCorrect++;
+  recordAnswerHistory(q.id, correct);   // shared per-question history — misses feed Drill My Misses
+  lcResults.push({ question: q, chosenIndex: chosen, correct: correct });
+
+  document.querySelectorAll('#lcOptions .opt').forEach(function (b, i) {
+    b.disabled = true;
+    if (i === q.answer) b.classList.add('correct');
+    else if (i === chosen) b.classList.add('wrong');
+  });
+
+  const fb = document.getElementById('lcFeedback');
+  const verdict = document.getElementById('lcVerdict');
+  verdict.textContent = correct ? '✅ Correct. Precisely so.' : '❌ Not quite. The correct answer is ' +
+    ['A', 'B', 'C', 'D', 'E', 'F'][q.answer] + '.';
+  verdict.className = 'verdict ' + (correct ? 'ok' : 'no');
+  document.getElementById('lcExplanation').innerHTML = '<strong>Professor’s reasoning:</strong> ' + escapeHtml(q.explanation);
+  fb.classList.add('show');
+
+  const nb = document.getElementById('lcNextBtn');
+  nb.classList.remove('hide');
+  nb.textContent = (lcIndex + 1 < lcQueue.length) ? 'Next Question →' : 'See the Verdict 🏁';
+}
+
+function lcNext() {
+  lcIndex++;
+  if (lcIndex < lcQueue.length) {
+    lcRender();
+  } else {
+    lcFinish();
+  }
+}
+
+function lcFinish() {
+  lcActive = false;
+  const total = lcQueue.length;
+  const pct = total ? Math.round((lcCorrect / total) * 100) : 0;
+
+  const rec = (state.lectureChecks || {})[currentLessonId] || { attempts: 0, bestPercent: null, lastPercent: null };
+  rec.attempts++;
+  rec.lastPercent = pct;
+  if (rec.bestPercent === null || pct > rec.bestPercent) rec.bestPercent = pct;
+  state.lectureChecks[currentLessonId] = rec;
+  saveState();
+
+  document.getElementById('lcQuestion').classList.add('hide');
+  document.getElementById('lcResult').classList.remove('hide');
+  document.getElementById('lcScore').textContent = lcCorrect + ' / ' + total + '  (' + pct + '%)';
+
+  const v = document.getElementById('lcVerdictFinal');
+  if (pct >= 80) {
+    v.textContent = '“A commanding performance, Mr. Gomez. The material is yours — proceed with confidence.” 🎓';
+  } else if (pct >= 60) {
+    v.textContent = '“Solid footing, but a gentleman reviews before proceeding. Revisit the missed passages above.” 🕯️';
+  } else {
+    v.textContent = '“The lecture has more to teach you. Scroll back, re-read the marked sections, and return. We do not move forward on sand.” 📖';
+  }
+
+  const btn = document.getElementById('startLecCheckBtn');
+  btn.textContent = '📝 Retake the Lecture Check (best ' + rec.bestPercent + '%)';
+
+  const misses = lcResults.filter(function (r) { return !r.correct; });
+  const wrap = document.getElementById('lcMissReview');
+  wrap.innerHTML = '';
+  if (misses.length) {
+    const h = document.createElement('h3');
+    h.textContent = 'Review your misses:';
+    wrap.appendChild(h);
+    misses.forEach(function (r) {
+      const q = r.question;
+      const letters = ['A', 'B', 'C', 'D', 'E', 'F'];
+      const div = document.createElement('div');
+      div.className = 'miss-item';
+      div.innerHTML =
+        '<div style="font-weight:bold;">' + escapeHtml(q.stem) + '</div>' +
+        '<div style="margin:6px 0;"><span class="badge todo">Your answer: ' + letters[r.chosenIndex] + '</span> ' +
+        '<span class="badge done">Correct: ' + letters[q.answer] + '</span></div>' +
+        '<div><strong>Reasoning:</strong> ' + escapeHtml(q.explanation) + '</div>';
+      wrap.appendChild(div);
+    });
+  }
+}
+
+function lcExit() {
+  lcResetPanel();
 }
 
 /* ----------------------------------------------------------------
@@ -5217,6 +6197,7 @@ function hideAnnotBar() {
 }
 
 function showAnnotBarForSelection() {
+  if (typeof lcActive !== 'undefined' && lcActive) { hideAnnotBar(); return; } // lecture check in progress
   const sel = window.getSelection();
   if (!sel || sel.rangeCount === 0 || sel.isCollapsed) { hideAnnotBar(); return; }
   const range = sel.getRangeAt(0);
@@ -5419,7 +6400,13 @@ function startQuiz() {
 }
 
 function missPool() {
-  return QUIZ.filter(function (q) {
+  // pool spans the general bank AND lecture-check questions — a missed
+  // Lecture Check item should resurface in drills like any other miss
+  let allQ = QUIZ.slice();
+  if (typeof LECTURE_CHECKS !== 'undefined') {
+    LECTURE_CHECKS.forEach(function (c) { allQ = allQ.concat(c.questions); });
+  }
+  return allQ.filter(function (q) {
     const h = state.history[q.id];
     return h && h.miss > h.correct;
   });
