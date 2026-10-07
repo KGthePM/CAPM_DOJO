@@ -276,6 +276,7 @@
       <div id="lessonProgressText">—</div>
 
       <h3 style="margin-top:18px;">Examination Record</h3>
+      <div style="font-size:0.78em; color:var(--ink-soft); margin-top:-8px;">Dojo version <span id="dojoVersionLabel">…</span></div>
       <div class="stat-grid">
         <div class="stat-box"><div class="big" id="statBest">—</div><div class="lbl">Best Score 🏆</div></div>
         <div class="stat-box"><div class="big" id="statLast">—</div><div class="lbl">Last Attempt 🖋️</div></div>
@@ -476,6 +477,7 @@
 </footer>
 
 <script>
+window.DOJO_VERSION = "1.1.0";
 /* ================================================================
  * CAPM TRAINING DOJO — application script
  * Fully client-side. Works from file:// with no server or CDN.
@@ -5697,6 +5699,8 @@ function renderWelcomeQuote() {
  * ---------------------------------------------------------------- */
 function renderHome() {
   renderWelcomeQuote();
+  const vEl = document.getElementById('dojoVersionLabel');
+  if (vEl) vEl.textContent = window.DOJO_VERSION || 'unknown';
   const total = LESSONS.length;
   const done = state.completedLessons.filter(function (id) {
     return LESSONS.some(function (l) { return l.id === id; });

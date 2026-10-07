@@ -140,8 +140,24 @@ def replace_block(html, varname, new_body):
 html = replace_block(html, "LESSONS", lesson_js)
 html = replace_block(html, "QUIZ", quiz_js)
 html = replace_block(html, "LECTURE_CHECKS", lec_check_body)
+
+# version stamp: DOJO_VERSION read from desktop/package.json (or env override),
+# written into a single-line marker the injector owns. Hand edits to the stamp
+# are overwritten on next build by design.
+import re as _re
+try:
+    _ver = json.load(open(f"{DOJO}/desktop/package.json"))["version"]
+except Exception:
+    _ver = "0.0.0"
+_ver_line = f'window.DOJO_VERSION = "{_ver}";'
+if _re.search(r"window\.DOJO_VERSION = \"[^\"]+\";", html):
+    html = _re.sub(r"window\.DOJO_VERSION = \"[^\"]+\";", _ver_line, html, count=1)
+else:
+    html = html.replace("<script>", "<script>\n" + _ver_line, 1)
+
 open(f"{DOJO}/web/index.html", "w").write(html)
 
 print(f"lessons injected: {[(l['id'], len(l['lectureHtml']), 'blocks', len(l['keyTerms']), 'terms') for l in lessons]}")
 print(f"quiz injected: {len(quiz)} questions")
 print(f"lecture checks injected: { {lid: len(qs) for lid, qs in lec_check_js.items()} }")
+print(f"version stamped: {_ver}")
