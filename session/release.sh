@@ -26,7 +26,7 @@ PYEOF
 python3 session/build_inject.py | tail -4
 
 # sanity: stamp present and matches
-STAMPED=$(grep -o 'window.DOJO_VERSION = "[^"]*";' web/index.html | grep -o '[0-9.]*' | head -1)
+STAMPED=$(grep -oE 'window\.DOJO_VERSION = "[0-9]+\.[0-9]+\.[0-9]+";' web/index.html | grep -oE '[0-9]+\.[0-9]+\.[0-9]+' | head -1)
 [ "$STAMPED" = "$VER" ] || { echo "FATAL: stamped version $STAMPED != $VER"; exit 1; }
 
 # 2. commit + push to main so the repo and the release agree

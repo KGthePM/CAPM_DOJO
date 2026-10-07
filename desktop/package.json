@@ -2,7 +2,7 @@
   "name": "capm-dojo",
   "productName": "CAPM Training Dojo",
   "version": "1.1.0",
-  "description": "Professor Ainsworth's CAPM exam-prep dojo — offline desktop edition",
+  "description": "Professor Ainsworth's CAPM exam-prep dojo \u2014 offline desktop edition",
   "homepage": "https://github.com/KGthePM/CAPM_DOJO",
   "author": {
     "name": "Kyle Gomez",
@@ -40,8 +40,20 @@
       "category": "public.app-category.education",
       "icon": "icons/icon.png",
       "target": [
-        { "target": "dmg", "arch": ["arm64", "x64"] },
-        { "target": "zip", "arch": ["arm64", "x64"] }
+        {
+          "target": "dmg",
+          "arch": [
+            "arm64",
+            "x64"
+          ]
+        },
+        {
+          "target": "zip",
+          "arch": [
+            "arm64",
+            "x64"
+          ]
+        }
       ],
       "hardenedRuntime": true,
       "entitlements": "entitlements.mac.plist",
